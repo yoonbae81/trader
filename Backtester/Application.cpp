@@ -3,7 +3,9 @@
 #include "BacktestFetcher.h"
 #include "BacktestCasher.h"
 #include "../Common/Loop.h"
-#include "../Analyzer/Dummy.h"
+#include "../Analyzer/Parameter.h"
+#include "../Analyzer/Basic.h"
+
 
 using namespace std;
 
@@ -14,7 +16,9 @@ int main()
 	BacktestFetcher fetcher;
 	BacktestCasher casher;
 	BacktestBroker broker;
-	Dummy analyzer;
+
+	Parameter p = Parameter::Parse();
+	Basic analyzer(p);
 
 	Loop::Run(fetcher, analyzer, casher, broker);
 }

@@ -2,10 +2,6 @@
 #include "pch.h"
 #include "PriceMsg.h"
 
-enum class Storage {
-	AA = 30
-};
-
 class Stock {
 	const size_t kNumKeep = 30;	// must be bigger than long-window
 
@@ -22,8 +18,8 @@ public:
 	bool AddTick(PriceMsg &m);
 	void AddValue(std::vector<double>& v, double value);
 
+	const double stoploss() const;
 	const size_t& quantity() const;
 	const std::vector<double>& prices() const;
 	const std::vector<double>& volumes() const;
-
 };
