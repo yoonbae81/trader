@@ -171,6 +171,17 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Backtester\Backtester.vcxproj">
+      <Project>{5152c656-45c3-4606-a20a-b28b3aeb36f3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{520a0b5b-2155-4a82-bafe-9c66bc4bce78}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="10lines.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

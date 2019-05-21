@@ -4,7 +4,7 @@ struct Parameter
 	Parameter();
 	~Parameter();
 
-	static Parameter Parse();
+	static Parameter Parse(const std::string & filepath);
 	int threshold{};
 };
 

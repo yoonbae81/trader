@@ -13,11 +13,12 @@ int main()
 {
 	clog << "Backtester started" << endl;
 
-	BacktestFetcher fetcher;
+	BacktestFetcher fetcher("10lines.txt");
 	BacktestCasher casher;
 	BacktestBroker broker;
 
-	Parameter p = Parameter::Parse();
+	string parameterFile = "fake.txt";
+	Parameter p = Parameter::Parse(parameterFile);
 	Basic analyzer(p);
 
 	Loop::Run(fetcher, analyzer, casher, broker);

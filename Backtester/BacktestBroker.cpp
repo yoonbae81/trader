@@ -12,7 +12,7 @@ BacktestBroker::~BacktestBroker()
 {
 }
 
-void BacktestBroker::Order()
+void BacktestBroker::Order(const std::string& symbol, int quantity)
 {
 	clog << "Order sent" << endl;
 }

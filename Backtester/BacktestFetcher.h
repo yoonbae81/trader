@@ -1,15 +1,16 @@
 #pragma once
+#include "pch.h"
 #include "../Common/PriceMsg.h"
 
 class BacktestFetcher
 {
 public:
-	BacktestFetcher();
-	
-	// TODO loading backtest files from given dir
-	// BacktestFetcher(const std::string& dir);
+	BacktestFetcher(const std::string& filePath);
 	
 	virtual ~BacktestFetcher();
 	virtual PriceMsg GetMessage();
+
+private:
+	std::ifstream datafile;
 };
 

@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 
 #include "../Common/PriceMsg.h"
+#include "../Common/Exceptions.h"
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -11,8 +12,7 @@ namespace CommonTest
 	TEST_CLASS(PriceMsgTest)
 	{
 	public:
-		
-		TEST_METHOD(NormalMessage)
+		TEST_METHOD(Correct)
 		{
 			auto msg = "015760 4000 10 1234512345";
 			auto m = PriceMsg::Parse(msg);
@@ -28,20 +28,28 @@ namespace CommonTest
 			Assert::IsTrue(m.timestamp == t);
 		}
 
+		TEST_METHOD(EmptyMessage)
+		{
+			auto line = "";
+			auto func = [line] { PriceMsg::Parse(line); };
+
+			Assert::ExpectException<ParsingException>(func);
+		}
+
 		TEST_METHOD(WrongMessage)
 		{
-			auto msg = "015760 WRONG WRONG WRONG";
-			auto func = [msg] { PriceMsg::Parse(msg); };
+			auto line = "WRONG WRONG WRONG";
+			auto func = [line] { PriceMsg::Parse(line); };
 
-			Assert::ExpectException<invalid_argument>(func);
+			Assert::ExpectException<ParsingException>(func);
 		}
 
 		TEST_METHOD(QuitMessage)
 		{
-			auto msg = "QUIT";
-			auto func = [msg] { PriceMsg::Parse(msg); };
+			auto line = "QUIT";
+			auto func = [line] { PriceMsg::Parse(line); };
 
-			Assert::ExpectException<invalid_argument>(func);
+			Assert::ExpectException<QuitException>(func);
 		}
 	};
 }

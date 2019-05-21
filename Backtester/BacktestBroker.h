@@ -5,6 +5,6 @@ class BacktestBroker
 public:
 	BacktestBroker();
 	~BacktestBroker();
-	void Order();
+	void Order(const std::string& symbol, int quantity);
 };
 

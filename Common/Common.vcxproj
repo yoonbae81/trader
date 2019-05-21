@@ -153,12 +153,14 @@
   <ItemGroup>
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="OrderMsg.cpp" />
+    <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="PriceMsg.cpp" />
     <ClCompile Include="Stock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loop.h" />
     <ClInclude Include="OrderMsg.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PriceMsg.h" />
     <ClInclude Include="Stock.h" />

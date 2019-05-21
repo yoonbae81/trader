@@ -13,7 +13,7 @@ namespace CommonTest
 		TEST_METHOD(Find) {
 			std::unordered_map<std::string, Stock> stocks;
 			auto& s = stocks["015760"];
-			Assert::AreEqual(stocks.size(), 1);
+			Assert::AreEqual(stocks.size(), (size_t) 1);
 		}
 
 		TEST_METHOD(AddTick) {
@@ -22,7 +22,7 @@ namespace CommonTest
 
 			auto s = Stock();
 			Assert::IsTrue(s.AddTick(m));
-			Assert::AreEqual(s.prices().size(), 1);
+			Assert::AreEqual(s.prices().size(), (size_t) 1);
 		}
 	};
 }
