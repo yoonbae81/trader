@@ -21,18 +21,18 @@ public:
 		PriceMsg msg = fetcher.GetMessage();	
 		// could throw exception in case of QUIT message received
 
-		// @todo override [] to Stock have symbol inside it 
+		// TODO override [] to Stock have symbol inside it 
 		Stock stock = stocks[msg.symbol];
 
 		// - if current price is lower than stored stoploss price, then sell it
 		if (stock.quantity() && msg.price <= stock.stoploss())
 		{
 			std::clog << "Hits stoploss" << std::endl;
-			// @todo Calculate quantity to sell;
+			// TODO Calculate quantity to sell;
 			broker.Order();
 		}
 
-		// @todo Put PriceMsg into Stock
+		// TODO Put PriceMsg into Stock
 		
 		// - compare timestamp between the recent message and the one stored in Stock object
 		// 	- if time difference is more than 1 second, add price and volume, and calculate
@@ -46,7 +46,7 @@ public:
 		int strength = analyzer.CalcStrength(stock);
 		std::clog << "Strength: " << strength << std::endl;
 
-		// @todo Calculate quantity to buy
+		// TODO Calculate quantity to buy
 		if (strength) broker.Order();
 
 		std::clog << "Updating stoploss..." << std::endl;

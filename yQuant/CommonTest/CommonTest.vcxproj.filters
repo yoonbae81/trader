@@ -21,6 +21,12 @@
     <ClCompile Include="PriceMsgTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VectorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StockTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
