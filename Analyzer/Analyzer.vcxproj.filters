@@ -21,7 +21,7 @@
     <ClInclude Include="Parameter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Basic.h">
+    <ClInclude Include="BasicAnalyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClCompile Include="Parameter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Basic.cpp">
+    <ClCompile Include="BasicAnalyzer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

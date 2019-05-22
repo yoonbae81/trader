@@ -4,32 +4,34 @@
 using namespace std;
 
 BacktestFetcher::BacktestFetcher(const string& filePath)
+	: msgFile(filePath)
 {
-	clog << "Fetcher initalized" << endl;
+	clog << "Fetcher initalizing..." << endl;
 
-	datafile.open(filePath);
-	if (!datafile.is_open()) {
-		clog << "Couldn't find datafile: " << filePath << endl;
+	if (!msgFile.is_open()) {
+		clog << "Couldn't open a file: " << filePath << endl;
+		exit(1);
 	}
+
+	clog << "Fetcher initalized" << endl;
 }
 
 BacktestFetcher::~BacktestFetcher()
 {
-	datafile.close();
+	msgFile.close();
 }
 
 PriceMsg BacktestFetcher::GetMessage()
 {
 	string line;
 
-	if (getline(datafile, line)) {
+	if (getline(msgFile, line)) {
 		clog << "Got a message: " << line << endl;
 	}
 	else {
-		clog << "End of datafile" << endl;
+		clog << "End of file" << endl;
 		line = "QUIT";
 	}
 
 	return PriceMsg::Parse(line);
-
 }

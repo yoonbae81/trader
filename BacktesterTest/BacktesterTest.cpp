@@ -2,25 +2,46 @@
 #include "CppUnitTest.h"
 
 #include "../Backtester/BacktestFetcher.h"
+#include "../Common/Exceptions.h"
+
+#include <cstdio> // for remove()
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace BacktesterTest
-{
+namespace BacktesterTest {
+
 	TEST_CLASS(BacktestFetcherTest)
 	{
-	public:
-		TEST_METHOD(GettingMessagesAnyHow)
-		{
-			size_t lines = 10;
-			string filePath = "10lines.txt";
-			BacktestFetcher fetcher(filePath);
+		string filename = "temp.txt";
 
-			for (int i = 0; i < lines; i++) {
-				PriceMsg msg = fetcher.GetMessage();
-				Assert::AreEqual(string("015760"), msg.symbol);
+	public:
+		TEST_METHOD_INITIALIZE(GenerateFile)
+		{
+			ofstream outfile(filename);
+			Assert::IsTrue(outfile.is_open());
+
+			outfile << "AAAAAA 1243 10 112300201" << endl;
+			outfile << "BBBBBB 1243 20 112300202" << endl;
+			outfile.close();
+		}
+		TEST_METHOD(ReadMessages)
+		{
+			BacktestFetcher fetcher(filename);
+
+			Assert::AreEqual(string("AAAAAA"), fetcher.GetMessage().symbol);
+			Assert::AreEqual(string("BBBBBB"), fetcher.GetMessage().symbol);
+
+			try {
+				auto m = fetcher.GetMessage();
 			}
+			catch (QuitException) {
+				Assert::IsTrue(true);
+			}
+		}
+
+		TEST_METHOD_CLEANUP(DeleteFile) {
+			remove(filename.data());
 		}
 	};
 }

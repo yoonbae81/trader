@@ -2,10 +2,9 @@
 #include "BacktestBroker.h"
 #include "BacktestFetcher.h"
 #include "BacktestCasher.h"
-#include "../Common/Loop.h"
 #include "../Analyzer/Parameter.h"
-#include "../Analyzer/Basic.h"
-
+#include "../Analyzer/BasicAnalyzer.h"
+#include "../Common/Loop.h"
 
 using namespace std;
 
@@ -13,13 +12,16 @@ int main()
 {
 	clog << "Backtester started" << endl;
 
-	BacktestFetcher fetcher("10lines.txt");
+	string dataFile = "10lines.txt";
+	BacktestFetcher fetcher(dataFile);
+
 	BacktestCasher casher;
+
 	BacktestBroker broker;
 
-	string parameterFile = "fake.txt";
-	Parameter p = Parameter::Parse(parameterFile);
-	Basic analyzer(p);
+	string paramFile = "basicParam.txt";
+	Parameter p = Parameter::Parse(paramFile);
+	BasicAnalyzer analyzer(p);
 
 	Loop::Run(fetcher, analyzer, casher, broker);
 }

@@ -151,12 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Basic.h" />
+    <ClInclude Include="BasicAnalyzer.h" />
     <ClInclude Include="Parameter.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Basic.cpp" />
+    <ClCompile Include="BasicAnalyzer.cpp" />
     <ClCompile Include="Parameter.cpp" />
   </ItemGroup>
   <ItemGroup>

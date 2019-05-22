@@ -4,13 +4,16 @@
 
 class BacktestFetcher
 {
+	std::ifstream msgFile;
+
 public:
 	BacktestFetcher(const std::string& filePath);
-	
-	virtual ~BacktestFetcher();
-	virtual PriceMsg GetMessage();
+	~BacktestFetcher();
 
-private:
-	std::ifstream datafile;
+	PriceMsg GetMessage();
+
+	BacktestFetcher(const BacktestFetcher&) = delete;
+	BacktestFetcher& operator=(const BacktestFetcher&) = delete;
+
 };
 

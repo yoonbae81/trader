@@ -19,7 +19,7 @@ PriceMsg PriceMsg::Parse(const string& line) {
 		msg.volume = stoi(tokens[2]);
 		msg.timestamp = stoi(tokens[3]);
 	}
-	catch (invalid_argument& ia) {
+	catch (invalid_argument) {
 		if (msg.symbol == "QUIT")
 			throw QuitException();
 

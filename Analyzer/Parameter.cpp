@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 Parameter::Parameter()
 {
 }
