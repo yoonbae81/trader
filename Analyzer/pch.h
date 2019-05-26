@@ -4,8 +4,8 @@
 // However, files listed here are ALL re-compiled if any one of them is updated between builds.
 // Do not add files here that you will be updating frequently as this negates the performance advantage.
 
-#ifndef PCH_H
-#define PCH_H
+#ifndef PCH_H_ANALYZER
+#define PCH_H_ANALYZER
 
 #include <algorithm>
 #include <ctime>
@@ -14,10 +14,11 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <random>
 #include <vector>
 #include <unordered_map>
 //#include "ta-lib/ta_libc.h"
 //#include "zmq/zmq.h"
 
-#endif //PCH_H
+#endif //PCH_H_ANALYZER

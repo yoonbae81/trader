@@ -5,11 +5,12 @@
 
 class BasicAnalyzer
 {
-	Parameter parameter;
+	Parameter param;
 public:
 	BasicAnalyzer(Parameter p);
 	~BasicAnalyzer();
 	int CalcStrength(Stock stock);
 	void UpdateStoploss(Stock stock);
+	size_t GetCurrency();
 };
 

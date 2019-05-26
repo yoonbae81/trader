@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "Exceptions.h"
 
-ParsingException::ParsingException(const std::string& what_arg) 
-	: std::runtime_error(what_arg) 
-{
-}
+using namespace std;
 
-QuitException::QuitException() 
-	: std::domain_error("QUIT")
-{
-}
- 
+ParsingException::ParsingException(const string& what_arg)
+	: runtime_error(what_arg) {}
+
+QuitException::QuitException()
+	: domain_error("QUIT") {}
+
+ResetException::ResetException()
+	: domain_error("RESET") {}

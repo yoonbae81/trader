@@ -153,7 +153,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BacktestBroker.cpp" />
-    <ClCompile Include="BacktestCasher.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BacktestFetcher.cpp" />
   </ItemGroup>
@@ -167,7 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BacktestBroker.h" />
-    <ClInclude Include="BacktestCasher.h" />
     <ClInclude Include="BacktestFetcher.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>

@@ -14,6 +14,5 @@ public:
 
 	BacktestFetcher(const BacktestFetcher&) = delete;
 	BacktestFetcher& operator=(const BacktestFetcher&) = delete;
-
 };
 

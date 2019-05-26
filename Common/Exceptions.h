@@ -8,3 +8,8 @@ struct QuitException : public std::domain_error
 {
 	explicit QuitException();
 };
+
+struct ResetException : public std::domain_error
+{
+	explicit ResetException();
+};

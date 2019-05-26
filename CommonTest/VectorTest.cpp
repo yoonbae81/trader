@@ -92,7 +92,9 @@ namespace CommonTest
 			vector<double> v;
 			size_t r = 1000;
 			v.reserve(r);
-			auto s = Stock();
+
+			string symbol = "AAAAAA";
+			auto s = Stock(symbol);
 			for (auto i = 0; i < 1000000; i++) {
 				s.AddValue(v, i);
 			}

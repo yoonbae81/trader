@@ -21,9 +21,6 @@
     <ClCompile Include="BacktestBroker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BacktestCasher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BacktestCasher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

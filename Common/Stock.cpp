@@ -3,7 +3,8 @@
 
 using namespace std;
 
-Stock::Stock() {
+Stock::Stock(const string& symbol) : symbol_(symbol)
+{
 	int capacity = rand() % 3000 + 1000;
 	prices_.reserve(capacity);
 	volumes_.reserve(capacity);
@@ -33,6 +34,11 @@ void Stock::AddValue(vector<double>& v, double value) {
 	}
 
 	v.emplace_back(value);
+}
+
+const string& Stock::symbol() const
+{
+	return symbol_;
 }
 
 const double Stock::stoploss() const

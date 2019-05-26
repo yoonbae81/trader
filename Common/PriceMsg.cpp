@@ -23,6 +23,9 @@ PriceMsg PriceMsg::Parse(const string& line) {
 		if (msg.symbol == "QUIT")
 			throw QuitException();
 
+		if (msg.symbol == "RESET")
+			throw ResetException();
+
 		throw ParsingException(line);
 	}
 

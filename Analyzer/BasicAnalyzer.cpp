@@ -5,7 +5,7 @@
 
 using namespace std;
 
-BasicAnalyzer::BasicAnalyzer(Parameter p) : parameter(p)
+BasicAnalyzer::BasicAnalyzer(Parameter p) : param(p)
 {
 	clog << "Analyzer initalized" << endl;
 	clog << "Parameter: " << p.threshold << endl;
@@ -24,4 +24,9 @@ void BasicAnalyzer::UpdateStoploss(Stock stock)
 {
 
 	// @todo Calculate new stoploss and put into stock
+}
+
+size_t BasicAnalyzer::GetCurrency()
+{
+	return param.nThread;
 }

@@ -33,7 +33,7 @@ namespace BacktesterTest {
 			Assert::AreEqual(string("BBBBBB"), fetcher.GetMessage().symbol);
 
 			try {
-				auto m = fetcher.GetMessage();
+				auto m = fetcher.GetMessage(); // no more messages
 			}
 			catch (QuitException) {
 				Assert::IsTrue(true);

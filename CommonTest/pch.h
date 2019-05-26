@@ -4,8 +4,8 @@
 // However, files listed here are ALL re-compiled if any one of them is updated between builds.
 // Do not add files here that you will be updating frequently as this negates the performance advantage.
 
-#ifndef PCH_H
-#define PCH_H
+#ifndef PCH_H_COMMON_TEST
+#define PCH_H_COMMON_TEST
 
 #include <algorithm>
 #include <ctime>
@@ -18,4 +18,4 @@
 #include <vector>
 #include <unordered_map>
 
-#endif //PCH_H
+#endif //PCH_COMMON_TEST

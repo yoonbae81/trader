@@ -15,7 +15,7 @@ struct PriceMsg {
 private:
 	PriceMsg() = default;
 
-	PriceMsg& operator=(const PriceMsg& rhs) = delete;
 	PriceMsg(const PriceMsg& src) = delete;
+	PriceMsg& operator=(const PriceMsg& rhs) = delete;
 	PriceMsg& operator=(PriceMsg&& rhs) = delete;
 };
