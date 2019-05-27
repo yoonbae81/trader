@@ -5,35 +5,9 @@ using namespace std;
 
 Stock::Stock(const string& symbol) : symbol_(symbol)
 {
-	int capacity = rand() % 3000 + 1000;
+	int capacity = rand() % 5000 + 1000;
 	prices_.reserve(capacity);
 	volumes_.reserve(capacity);
-}
-
-bool Stock::AddTick(PriceMsg& m) {
-	bool added = false;
-
-	if (timestamp_ == m.timestamp) {
-		prices_.back() = m.price;
-		volumes_.back() += m.volume;
-	}
-	else {
-		AddValue(prices_, m.price);
-		AddValue(volumes_, m.volume);
-		timestamp_ = m.timestamp;
-		added = true;
-	}
-
-	return added;
-}
-
-void Stock::AddValue(vector<double>& v, double value) {
-	if (v.capacity() == v.size()) {
-		std::copy(v.end() - kNumKeep, v.end(), v.begin());
-		v.erase(v.begin() + kNumKeep, v.end());
-	}
-
-	v.emplace_back(value);
 }
 
 const string& Stock::symbol() const
@@ -41,20 +15,42 @@ const string& Stock::symbol() const
 	return symbol_;
 }
 
-const double Stock::stoploss() const
+bool Stock::Update(const PriceMsg& m) {
+	bool added = false;
+
+	if (timestamp == m.timestamp) {
+		prices_.back() = m.price;
+		volumes_.back() += m.volume;
+	}
+	else {
+		Add(prices_, m.price);
+		Add(volumes_, m.volume);
+		timestamp = m.timestamp;
+		added = true;
+	}
+
+	return added;
+}
+
+const std::vector<double>& Stock::prices() const
 {
-	return stoploss_;
-}
-
-const size_t& Stock::quantity() const {
-	return quantity_;
-}
-
-const vector<double>& Stock::prices() const {
 	return prices_;
 }
 
-const vector<double>& Stock::volumes() const {
+const std::vector<double>& Stock::volumes() const
+{
 	return volumes_;
+}
+
+void Stock::Add(vector<double>& v, double value) {
+	if (v.capacity() == v.size())
+		Recycle(v);
+	v.emplace_back(value);
+}
+
+void Stock::Recycle(std::vector<double>& v)
+{
+	std::copy(v.end() - kNumKeep, v.end(), v.begin());
+	v.erase(v.begin() + kNumKeep, v.end());
 }
 

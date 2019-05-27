@@ -11,7 +11,7 @@ namespace CommonTest
 	TEST_CLASS(UnorderedTest)
 	{
 	private:
-		unordered_map<string, Stock> stocks;
+		unordered_map<string, Stock> map;
 		
 	public:
 		TEST_METHOD_INITIALIZE(Retrieve)

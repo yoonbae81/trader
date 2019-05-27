@@ -4,44 +4,41 @@
 #include "../Backtester/BacktestFetcher.h"
 #include "../Common/Exceptions.h"
 
-#include <cstdio> // for remove()
+#include <cstdio> // for remove() file
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace BacktesterTest {
+TEST_CLASS(BacktestFetcherTest)
+{
+	string filename = "temp.txt";
 
-	TEST_CLASS(BacktestFetcherTest)
+public:
+	TEST_METHOD_INITIALIZE(GenerateFile)
 	{
-		string filename = "temp.txt";
+		ofstream outfile(filename);
+		Assert::IsTrue(outfile.is_open());
 
-	public:
-		TEST_METHOD_INITIALIZE(GenerateFile)
-		{
-			ofstream outfile(filename);
-			Assert::IsTrue(outfile.is_open());
+		outfile << "AAAAAA 1243 10 112300201" << endl;
+		outfile << "BBBBBB 1243 20 112300202" << endl;
+		outfile.close();
+	}
+	TEST_METHOD(ReadMessages)
+	{
+		BacktestFetcher fetcher(filename);
 
-			outfile << "AAAAAA 1243 10 112300201" << endl;
-			outfile << "BBBBBB 1243 20 112300202" << endl;
-			outfile.close();
+		Assert::AreEqual(string("AAAAAA"), fetcher.GetMessage().symbol);
+		Assert::AreEqual(string("BBBBBB"), fetcher.GetMessage().symbol);
+
+		try {
+			auto m = fetcher.GetMessage(); // no more messages
 		}
-		TEST_METHOD(ReadMessages)
-		{
-			BacktestFetcher fetcher(filename);
-
-			Assert::AreEqual(string("AAAAAA"), fetcher.GetMessage().symbol);
-			Assert::AreEqual(string("BBBBBB"), fetcher.GetMessage().symbol);
-
-			try {
-				auto m = fetcher.GetMessage(); // no more messages
-			}
-			catch (QuitException) {
-				Assert::IsTrue(true);
-			}
+		catch (QuitException) {
+			Assert::IsTrue(true);
 		}
+	}
 
-		TEST_METHOD_CLEANUP(DeleteFile) {
-			remove(filename.data());
-		}
-	};
-}
+	TEST_METHOD_CLEANUP(DeleteFile) {
+		remove(filename.data());
+	}
+};

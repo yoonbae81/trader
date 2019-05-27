@@ -6,17 +6,14 @@
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace AnalyzerTest
+TEST_CLASS(ParameterTest)
 {
-	TEST_CLASS(ParameterTest)
+public:
+	TEST_METHOD(Parse)
 	{
-	public:
-		TEST_METHOD(Parse)
-		{
-			string filepath = "fake.txt";
-			Parameter p = Parameter::Parse(filepath);
+		string filepath = "fake.txt";
+		Parameter p = Parameter::Parse(filepath);
 
-			Assert::AreEqual(p.threshold, 10);
-		}
-	};
-}
+		Assert::AreEqual(p.threshold, 10);
+	}
+};

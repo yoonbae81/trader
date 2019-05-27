@@ -5,29 +5,39 @@
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace CommonTest
+TEST_CLASS(StockTest)
 {
-	TEST_CLASS(StockTest)
-	{
-	public:
+private:
+	const string line_ = "AAAAAA 3000 10 1234512345";
+	const string symbol_ = "AAAAAA";
 
-		TEST_METHOD(Ctor) {
-			string symbol = "AAAAAA";
-			Stock s(symbol);
-			Assert::AreEqual(symbol, s.symbol());
-		}
-		TEST_METHOD(NotFound) {
-			std::unordered_map<std::string, Stock> map;
-			Assert::IsTrue(map.end() == map.find("AAAAAA"));
-		}
-		TEST_METHOD(AddTick) {
-			auto msg = "015760 3000 10 1234512345";
-			auto m = PriceMsg::Parse(msg);
+public:
+	TEST_METHOD(Update) {
+		auto s = Stock(symbol_);
+		auto m = PriceMsg::Parse(line_);
 
-			string symbol = "AAAAAA";
-			auto s = Stock(symbol);
-			Assert::IsTrue(s.AddTick(m));
-			Assert::AreEqual(s.prices().size(), (size_t) 1);
+		Assert::IsTrue(s.Update(m));
+		Assert::AreEqual(m.symbol, s.symbol());
+		Assert::AreEqual(m.timestamp, s.timestamp);
+		Assert::AreEqual(m.price, s.prices().back());
+		Assert::AreEqual(m.volume, (size_t)s.volumes().back());
+
+		// when timestamp is same, subsequent request updates price and adds volume
+		m.price += 10;
+		Assert::IsFalse(s.Update(m));
+		Assert::AreEqual(m.price, s.prices().back());
+		Assert::AreEqual(m.volume * 2, (size_t)s.volumes().back());
+	}
+
+	TEST_METHOD(UpdateMultiple) {
+		auto s = Stock(symbol_);
+		auto m = PriceMsg::Parse(line_);
+
+		auto count = 1000*1000;
+		for (auto i = 0; i < count; i++) {
+			m.timestamp += i;
+			s.Update(m);
 		}
-	};
-}
+		Assert::AreEqual(m.volume, (size_t)s.volumes().back());
+	}
+};

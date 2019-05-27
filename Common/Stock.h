@@ -3,25 +3,25 @@
 #include "PriceMsg.h"
 
 struct Stock {
-	Stock() = delete;
+	size_t quantity{};
+	time_t timestamp{};
+	double stoploss{};
+
 	Stock(const std::string& symbol);
-
-	bool AddTick(PriceMsg &m);
-	void AddValue(std::vector<double>& v, double value);
-
 	const std::string& symbol() const;
-	const double stoploss() const;
-	const size_t& quantity() const;
+	
+	bool Update(const PriceMsg &m);
 	const std::vector<double>& prices() const;
 	const std::vector<double>& volumes() const;
 
 private:
-	const size_t kNumKeep = 30;	// must be bigger than long-window
+	const static size_t kNumKeep = 30;	// number of elements to keep when vector is recycled
 
 	std::string symbol_{};
-	size_t quantity_{};
-	time_t timestamp_{};
-	double stoploss_{};
 	std::vector<double> prices_;
 	std::vector<double> volumes_;
+	
+	void Add(std::vector<double>& v, double value);
+	void Recycle(std::vector<double>& v);
+	Stock() = delete;
 };

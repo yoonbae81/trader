@@ -51,7 +51,7 @@ public:
 		
 
 		// - if current price is lower than stored stoploss price, then sell it
-		if (stock.quantity() && msg.price <= stock.stoploss())
+		if (stock.quantity && msg.price <= stock.stoploss)
 		{
 			std::clog << "Hits stoploss" << std::endl;
 			// TODO Calculate quantity to sell;

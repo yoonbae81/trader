@@ -9,7 +9,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 TEST_CLASS(StockMapTest)
 {
 private:
-	const string symbol = "AAA";
+	string symbol = "AAA";
 
 public:
 	TEST_METHOD(Contains) {
@@ -24,10 +24,11 @@ public:
 		Assert::AreEqual(symbol, s.symbol());
 	}
 
-	TEST_METHOD(Reset) {
+	TEST_METHOD(Clear) {
 		StockMap map{};
 		Stock& s = map.Get(symbol);
-		map.Reset();
+		map.Clear();
 		Assert::IsFalse(map.Contains(symbol));
+
 	}
 };
