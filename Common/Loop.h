@@ -3,13 +3,17 @@
 #include "pch.h"
 #include "Exceptions.h"
 #include "PriceMsg.h"
-#include "Stock.h"
+#include "Ticks.h"
+#include "Holding.h"
+
+using std::string;
 
 template <typename FETCHER, typename ANALYZER, typename BROKER>
 class Loop
 {
 private:
-	std::unordered_map<std::string, Stock> map;
+	std::unordered_map<string, Ticks> ticksMap;
+	std::unordered_map<string, Holding> holdingMap;
 
 public:
 	FETCHER* fetcher = nullptr;
@@ -24,15 +28,18 @@ public:
 			try {
 				std::clog << "Getting a message..." << std::endl;
 				auto msg = fetcher->GetMessage();
+
 				Process(msg);
 			}
 			catch (ParsingException& ex) {
 				std::clog << "Ignored wrong message: " << ex.what() << std::endl;
+				continue;
 			}
 			catch (ResetException) {
 				std::clog << "Data reset" << std::endl;
-				map.clear();
+				ticksMap.clear();
 				// TODO broker.clear();
+				continue;
 			}
 			catch (QuitException) {
 				std::clog << "Quitting" << std::endl;
@@ -44,39 +51,36 @@ public:
 	}
 
 	void Process(PriceMsg& msg) {
-		// TODO override [] to Stock have symbol inside it 
-		//Stock stock = stocks[msg.symbol];
-		std::string symbol = "AAA";
-		auto stock = Stock(symbol);
-		
-
-		// - if current price is lower than stored stoploss price, then sell it
-		if (stock.quantity && msg.price <= stock.stoploss)
+		if (holdingMap.contains(msg.symbol) 
+			&& msg.price <= holdingMap[msg.symbol].stoploss())
 		{
 			std::clog << "Hits stoploss" << std::endl;
-			// TODO Calculate quantity to sell;
-			broker->Order(msg.symbol, 0);
+			// TODO Calculate quantity to sell; How will calculate the quantity?
+			broker->Order(msg.symbol, -1);
 		}
 
-		// TODO Put PriceMsg into Stock
+		auto ticks = ticksMap[msg.symbol];
+		ticks.Put(msg);
+		// TODO Put PriceMsg into Ticks
 
-		// - compare timestamp between the recent message and the one stored in Stock object
+		// - compare timestamp between the recent message and the one stored in Ticks object
 		// 	- if time difference is more than 1 second, add price and volume, and calculate
 		// 		- if the result of calculation is strong enough, make an order to broker in async thread
 		// 			- to determine quantity to buy, use AccountManager to query Redis
-		// 			- when the order completed, update Stock's quantity which is atom
+		// 			- when the order completed, update Ticks's quantity which is atom
 		// 	- else update price and add volume, and skip to calculate
 
-		// if a stock's timestamp is shorter than 1 second, skip calculating 
+		// if a ticks's timestamp is shorter than 1 second, skip calculating 
 		std::clog << "Calculating..." << std::endl;
-		int strength = analyzer->CalcStrength(stock);
+		int strength = analyzer->CalcStrength(ticks);
 		std::clog << "Strength: " << strength << std::endl;
 
 		// TODO Calculate quantity to buy
 		if (strength) broker->Order(msg.symbol, 0);
+		// TODO holdingMap[msg.symbol].Bought(quantity, price);
 
 		std::clog << "Updating stoploss..." << std::endl;
-		analyzer->UpdateStoploss(stock);
+		analyzer->UpdateStoploss(ticks);
 	}
 };
 

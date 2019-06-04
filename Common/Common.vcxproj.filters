@@ -21,16 +21,16 @@
     <ClCompile Include="Loop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Stock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OrderMsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Exceptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StockMap.cpp">
+    <ClCompile Include="Ticks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Holding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,13 +47,13 @@
     <ClInclude Include="OrderMsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Stock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StockMap.h">
+    <ClInclude Include="Ticks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Holding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

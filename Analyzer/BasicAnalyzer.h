@@ -1,16 +1,18 @@
 #pragma once
 
-#include "../Common/Stock.h"
+#include "../Common/Ticks.h"
 #include "Parameter.h"
 
 class BasicAnalyzer
 {
 	Parameter param;
+	
 public:
 	BasicAnalyzer(Parameter p);
 	~BasicAnalyzer();
-	int CalcStrength(Stock stock);
-	void UpdateStoploss(Stock stock);
+
+	int CalcStrength(Ticks ticks);
+	void UpdateStoploss(Ticks ticks);
 	size_t GetCurrency();
 };
 

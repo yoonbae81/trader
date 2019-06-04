@@ -21,18 +21,21 @@
     <ClCompile Include="PriceMsgTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StockTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LoopTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StockMapTest.cpp">
+    <ClCompile Include="TicksTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HoldingTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HoldingsTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

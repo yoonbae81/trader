@@ -19,14 +19,14 @@ public:
 
 	TEST_METHOD(Get) {
 		StockMap map{};
-		Stock& s = map.Get(symbol);
+		Ticks& s = map.Get(symbol);
 		Assert::IsTrue(map.Contains(symbol));
 		Assert::AreEqual(symbol, s.symbol());
 	}
 
 	TEST_METHOD(Reset) {
 		StockMap map{};
-		Stock& s = map.Get(symbol);
+		Ticks& s = map.Get(symbol);
 		map.Reset();
 		Assert::IsFalse(map.Contains(symbol));
 	}

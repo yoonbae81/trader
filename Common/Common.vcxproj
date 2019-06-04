@@ -91,6 +91,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,21 +152,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Holding.cpp" />
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="OrderMsg.cpp" />
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="PriceMsg.cpp" />
-    <ClCompile Include="Stock.cpp" />
-    <ClCompile Include="StockMap.cpp" />
+    <ClCompile Include="Ticks.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Holding.h" />
     <ClInclude Include="Loop.h" />
     <ClInclude Include="OrderMsg.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PriceMsg.h" />
-    <ClInclude Include="Stock.h" />
-    <ClInclude Include="StockMap.h" />
+    <ClInclude Include="Ticks.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

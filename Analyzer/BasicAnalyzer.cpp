@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "BasicAnalyzer.h"
 #include "Parameter.h"
-#include "../Common/Stock.h"
+#include "../Common/Ticks.h"
 
 using namespace std;
 
@@ -15,15 +15,15 @@ BasicAnalyzer::~BasicAnalyzer()
 {
 }
 
-int BasicAnalyzer::CalcStrength(Stock stock)
+int BasicAnalyzer::CalcStrength(Ticks ticks)
 {
 	return 10;
 }
 
-void BasicAnalyzer::UpdateStoploss(Stock stock)
+void BasicAnalyzer::UpdateStoploss(Ticks ticks)
 {
 
-	// @todo Calculate new stoploss and put into stock
+	// @todo Calculate new stoploss and Put into ticks
 }
 
 size_t BasicAnalyzer::GetCurrency()

@@ -3,15 +3,17 @@
 #include "pch.h"
 
 struct PriceMsg {
-	std::string symbol;
-	double price {};
-	size_t volume {};
-	time_t timestamp {};
+	static PriceMsg Parse(const std::string& line);
 
-	~PriceMsg() = default;
 	PriceMsg(PriceMsg&& src) = default;
-	static PriceMsg Parse(const std::string& msg);
-	
+	~PriceMsg() = default;
+
+	std::string symbol;
+	double price{};
+	size_t volume{};
+	time_t timestamp{};
+
+
 private:
 	PriceMsg() = default;
 
