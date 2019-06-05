@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "../Common/PriceMsg.h"
+#include "../Common/TickMsg.h"
 
 class BacktestFetcher
 {
@@ -10,7 +10,7 @@ public:
 	BacktestFetcher(const std::string& filePath);
 	~BacktestFetcher();
 
-	PriceMsg GetMessage();
+	TickMsg GetMessage();
 
 	BacktestFetcher(const BacktestFetcher&) = delete;
 	BacktestFetcher& operator=(const BacktestFetcher&) = delete;

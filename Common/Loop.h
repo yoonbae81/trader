@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include "Exceptions.h"
-#include "PriceMsg.h"
+#include "TickMsg.h"
 #include "Ticks.h"
 #include "Holding.h"
 
@@ -50,7 +50,7 @@ public:
 		std::clog << "Loop end" << std::endl;
 	}
 
-	void Process(PriceMsg& msg) {
+	void Process(TickMsg& msg) {
 		if (holdingMap.contains(msg.symbol) 
 			&& msg.price <= holdingMap[msg.symbol].stoploss())
 		{
@@ -61,7 +61,7 @@ public:
 
 		auto ticks = ticksMap[msg.symbol];
 		ticks.Put(msg);
-		// TODO Put PriceMsg into Ticks
+		// TODO Put TickMsg into Ticks
 
 		// - compare timestamp between the recent message and the one stored in Ticks object
 		// 	- if time difference is more than 1 second, add price and volume, and calculate

@@ -10,7 +10,7 @@ Ticks::Ticks()
 	volumes_.reserve(capacity);
 }
 
-bool Ticks::Put(const PriceMsg& m) {
+bool Ticks::Put(const TickMsg& m) {
 	bool added = false;
 
 	if (timestamp == m.timestamp) {

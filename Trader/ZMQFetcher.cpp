@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../Common/PriceMsg.h"
+#include "../Common/TickMsg.h"
 #include "ZMQFetcher.h"
 
 using namespace std;
@@ -14,10 +14,10 @@ ZMQFetcher::~ZMQFetcher()
 	// release zmq socket
 }
 
-PriceMsg ZMQFetcher::GetMessage()
+TickMsg ZMQFetcher::GetMessage()
 {
 	// ctx.receive_string();
 	string msg = "1234567890 015760 20 1 [MOCK]";
 	clog << "Got a message: " << msg << endl;
-	return PriceMsg::Parse(msg);
+	return TickMsg::Parse(msg);
 }

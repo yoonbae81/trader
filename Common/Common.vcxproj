@@ -156,7 +156,7 @@
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="OrderMsg.cpp" />
     <ClCompile Include="Exceptions.cpp" />
-    <ClCompile Include="PriceMsg.cpp" />
+    <ClCompile Include="TickMsg.cpp" />
     <ClCompile Include="Ticks.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +165,7 @@
     <ClInclude Include="OrderMsg.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="PriceMsg.h" />
+    <ClInclude Include="TickMsg.h" />
     <ClInclude Include="Ticks.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

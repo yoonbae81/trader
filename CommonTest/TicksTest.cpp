@@ -12,7 +12,7 @@ public:
 		string line = "AAAAAA 3000 10 1234512345";
 
 		auto s = Ticks();
-		auto m = PriceMsg::Parse(line);
+		auto m = TickMsg::Parse(line);
 	
 		Assert::IsTrue(s.Put(m));
 
@@ -33,7 +33,7 @@ public:
 		auto line = "AAAAAA 3000 10 1234512345";
 
 		auto s = Ticks();
-		auto m = PriceMsg::Parse(line);
+		auto m = TickMsg::Parse(line);
 
 		auto count = 1000 * 1000;
 		for (auto i = 0; i < count; i++) {

@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "PriceMsg.h"
+#include "TickMsg.h"
 #include "Exceptions.h"
 
 using namespace std;
 
-PriceMsg PriceMsg::Parse(const string& line) {
+TickMsg TickMsg::Parse(const string& line) {
 	istringstream ss(line);
 	string tokens[4];
 	std::getline(ss, tokens[0], ' ');
@@ -12,7 +12,7 @@ PriceMsg PriceMsg::Parse(const string& line) {
 	std::getline(ss, tokens[2], ' ');
 	std::getline(ss, tokens[3], ' ');
 
-	PriceMsg msg;
+	TickMsg msg;
 	try {
 		msg.symbol = tokens[0];
 		msg.price = stod(tokens[1]);

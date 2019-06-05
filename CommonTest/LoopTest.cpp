@@ -6,22 +6,22 @@
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-struct DummyFetcher {
+struct FetcherStub {
 	int count{ 1 };
-	PriceMsg GetMessage() {
+	TickMsg GetMessage() {
 		if (count--) {
-			return PriceMsg::Parse("015760 1243 10 112300202");
+			return TickMsg::Parse("015760 1243 10 112300202");
 		}
-		return PriceMsg::Parse("QUIT");
+		return TickMsg::Parse("QUIT");
 	}
 };
 
-struct DummyAnalyzer {
+struct AnalyzerStub {
 	int CalcStrength(Ticks ticks) { return 10; }
 	void UpdateStoploss(Ticks ticks) {}
 };
 
-struct DummyBroker {
+struct BrokerStub {
 	void Order(string& symbol, int quantity) { }
 };
 
@@ -30,10 +30,10 @@ TEST_CLASS(LoopTest)
 public:
 	TEST_METHOD(Method1)
 	{
-		//auto loop = Loop<DummyFetcher, DummyAnalyzer, DummyBroker>();
-		//loop.fetcher = &DummyFetcher();
-		//loop.analyzer = &DummyAnalyzer();
-		//loop.broker = &DummyBroker();
+		//auto loop = Loop<FetcherStub, AnalyzerStub, BrokerStub>();
+		//loop.fetcher = &FetcherStub();
+		//loop.analyzer = &AnalyzerStub();
+		//loop.broker = &BrokerStub();
 		//loop.Run();
 	}
 };

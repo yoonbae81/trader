@@ -1,12 +1,12 @@
 ﻿#pragma once
 #include "pch.h"
-#include "PriceMsg.h"
+#include "TickMsg.h"
 
 using std::string;
 
 struct Ticks { 
 	Ticks();
-	bool Put(const PriceMsg &m);	// TODO Rename to ADD
+	bool Put(const TickMsg &m);	// TODO Rename to ADD
 
 	const std::vector<double>& prices() const;
 	const std::vector<double>& volumes() const;
@@ -22,5 +22,5 @@ private:
 	//std::mutex mutex;
 	std::vector<double> prices_;
 	std::vector<double> volumes_;
-	//std::deque<PriceMsg> pendings_;
+	//std::deque<TickMsg> pendings_;
 };

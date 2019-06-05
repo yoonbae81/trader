@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Common/PriceMsg.h"
+#include "../Common/TickMsg.h"
 // #include "zmq.h"
 
 class ZMQFetcher
@@ -10,5 +10,5 @@ class ZMQFetcher
 public:
 	ZMQFetcher(const char* ip, int port);
 	~ZMQFetcher();
-	PriceMsg GetMessage();
+	TickMsg GetMessage();
 };

@@ -23,6 +23,7 @@ public:
 		outfile << "BBBBBB 1243 20 112300202" << endl;
 		outfile.close();
 	}
+
 	TEST_METHOD(ReadMessages)
 	{
 		BacktestFetcher fetcher(filename);

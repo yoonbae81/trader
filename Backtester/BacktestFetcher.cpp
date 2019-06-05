@@ -21,7 +21,7 @@ BacktestFetcher::~BacktestFetcher()
 	msgFile.close();
 }
 
-PriceMsg BacktestFetcher::GetMessage()
+TickMsg BacktestFetcher::GetMessage()
 {
 	string line;
 
@@ -33,5 +33,5 @@ PriceMsg BacktestFetcher::GetMessage()
 		line = "QUIT";
 	}
 
-	return PriceMsg::Parse(line);
+	return TickMsg::Parse(line);
 }
