@@ -1,16 +1,26 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include "../AssetManager/AssetManager.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace AssetManagerTest
+TEST_CLASS(AssetManagerTest)
 {
-	TEST_CLASS(AssetManagerTest)
+public:
+
+	TEST_METHOD(TestCtor)
 	{
-	public:
-		
-		TEST_METHOD(TestMethod1)
-		{
-		}
-	};
-}
+		auto cash = 1000.0;
+		AssetManager sut(cash);
+
+		auto expected = cash;
+		auto actual = sut.cash();
+
+		Assert::AreEqual(expected, actual);
+	}
+
+	TEST_METHOD(TestHoldings)
+	{
+
+	}
+};

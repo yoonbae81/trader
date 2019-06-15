@@ -173,7 +173,6 @@
     <ClCompile Include="TicksTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HoldingsTest.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
