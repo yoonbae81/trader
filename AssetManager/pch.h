@@ -2,22 +2,19 @@
 #define PCH_H_ASSET_MANAGER
 
 #include <cassert>
-#include <algorithm>
 #include <ctime>
-#include <deque>
 #include <iostream>
 #include <iterator>
 #include <memory>
-#include <mutex>
 #include <sstream>
 #include <string>
 #include <thread>
-// #include <tuple>
-#include <random>
-#include <vector>
-#include <unordered_map>
+#include <utility>
+
 #include <agents.h>
-//#include "ta-lib/ta_libc.h"
+#include <concurrent_unordered_map.h>
+#include <ppl.h>
+
 //#include "zmq/zmq.h"
 
 #endif //PCH_H_ASSET_MANAGER

@@ -12,5 +12,6 @@
 #include <random>
 #include <vector>
 #include <unordered_map>
+#include <concurrent_vector.h>
 
 #endif //PCH_H

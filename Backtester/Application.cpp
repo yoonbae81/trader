@@ -6,10 +6,13 @@
 #include "../Common/Loop.h"
 
 using namespace std;
+using namespace concurrency;
 
 int main()
 {
 	clog << "Backtest started" << endl;
+
+	concurrent_vector<TickMsg> ticks;
 
 	string dataFile = "10lines.txt";
 	BacktestFetcher fetcher(dataFile);

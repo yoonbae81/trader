@@ -27,9 +27,6 @@
     <ClCompile Include="Ticks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Holding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TickMsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ticks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Holding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TickMsg.h">

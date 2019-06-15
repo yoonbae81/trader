@@ -152,7 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Holding.cpp" />
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="OrderMsg.cpp" />
     <ClCompile Include="Exceptions.cpp" />
@@ -160,7 +159,6 @@
     <ClCompile Include="Ticks.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Holding.h" />
     <ClInclude Include="Loop.h" />
     <ClInclude Include="OrderMsg.h" />
     <ClInclude Include="Exceptions.h" />

@@ -4,7 +4,6 @@
 #include "Exceptions.h"
 #include "TickMsg.h"
 #include "Ticks.h"
-#include "Holding.h"
 
 using std::string;
 
@@ -13,7 +12,7 @@ class Loop
 {
 private:
 	std::unordered_map<string, Ticks> ticksMap;
-	std::unordered_map<string, Holding> holdingMap;
+	//std::unordered_map<string, Holding> holdingMap;
 
 public:
 	FETCHER* fetcher = nullptr;
@@ -51,13 +50,13 @@ public:
 	}
 
 	void Process(TickMsg& msg) {
-		if (holdingMap.contains(msg.symbol) 
-			&& msg.price <= holdingMap[msg.symbol].stoploss())
-		{
-			std::clog << "Hits stoploss" << std::endl;
-			// TODO Calculate quantity to sell; How will calculate the quantity?
-			broker->Order(msg.symbol, -1);
-		}
+		//if (holdingMap.contains(msg.symbol) 
+		//	&& msg.price <= holdingMap[msg.symbol].stoploss())
+		//{
+		//	std::clog << "Hits stoploss" << std::endl;
+		//	// TODO Calculate quantity to sell; How will calculate the quantity?
+		//	broker->Order(msg.symbol, -1);
+		//}
 
 		auto ticks = ticksMap[msg.symbol];
 		ticks.AddTick(msg);

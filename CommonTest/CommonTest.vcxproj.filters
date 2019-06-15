@@ -24,9 +24,6 @@
     <ClCompile Include="TicksTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HoldingTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TickMsgTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
