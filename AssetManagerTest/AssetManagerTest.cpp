@@ -3,14 +3,14 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace FetcherTest
+namespace AssetManagerTest
 {
-	TEST_CLASS(FetcherTest)
+	TEST_CLASS(AssetManagerTest)
 	{
 	public:
 		
-		//TEST_METHOD(TestMethod1)
-		//{
-		//}
+		TEST_METHOD(TestMethod1)
+		{
+		}
 	};
 }

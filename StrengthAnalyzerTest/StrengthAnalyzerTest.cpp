@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
-#include "../Analyzer/Parameter.h"
+#include "../StrengthAnalyzer/Parameter.h"
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

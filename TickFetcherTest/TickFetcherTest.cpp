@@ -3,14 +3,14 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace BrokerTest
+namespace TickFetcherTest
 {
-	TEST_CLASS(BrokerTest)
+	TEST_CLASS(TickFetcherTest)
 	{
 	public:
 		
-		//TEST_METHOD(TestMethod1)
-		//{
-		//}
+		TEST_METHOD(TestMethod1)
+		{
+		}
 	};
 }
