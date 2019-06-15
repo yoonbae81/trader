@@ -4,8 +4,8 @@
 // However, files listed here are ALL re-compiled if any one of them is updated between builds.
 // Do not add files here that you will be updating frequently as this negates the performance advantage.
 
-#ifndef PCH_H_STRENGTH_ANALYZER
-#define PCH_H_STRENGTH_ANALYZER
+#ifndef PCH_H_TICK_FETCHER
+#define PCH_H_TICK_FETCHER
 
 #include <algorithm>
 #include <ctime>
@@ -21,4 +21,4 @@
 //#include "ta-lib/ta_libc.h"
 //#include "zmq/zmq.h"
 
-#endif //PCH_H_STRENGTH_ANALYZER
+#endif //PCH_H_TICK_FETCHER

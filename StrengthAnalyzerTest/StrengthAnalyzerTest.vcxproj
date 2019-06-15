@@ -171,6 +171,14 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{520a0b5b-2155-4a82-bafe-9c66bc4bce78}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\StrengthAnalyzer\StrengthAnalyzer.vcxproj">
+      <Project>{9954af60-5a99-4358-b783-e0ead9711eb4}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,6 +1,5 @@
-// OrderProcessor.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// StrengthAnalyzer.cpp : This file contains the 'main' function. Program execution begins and ends theren.
 //
-
 #include "pch.h"
 
 int main()

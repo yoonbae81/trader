@@ -10,7 +10,7 @@ struct TickMsg {
 
 	std::string symbol;
 	double price{};
-	size_t volume{};
+	double volume{};
 	time_t timestamp{};
 
 

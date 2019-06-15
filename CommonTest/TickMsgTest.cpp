@@ -14,7 +14,7 @@ public:
 	{
 		string s("AAAAAA");
 		double p = 4000.0;
-		size_t v = 10;
+		double v = 10.0;
 		time_t t = 1234512345;
 		
 		auto msg = "AAAAAA 4000 10 1234512345";

@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "BacktestBroker.h"
 #include "BacktestFetcher.h"
-#include "../Analyzer/Parameter.h"
-#include "../Analyzer/BasicAnalyzer.h"
+#include "../StrengthAnalyzer/Parameter.h"
+#include "../StrengthAnalyzer/BasicAnalyzer.h"
 #include "../Common/Loop.h"
 
 using namespace std;
