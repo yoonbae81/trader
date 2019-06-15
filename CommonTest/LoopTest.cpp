@@ -10,7 +10,7 @@ struct FetcherStub {
 	int count{ 1 };
 	TickMsg GetMessage() {
 		if (count--) {
-			return TickMsg::Parse("015760 1243 10 112300202");
+			return TickMsg::Parse("AAAAAA 10000 2 1234512345");
 		}
 		return TickMsg::Parse("QUIT");
 	}

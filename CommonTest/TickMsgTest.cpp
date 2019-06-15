@@ -10,27 +10,26 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 TEST_CLASS(TickMsgTest)
 {
 public:
-	TEST_METHOD(Correct)
+	TEST_METHOD(CorrectMessage)
 	{
-		auto msg = "015760 4000 10 1234512345";
-		auto m = TickMsg::Parse(msg);
-
-		auto s = string("015760");
+		string s("AAAAAA");
 		double p = 4000.0;
 		size_t v = 10;
 		time_t t = 1234512345;
+		
+		auto msg = "AAAAAA 4000 10 1234512345";
+		auto sut = TickMsg::Parse(msg);
 
-		Assert::AreEqual(m.symbol, s);
-		Assert::AreEqual(m.price, p);
-		Assert::AreEqual(m.volume, v);
-		Assert::IsTrue(m.timestamp == t);
+		Assert::AreEqual(s, sut.symbol);
+		Assert::AreEqual(p, sut.price);
+		Assert::AreEqual(v, sut.volume);
+		Assert::AreEqual(t, sut.timestamp);
 	}
 
 	TEST_METHOD(EmptyMessage)
 	{
 		auto line = "";
 		auto func = [line] { TickMsg::Parse(line); };
-
 		Assert::ExpectException<ParsingException>(func);
 	}
 
@@ -38,7 +37,6 @@ public:
 	{
 		auto line = "WRONG WRONG WRONG";
 		auto func = [line] { TickMsg::Parse(line); };
-
 		Assert::ExpectException<ParsingException>(func);
 	}
 
@@ -46,7 +44,6 @@ public:
 	{
 		auto line = "RESET";
 		auto func = [line] { TickMsg::Parse(line); };
-
 		Assert::ExpectException<ResetException>(func);
 	}
 
@@ -54,7 +51,6 @@ public:
 	{
 		auto line = "QUIT";
 		auto func = [line] { TickMsg::Parse(line); };
-
 		Assert::ExpectException<QuitException>(func);
 	}
 };

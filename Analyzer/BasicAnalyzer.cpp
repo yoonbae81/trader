@@ -23,7 +23,7 @@ int BasicAnalyzer::CalcStrength(Ticks ticks)
 void BasicAnalyzer::UpdateStoploss(Ticks ticks)
 {
 
-	// @todo Calculate new stoploss and Put into ticks
+	// @todo Calculate new stoploss and AddTick into ticks
 }
 
 size_t BasicAnalyzer::GetCurrency()

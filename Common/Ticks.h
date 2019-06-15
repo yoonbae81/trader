@@ -4,9 +4,9 @@
 
 using std::string;
 
-struct Ticks { 
+struct Ticks {
 	Ticks();
-	bool Put(const TickMsg &m);	// TODO Rename to ADD
+	bool AddTick(const TickMsg& m);
 
 	const std::vector<double>& prices() const;
 	const std::vector<double>& volumes() const;
@@ -14,10 +14,10 @@ struct Ticks {
 	time_t timestamp{};
 
 private:
-	static const size_t kNumKeep = 30;	// number of ticks to keep from DeleteOld
+	static const size_t kNumKeep = 100;	// number of ticks to keep from DeleteOld
 
 	void AddValue(std::vector<double>& v, double value);
-	void DeleteOld(std::vector<double>& v);
+	void DeleteOld(std::vector<double>& v, size_t num_keep);
 
 	//std::mutex mutex;
 	std::vector<double> prices_;

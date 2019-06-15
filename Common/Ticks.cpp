@@ -3,14 +3,14 @@
 
 using namespace std;
 
-Ticks::Ticks()
+Ticks::Ticks() 
 {
-	int capacity = rand() % 5000 + 1000;
+	int capacity = rand() % 3000 + 1000;
 	prices_.reserve(capacity);
 	volumes_.reserve(capacity);
 }
 
-bool Ticks::Put(const TickMsg& m) {
+bool Ticks::AddTick(const TickMsg& m) {
 	bool added = false;
 
 	if (timestamp == m.timestamp) {
@@ -29,14 +29,14 @@ bool Ticks::Put(const TickMsg& m) {
 
 void Ticks::AddValue(vector<double>& v, double value) {
 	if (v.capacity() == v.size())
-		DeleteOld(v);
+		DeleteOld(v, kNumKeep);
 	v.emplace_back(value);
 }
 
-void Ticks::DeleteOld(std::vector<double>& v)
+void Ticks::DeleteOld(std::vector<double>& v, size_t num_keep)
 {
-	std::copy(v.end() - kNumKeep, v.end(), v.begin());
-	v.erase(v.begin() + kNumKeep, v.end());
+	std::copy(v.end() - num_keep, v.end(), v.begin());
+	v.erase(v.begin() + num_keep, v.end());
 }
 
 const std::vector<double>& Ticks::prices() const

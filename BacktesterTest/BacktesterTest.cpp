@@ -31,12 +31,9 @@ public:
 		Assert::AreEqual(string("AAAAAA"), fetcher.GetMessage().symbol);
 		Assert::AreEqual(string("BBBBBB"), fetcher.GetMessage().symbol);
 
-		try {
-			auto m = fetcher.GetMessage(); // no more messages
-		}
-		catch (QuitException) {
-			Assert::IsTrue(true);
-		}
+		// no more message
+		try { auto m = fetcher.GetMessage(); }
+		catch (QuitException) { Assert::IsTrue(true); }
 	}
 
 	TEST_METHOD_CLEANUP(DeleteFile) {
