@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "BacktestBroker.h"
 #include "BacktestFetcher.h"
-#include "../StrengthAnalyzer/Parameter.h"
-#include "../StrengthAnalyzer/BasicAnalyzer.h"
-#include "../Common/Loop.h"
+#include "../Strategy/Parameter.h"
+#include "../Strategy/BasicAnalyzer.h"
+#include "../Library/Loop.h"
 
 using namespace std;
 using namespace concurrency;

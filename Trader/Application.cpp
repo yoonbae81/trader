@@ -7,6 +7,7 @@ int main()
 	// Trader is integrated executable containing every modules
 
 	clog << "yQuant Trader starting..." << endl;
+
 	// m : an object that retrieve a price message from zmq socket
 	//- parse port number and strategy name from command line arguments
 	//- create zmq context and open a socket with port number given

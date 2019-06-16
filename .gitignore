@@ -251,5 +251,4 @@ NuGetBuild
 WiX.Toolset.DummyFile.txt
 GitHubVS.sln.DotSettings
 
-lib/
-include/
+References/

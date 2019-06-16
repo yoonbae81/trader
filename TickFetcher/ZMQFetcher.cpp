@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../Common/TickMsg.h"
+#include "../Library/TickMsg.h"
 #include "ZMQFetcher.h"
 
 using namespace std;
