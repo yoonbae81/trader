@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "OrderMsg.h"
 
-OrderMsg::OrderMsg(const std::string symbol, const double price, const size_t quantity, const time_t timestamp)
+using namespace std;
+
+OrderMsg::OrderMsg(const string& symbol, double price, double quantity, time_t timestamp)
 {
 }

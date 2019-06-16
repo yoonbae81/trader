@@ -12,10 +12,14 @@
 #include <sstream>
 #include <string>
 #include <thread>
-// #include <tuple>
 #include <random>
 #include <vector>
 #include <unordered_map>
+
+#include <agents.h>
+#include <concurrent_unordered_map.h>
+#include <ppl.h>
+
 //#include "ta-lib/ta_libc.h"
 //#include "zmq/zmq.h"
 

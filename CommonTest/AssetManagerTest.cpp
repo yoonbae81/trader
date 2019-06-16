@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../AssetManager/AssetManager.h"
+#include "../Common/AssetManager.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

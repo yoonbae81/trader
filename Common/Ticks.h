@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "TickMsg.h"
 
-using std::string;
+using namespace std;
 
 struct Ticks {
 	Ticks();
