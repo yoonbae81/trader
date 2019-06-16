@@ -8,9 +8,19 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 TEST_CLASS(TicksTest)
 {
 public:
+
+	TEST_METHOD(CapacityTest) {
+		auto sut = Ticks();
+
+		auto expected = sut.capacity();
+		auto actual = sut.prices().capacity();
+
+		Assert::AreEqual(expected, actual);
+	}
+
 	TEST_METHOD(PutTest) {
 
-		string line("AAAAAA 3000 10 1234512345");
+		string line("AAAAAA 3000 10 1000000000");
 		auto m = TickMsg::Parse(line);
 	
 		auto sut = Ticks();
@@ -31,17 +41,18 @@ public:
 
 	TEST_METHOD(PutTest_Multiple) {
 		auto count = 1000 * 1000;
-		auto line = "AAAAAA 3000 10 1234512345";
+		auto line = "AAAAAA 3000 10 1000000000";
 		auto msg = TickMsg::Parse(line);
-		auto sut = Ticks();
 
+		auto sut = Ticks();
+		// TODO use parallel_for
 		for (auto i = 0; i < count; i++) {
 			msg.timestamp += i;
 			sut.AddTick(msg);
 		}
 		
-		auto expected = count;
-		auto actual = (int) sut.prices().size();
+		auto expected = count % (sut.capacity() - sut.kNumKeep);
+		auto actual = sut.prices().size();
 	
 		Assert::AreEqual(expected, actual);
 	}

@@ -4,5 +4,5 @@ using namespace std;
 
 int main()
 {
-	cout << "Starting Asset Manager" << endl;
+	clog << "Starting Order Processor" << endl;
 }
