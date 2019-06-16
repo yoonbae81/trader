@@ -152,7 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="Asset.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Holding.h" />
@@ -163,7 +163,7 @@
     <ClInclude Include="Ticks.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="Asset.cpp" />
     <ClCompile Include="Library.cpp" />
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="OrderMsg.cpp" />

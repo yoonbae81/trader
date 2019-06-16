@@ -161,7 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AssetManagerTest.cpp" />
+    <ClCompile Include="AssetTest.cpp" />
     <ClCompile Include="BacktesterTest.cpp" />
     <ClCompile Include="LoopTest.cpp" />
     <ClCompile Include="pch.cpp">

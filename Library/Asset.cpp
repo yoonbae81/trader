@@ -1,11 +1,11 @@
 #include "pch.h"
-#include "AssetManager.h"
+#include "Asset.h"
 
-AssetManager::AssetManager(double cash) : cash_(cash)
+Asset::Asset(double cash) : cash_(cash)
 {
 }
 
-void AssetManager::Bought(const string& symbol, double quantity, double price)
+void Asset::Bought(const string& symbol, double quantity, double price)
 {
 	auto& h = holdings_[symbol];
 
@@ -22,7 +22,7 @@ void AssetManager::Bought(const string& symbol, double quantity, double price)
 	while (!cash_.compare_exchange_weak(current_cash, current_cash - quantity * price));
 }
 
-void AssetManager::Sold(const string& symbol, double quantity, double price)
+void Asset::Sold(const string& symbol, double quantity, double price)
 {
 	Holding& h = holdings_[symbol];
 
@@ -36,21 +36,21 @@ void AssetManager::Sold(const string& symbol, double quantity, double price)
 	while (!cash_.compare_exchange_weak(current_cash, current_cash + quantity * price));
 }
 
-double AssetManager::cash() const
+double Asset::cash() const
 {
 	return cash_.load();
 }
-double AssetManager::quantity(const string& symbol) const
+double Asset::quantity(const string& symbol) const
 {
 	return holdings_.at(symbol).quantity;
 }
 
-double AssetManager::price(const string& symbol) const
+double Asset::price(const string& symbol) const
 {
 	return holdings_.at(symbol).price;
 }
 
-void AssetManager::run()
+void Asset::run()
 {
 	// TODO Subscribe holdings_ from TickFetcher
 	// TODO Compare the current price to calculated stoploss price

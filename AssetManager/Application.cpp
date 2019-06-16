@@ -9,7 +9,7 @@ int main()
 	// TODO Subscribe holdings' tick from TickFetcher
 
 	std::clog << "Starting Asset Manager" << endl;
-	//AssetManager am(1000);
+	//Asset am(1000);
 	//am.start();
 
 	return EXIT_SUCCESS;
