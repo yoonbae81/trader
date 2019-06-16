@@ -8,7 +8,7 @@ TEST_CLASS(AssetManagerTest)
 {
 public:
 
-	TEST_METHOD(TestCtor)
+	TEST_METHOD(CtorTest)
 	{
 		auto cash = 1000.0;
 		auto expected = cash;
@@ -19,7 +19,7 @@ public:
 		Assert::AreEqual(expected, actual);
 	}
 
-	TEST_METHOD(TestCash)
+	TEST_METHOD(CashTest)
 	{
 		auto cash = 1000.0;
 		auto symbol = "AAAAAA";
@@ -30,6 +30,12 @@ public:
 		auto expected = cash;
 
 		parallel_invoke(
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); },
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); },
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); },
 			[&] { sut.Bought(symbol, quantity, price); },
 			[&] { sut.Sold(symbol, quantity, price); });
 		auto actual = sut.cash();
@@ -37,7 +43,7 @@ public:
 		Assert::AreEqual(expected, actual);
 	}
 
-	TEST_METHOD(TestQuantity)
+	TEST_METHOD(QuantityTest)
 	{
 		auto cash = 1000.0;
 		auto symbol = "AAAAAA";
@@ -45,25 +51,24 @@ public:
 
 		auto quantity = 2.0;
 		auto price = 100.0;
+		auto expected = quantity;
 
 		parallel_invoke(
 			[&] { sut.Bought(symbol, quantity, price); },
-			[&] { sut.Sold(symbol, quantity, price); },
 			[&] { sut.Bought(symbol, quantity, price); },
 			[&] { sut.Sold(symbol, quantity, price); },
 			[&] { sut.Bought(symbol, quantity, price); },
 			[&] { sut.Sold(symbol, quantity, price); },
 			[&] { sut.Bought(symbol, quantity, price); },
 			[&] { sut.Sold(symbol, quantity, price); },
-			[&] { sut.Bought(symbol, quantity, price); });
-
-		auto expected = quantity;
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); });
 		auto actual = sut.quantity(symbol);
 
 		Assert::AreEqual(expected, actual);
 	}
 
-	TEST_METHOD(TestPrice)
+	TEST_METHOD(PriceTest)
 	{
 		auto cash = 1000.0;
 		auto symbol = "AAAAAA";
@@ -79,7 +84,7 @@ public:
 		Assert::AreEqual(expected, actual);
 	}
 
-	TEST_METHOD(TestPriceAverage)
+	TEST_METHOD(PriceAverageTest)
 	{
 		auto cash = 1000.0;
 		auto symbol = "AAAAAA";
