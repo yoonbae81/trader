@@ -6,10 +6,10 @@ struct OrderMsg {
 	OrderMsg(const std::string symbol, const double price, const size_t quantity, const time_t timestamp);
 
 	std::string symbol;
-	double price {};
+	double price{};
 	size_t quantity{};
-	time_t timestamp {};
+	time_t timestamp{};
 
-	OrderMsg(const OrderMsg &src) = delete;
-	OrderMsg& operator=(const OrderMsg &rhs) = delete;
+	OrderMsg(const OrderMsg& src) = delete;
+	OrderMsg& operator=(const OrderMsg& rhs) = delete;
 };

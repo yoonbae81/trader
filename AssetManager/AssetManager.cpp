@@ -1,48 +1,58 @@
 #include "pch.h"
 #include "AssetManager.h"
 
-AssetManager::AssetManager(double cash)
+AssetManager::AssetManager(double cash) : cash_(cash)
 {
-	send(cash_, cash);
 }
 
 void AssetManager::Bought(const string& symbol, double quantity, double price)
 {
-	critical_section::scoped_lock lock();
+	auto& h = holdings_[symbol];
 
-	pair<double, double> qp_old = holdings[symbol];
-	auto quantity_old = qp_old.first;
-	auto quantity_new = quantity_old + quantity;
-	auto price_old = qp_old.second;
-	auto price_new = (quantity_old * price_old + quantity * price) / (quantity_old + quantity);
-	holdings[symbol] = make_pair(quantity_new, price_new);
+	critical_section::scoped_lock(*h.mutex);
+	{
+		auto quantity_old = h.quantity;
+		auto price_old = h.price;
 
-	double cash_old = receive(cash_);
-	double cash_new = cash_old - (quantity * price);
-	send(cash_, cash_new);
+		h.quantity = quantity_old + quantity;
+		h.price = (quantity_old * price_old + quantity * price) / (quantity_old + quantity);
+	}
+
+	auto current_cash = cash_.load();
+	while (!cash_.compare_exchange_weak(current_cash, current_cash - quantity * price));
 }
 
 void AssetManager::Sold(const string& symbol, double quantity, double price)
 {
+	Holding& h = holdings_[symbol];
+
+	critical_section::scoped_lock(*h.mutex);
+	{
+		auto quantity_old = h.quantity;
+		h.quantity -= quantity;
+	}
+
+	auto current_cash = cash_.load();
+	while (!cash_.compare_exchange_weak(current_cash, current_cash + quantity * price));
 }
 
-double AssetManager::cash()
+double AssetManager::cash() const
 {
-	return receive(cash_);
+	return cash_.load();
 }
-double AssetManager::quantity(const string& symbol)
+double AssetManager::quantity(const string& symbol) const
 {
-	return holdings[symbol].first;
+	return holdings_.at(symbol).quantity;
 }
 
-double AssetManager::price(const string& symbol)
+double AssetManager::price(const string& symbol) const
 {
-	return holdings[symbol].second;
+	return holdings_.at(symbol).price;
 }
 
 void AssetManager::run()
 {
-	// TODO Subscribe holdings from TickFetcher
+	// TODO Subscribe holdings_ from TickFetcher
 	// TODO Compare the current price to calculated stoploss price
 	// TODO When stoploss activated, Send an Order
 	done();

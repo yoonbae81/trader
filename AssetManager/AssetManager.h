@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "Holding.h"
 
 using namespace std;
 using namespace concurrency;
@@ -14,15 +15,14 @@ public:
 	void Bought(const string& symbol, double quantity, double price);
 	void Sold(const string& symbol, double quantity, double price);
 
-	double cash();
-	double quantity(const string& symbol);
-	double price(const string& symbol);
+	double cash() const;
+	double quantity(const string& symbol) const;
+	double price(const string& symbol) const;
 
 protected:
 	void run() override;
 
 private:
-	overwrite_buffer<double> cash_;
-	concurrent_unordered_map<string, pair<double, double>> holdings; // quantity, average_price
-	//concurrent_unordered_map<string, pair<double, double>> holdings; // pair.fisrt = quantity, pair.second = price
+	atomic<double> cash_;
+	concurrent_unordered_map<string, Holding> holdings_;
 };

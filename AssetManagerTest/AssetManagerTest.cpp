@@ -27,9 +27,11 @@ public:
 
 		auto quantity = 2.0;
 		auto price = 100.0;
-		auto expected = cash - (quantity * price);
+		auto expected = cash;
 
-		sut.Bought(symbol, quantity, price);
+		parallel_invoke(
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); });
 		auto actual = sut.cash();
 
 		Assert::AreEqual(expected, actual);
@@ -44,10 +46,18 @@ public:
 		auto quantity = 2.0;
 		auto price = 100.0;
 
-		sut.Bought(symbol, quantity, price);
-		sut.Bought(symbol, quantity, price);
+		parallel_invoke(
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); },
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); },
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); },
+			[&] { sut.Bought(symbol, quantity, price); },
+			[&] { sut.Sold(symbol, quantity, price); },
+			[&] { sut.Bought(symbol, quantity, price); });
 
-		auto expected = quantity * 2;
+		auto expected = quantity;
 		auto actual = sut.quantity(symbol);
 
 		Assert::AreEqual(expected, actual);
@@ -88,26 +98,4 @@ public:
 
 		Assert::AreEqual(expected, actual);
 	}
-
-	//TEST_METHOD(TestSold)
-	//{
-	//	auto cash = 1000.0;
-	//	auto symbol = "AAAAAA";
-	//	AssetManager sut(cash);
-
-	//	auto quantity = 2.0;
-	//	auto price = 100.0;
-	//	auto expected = cash - (quantity * price);
-	//
-	//	sut.Bought(symbol, quantity, price);
-	//	auto actual = sut.cash();
-
-	//	Assert::AreEqual(expected, actual);
-
-	//	h.Bought(2, 1000);
-	//	h.Sold(1, 1000);
-	//	Assert::AreEqual(size_t(1), h.quantity());
-	//	Assert::AreEqual(1000.0, h.average_price());
-	//}
-
 };
