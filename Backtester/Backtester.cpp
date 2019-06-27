@@ -8,12 +8,22 @@ using namespace std;
 using namespace concurrency;
 
 int main() {
-	clog << "Backtest started" << endl;
+	clog << "Starting Backtest..." << endl;
+
+	concurrent_unordered_map<string, Holding> holdings;
+	concurrent_unordered_map<string, double> stoploss;
+
+	int major = 0;
+	int minor = 0;
+	int patch = 0;
+	zmq_version(&major, &minor, &patch);
+	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
+
 
 	double cash = 10000;
 	Asset asset(cash);
 	// TODO Load asset from a file or somewhere persistent
-	
+
 	string paramFile = "basicParam.txt";
 	Parameter p = Parameter::Parse(paramFile);
 	Strategy strategy(p);
@@ -30,7 +40,7 @@ int main() {
 
 
 	clog << "Backtest finished" << endl;
-	
+
 	return EXIT_SUCCESS;
 }
 

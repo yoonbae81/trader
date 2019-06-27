@@ -1,10 +1,20 @@
 #include "pch.h"
+#include "../Library/Ticks.h"
 
 using namespace std;
 using namespace concurrency;
 
 int main() {
 	clog << "Starting Analyzer..." << endl;
+
+	int major = 0;
+	int minor = 0;
+	int patch = 0;
+	zmq_version(&major, &minor, &patch);
+	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
+
+	concurrent_unordered_map<string, Ticks> ticks;
+
 	clog << "Calculating..." << endl;
 
 	return EXIT_SUCCESS;

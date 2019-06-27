@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Ticks::Ticks() : re_ {mt19937((unsigned int)time(NULL))}, dist_ {5000, 10000}, capacity {dist_(re_)} {
+Ticks::Ticks() : capacity(rand() % 9999 + 9999) {
 	prices.reserve(capacity);
 	quantities.reserve(capacity);
 }

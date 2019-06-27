@@ -17,10 +17,12 @@
 #include <thread>
 #include <random>
 #include <vector>
-#include <unordered_map>
+
 #include <ppl.h>
 #include <agents.h>
+#include <concurrent_unordered_map.h>
 
+#include <zmq.h>
 //#include "ta-lib/ta_libc.h"
 //#include "zmq/zmq.h"
 

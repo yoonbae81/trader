@@ -21,4 +21,6 @@
 
 #include <ppl.h>
 #include <agents.h>
+
+#include <zmq.h>
 #endif //PCH_H_TEST

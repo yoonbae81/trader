@@ -3,12 +3,18 @@
 using namespace std;
 using namespace concurrency;
 
-int main()
-{
+int main() {
 	cout << "Starting Fetcher..." << endl;
 
-	//class ZmqSubSource : public source_block<multi_link_registry<ISource<string>>>;
+	int major = 0;
+	int minor = 0;
+	int patch = 0;
+	zmq_version(&major, &minor, &patch);
+	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
+
+	return EXIT_SUCCESS;
 }
+
 
 //while (true) {
 //	try {

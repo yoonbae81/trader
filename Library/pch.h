@@ -13,6 +13,7 @@
 #include <deque>
 #include <iostream>
 #include <iterator>
+#include <functional>
 #include <memory>
 #include <mutex>
 #include <sstream>
@@ -27,6 +28,7 @@
 #include <concurrent_vector.h>
 #include <concurrent_unordered_map.h>
 
+#include <zmq.h>
 //#include "ta-lib/ta_libc.h"
 //#include "zmq/zmq.h"
 
