@@ -6,10 +6,11 @@ using namespace concurrency;
 
 struct Holding {
 	double quantity{};
-	double price{};
+	double bought_price{};
+	double current_price{};
 	unique_ptr<critical_section> mutex;
 
-	Holding() : mutex(make_unique<critical_section>()) { }
+	Holding() : mutex(make_unique<critical_section>()) {};
 
 	//Holding(const Holding& src) = delete;
 	//Holding(Holding&& src) = delete;

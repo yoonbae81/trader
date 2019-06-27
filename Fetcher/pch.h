@@ -1,5 +1,5 @@
-#ifndef PCH_BACKTESTER_H
-#define PCH_BACKTESTER_H
+#ifndef PCH_FETCHER_H
+#define PCH_FETCHER_H
 
 #include <algorithm>
 #include <ctime>
@@ -17,4 +17,4 @@
 #include <agents.h>
 #include <concurrent_vector.h>
 
-#endif //PCH_BACKTESTER_H
+#endif //PCH_FETCHER_H

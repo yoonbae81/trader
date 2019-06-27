@@ -7,9 +7,6 @@
 #ifndef PCH_H_LIBRARY
 #define PCH_H_LIBRARY
 
-// add headers that you want to pre-compile here
-#include "framework.h"
-
 #include <cassert>
 #include <algorithm>
 #include <ctime>

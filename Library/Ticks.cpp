@@ -3,24 +3,21 @@
 
 using namespace std;
 
-Ticks::Ticks()
-	: re_{ mt19937((unsigned int) time(NULL)) }, dist_{ 5000, 10000 }, capacity_{ dist_(re_) }
-{
-	prices_.reserve(capacity_);
-	volumes_.reserve(capacity_);
+Ticks::Ticks() : re_ {mt19937((unsigned int)time(NULL))}, dist_ {5000, 10000}, capacity {dist_(re_)} {
+	prices.reserve(capacity);
+	quantities.reserve(capacity);
 }
 
 bool Ticks::AddTick(const TickMsg& m) {
 	bool added = false;
 
-	if (lastest_timestamp == m.lastest_timestamp) {
-		prices_.back() = m.price;
-		volumes_.back() += m.volume;
-	}
-	else {
-		AddValue(prices_, m.price);
-		AddValue(volumes_, m.volume);
-		lastest_timestamp = m.lastest_timestamp;
+	if (timestamp == m.timestamp) {
+		prices.back() = m.price;
+		quantities.back() += m.quantity;
+	} else {
+		AddValue(prices, m.price);
+		AddValue(quantities, m.quantity);
+		timestamp = m.timestamp;
 		added = true;
 	}
 
@@ -33,26 +30,8 @@ void Ticks::AddValue(vector<double>& v, double value) {
 	v.emplace_back(value);
 }
 
-void Ticks::DeleteOld(std::vector<double>& v, size_t num_keep)
-{
-	std::copy(v.end() - num_keep, v.end(), v.begin());
+void Ticks::DeleteOld(vector<double>& v, size_t num_keep) {
+	copy(v.end() - num_keep, v.end(), v.begin());
 	v.erase(v.begin() + num_keep, v.end());
 }
 
-
-
-
-const size_t Ticks::capacity() const
-{
-	return capacity_;
-}
-
-const std::vector<double>& Ticks::prices() const
-{
-	return prices_;
-}
-
-const std::vector<double>& Ticks::volumes() const
-{
-	return volumes_;
-}

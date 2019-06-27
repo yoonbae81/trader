@@ -7,7 +7,7 @@
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-TEST_CLASS(TickMsgTest)
+TEST_CLASS(MessageTest)
 {
 public:
 	TEST_METHOD(CorrectMessage)
@@ -22,8 +22,8 @@ public:
 
 		Assert::AreEqual(s, sut.symbol);
 		Assert::AreEqual(p, sut.price);
-		Assert::AreEqual(v, sut.volume);
-		Assert::AreEqual(t, sut.lastest_timestamp);
+		Assert::AreEqual(v, sut.quantity);
+		Assert::AreEqual(t, sut.timestamp);
 	}
 
 	TEST_METHOD(EmptyMessage)

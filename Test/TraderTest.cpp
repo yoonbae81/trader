@@ -9,8 +9,8 @@ namespace TraderTest
 	{
 	public:
 		
-	/*	TEST_METHOD(TestMethod1)
+		TEST_METHOD(TestMethod1)
 		{
-		}*/
+		}
 	};
 }
