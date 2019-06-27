@@ -153,24 +153,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Asset.h" />
-    <ClInclude Include="BrokerAgent.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Parameter.h" />
     <ClInclude Include="StoplossMsg.h" />
     <ClInclude Include="Holding.h" />
-    <ClInclude Include="AnalyzerAgent.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SignalMsg.h" />
     <ClInclude Include="Strategy.h" />
     <ClInclude Include="TickMsg.h" />
-    <ClInclude Include="FetcherAgent.h" />
     <ClInclude Include="Ticks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
-    <ClCompile Include="BrokerAgent.cpp" />
-    <ClCompile Include="AnalyzerAgent.cpp" />
-    <ClCompile Include="FetcherAgent.cpp" />
     <ClCompile Include="Parameter.cpp" />
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="Ticks.cpp" />

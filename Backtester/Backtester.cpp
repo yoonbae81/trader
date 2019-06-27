@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "../Library/Asset.h"
 #include "../Library/Exceptions.h"
-#include "../Library/FetcherAgent.h"
-#include "../Library/AnalyzerAgent.h"
-#include "../Library/BrokerAgent.h"
 #include "../Library/Parameter.h"
 #include "../Library/Strategy.h"
 
@@ -30,17 +27,7 @@ int main() {
 	//TickFetcherAgent tf(*source);
 
 	unbounded_buffer<string> tick_buffer, signal_buffer, stoploss_buffer;
-	FetcherAgent fetcher(stoploss_buffer, tick_buffer, signal_buffer);
-	AnalyzerAgent analyzer(tick_buffer, signal_buffer);
-	BrokerAgent broker(signal_buffer, stoploss_buffer, asset);
 
-	fetcher.start();
-	analyzer.start();
-	broker.start();
-
-	agent::wait(&fetcher);
-	agent::wait(&analyzer);
-	agent::wait(&broker);
 
 	clog << "Backtest finished" << endl;
 	
