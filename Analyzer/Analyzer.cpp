@@ -1,11 +1,15 @@
 #include "pch.h"
 #include "../Library/Ticks.h"
 
+#include "../Strategy/Parameter.h"
+#include "../Strategy/Strategy.h"
+
 using namespace std;
 using namespace concurrency;
 
 int main() {
 	clog << "Starting Analyzer..." << endl;
+	concurrent_unordered_map<string, Ticks> ticks;
 
 	int major = 0;
 	int minor = 0;
@@ -13,7 +17,12 @@ int main() {
 	zmq_version(&major, &minor, &patch);
 	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
 
-	concurrent_unordered_map<string, Ticks> ticks;
+	string paramFile = "basicParam.txt";
+	Parameter p = Parameter::Parse(paramFile);
+	Strategy strategy(p);
+
+	clog << "Strategy initalized" << endl;
+	clog << "Parameter: " << p.threshold << endl;
 
 	clog << "Calculating..." << endl;
 

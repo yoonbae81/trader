@@ -164,19 +164,15 @@
   <ItemGroup>
     <ClInclude Include="Asset.h" />
     <ClInclude Include="Exceptions.h" />
-    <ClInclude Include="Parameter.h" />
     <ClInclude Include="StoplossMsg.h" />
     <ClInclude Include="Holding.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SignalMsg.h" />
-    <ClInclude Include="Strategy.h" />
     <ClInclude Include="TickMsg.h" />
     <ClInclude Include="Ticks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
-    <ClCompile Include="Parameter.cpp" />
-    <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="Ticks.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,16 +1,18 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../Library/Parameter.h"
-#include "../Library/Strategy.h"
+#include "../Strategy/Strategy.h"
 
+using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 TEST_CLASS(StrategyTest) {
 public:
-	TEST_METHOD(CtorTest) {
+	TEST_METHOD(DummyTest) {
 		Parameter p = Parameter::Parse("NoFile");
 		Strategy sut(p);
 
-		//Assert::AreEqual(expected, actual);
+		auto expected = 3;
+		auto actual = p.threshold;
+		Assert::AreEqual(expected, actual);
 	}
 };

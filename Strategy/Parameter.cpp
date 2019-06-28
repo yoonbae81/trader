@@ -7,5 +7,6 @@ Parameter::Parameter() {}
 
 Parameter Parameter::Parse(const string& filepath) {
 	Parameter p;
+	p.threshold = 3;
 	return p;
 }

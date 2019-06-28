@@ -39,24 +39,12 @@
     <ClInclude Include="Asset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Parameter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Strategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ticks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Asset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Parameter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Strategy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
