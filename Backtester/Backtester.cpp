@@ -12,6 +12,14 @@ int main() {
 	zmq_version(&major, &minor, &patch);
 	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
 
+	zmq::context_t ctx;
+
+	zmq::socket_t sock_tick(ctx, zmq::socket_type::pub);
+	sock_tick.connect("tcp://127.0.0.1:3001");
+
+	zmq::socket_t sock_signal(ctx, zmq::socket_type::sub);
+	sock_signal.bind("tcp://127.0.0.1:9999");
+	
 	concurrent_unordered_map<string, Holding> holdings;
 	concurrent_unordered_map<string, double> stoploss;
 

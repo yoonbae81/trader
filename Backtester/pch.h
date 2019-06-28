@@ -16,5 +16,5 @@
 #include <concurrent_vector.h>
 #include <concurrent_unordered_map.h>
 
-#include <zmq.h>
+#include <zmq.hpp>
 #endif //PCH_BACKTESTER_H
