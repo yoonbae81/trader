@@ -11,11 +11,17 @@ int main() {
 	clog << "Starting Analyzer..." << endl;
 	concurrent_unordered_map<string, Ticks> ticks;
 
-	int major = 0;
-	int minor = 0;
-	int patch = 0;
-	zmq_version(&major, &minor, &patch);
+	int major, minor, patch = 0;
+	zmq::version(&major, &minor, &patch);
 	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
+
+	zmq::context_t ctx;
+
+	zmq::socket_t sock_tick(ctx, zmq::socket_type::sub);
+	sock_tick.bind("tcp://127.0.0.1:3001");
+
+	zmq::socket_t sock_signal(ctx, zmq::socket_type::pub);
+	sock_signal.connect("tcp://127.0.0.1:9999");
 
 	string paramFile = "basicParam.txt";
 	Parameter p = Parameter::Parse(paramFile);
@@ -23,6 +29,12 @@ int main() {
 
 	clog << "Strategy initalized" << endl;
 	clog << "Parameter: " << p.threshold << endl;
+
+
+
+	// Bind a SUB socket for TickMsg
+	// Bind a PUB socket for SignalMsg
+
 
 	clog << "Calculating..." << endl;
 

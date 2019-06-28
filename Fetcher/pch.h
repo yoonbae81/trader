@@ -17,5 +17,5 @@
 #include <agents.h>
 #include <concurrent_vector.h>
 
-#include <zmq.h>
+#include <zmq.hpp>
 #endif //PCH_FETCHER_H

@@ -22,7 +22,7 @@
 #include <agents.h>
 #include <concurrent_unordered_map.h>
 
-#include <zmq.h>
+#include <zmq.hpp>
 //#include "ta-lib/ta_libc.h"
 //#include "zmq/zmq.h"
 

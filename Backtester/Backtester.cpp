@@ -8,19 +8,15 @@ using namespace concurrency;
 int main() {
 	clog << "Starting Backtest..." << endl;
 
-	concurrent_unordered_map<string, Holding> holdings;
-	concurrent_unordered_map<string, double> stoploss;
-
-	int major = 0;
-	int minor = 0;
-	int patch = 0;
+	int major, minor, patch = 0;
 	zmq_version(&major, &minor, &patch);
 	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
 
+	concurrent_unordered_map<string, Holding> holdings;
+	concurrent_unordered_map<string, double> stoploss;
 
-	double cash = 10000;
-	Asset asset(cash);
-	// TODO Load asset from a file or somewhere persistent
+	// init output socket for Fetcher
+	// init input socket for 
 
 	//string filename = "10lines.txt";
 	//unique_ptr<istream> source = make_unique<ifstream>(filename);
@@ -30,7 +26,6 @@ int main() {
 	//}
 	//TickFetcherAgent tf(*source);
 
-	unbounded_buffer<string> tick_buffer, signal_buffer, stoploss_buffer;
 
 
 	clog << "Backtest finished" << endl;
