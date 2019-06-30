@@ -164,13 +164,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Backtester.cpp" />
-    <ClCompile Include="BrokerAgent.cpp" />
-    <ClCompile Include="FetcherAgent.cpp" />
+    <ClCompile Include="OrderWriter.cpp" />
+    <ClCompile Include="SignalHandler.cpp" />
+    <ClCompile Include="TickReader.cpp" />
+    <ClCompile Include="StoplossMonitor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BrokerAgent.h" />
-    <ClInclude Include="FetcherAgent.h" />
+    <ClInclude Include="OrderWriter.h" />
+    <ClInclude Include="SignalHandler.h" />
+    <ClInclude Include="TIckReader.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="StoplossMonitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

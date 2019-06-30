@@ -9,9 +9,12 @@
 
 // add headers that you want to pre-compile here
 #include <algorithm>
+#include <cstdio> // for remove() file
 #include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
+#include <fstream>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -23,4 +26,5 @@
 #include <agents.h>
 
 #include <zmq.h>
+#include <json.hpp>
 #endif //PCH_H_TEST

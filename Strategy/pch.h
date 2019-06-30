@@ -13,4 +13,6 @@
 #include <windows.h>
 #include <ppl.h>
 
+#include <json.hpp>
+
 #endif //PCH_STRATEGY_H

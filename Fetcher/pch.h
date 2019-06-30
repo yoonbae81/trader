@@ -18,4 +18,5 @@
 #include <concurrent_vector.h>
 
 #include <zmq.hpp>
+#include <json.hpp>
 #endif //PCH_FETCHER_H

@@ -1,10 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
-//#include "../Backtester/BacktestFetcher.h"
 #include "../Library/Exceptions.h"
-
-#include <cstdio> // for remove() file
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

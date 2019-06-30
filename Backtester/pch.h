@@ -2,6 +2,7 @@
 #define PCH_BACKTESTER_H
 
 #include <algorithm>
+#include <chrono>
 #include <ctime>
 #include <iostream>
 #include <iterator>
@@ -17,4 +18,5 @@
 #include <concurrent_unordered_map.h>
 
 #include <zmq.hpp>
+#include <json.hpp>
 #endif //PCH_BACKTESTER_H

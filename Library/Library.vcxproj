@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="Asset.h" />
     <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="OrderMsg.h" />
     <ClInclude Include="StoplossMsg.h" />
     <ClInclude Include="Holding.h" />
     <ClInclude Include="pch.h" />

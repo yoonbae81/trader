@@ -167,6 +167,7 @@
   <ItemGroup>
     <ClCompile Include="AssetTest.cpp" />
     <ClCompile Include="BacktesterTest.cpp" />
+    <ClCompile Include="JsonTest.cpp" />
     <ClCompile Include="StrategyTest.cpp" />
     <ClCompile Include="TickMsgTest.cpp" />
     <ClCompile Include="TicksTest.cpp" />

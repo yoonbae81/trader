@@ -6,40 +6,54 @@
 
 using namespace std;
 using namespace concurrency;
+using json = nlohmann::json;
 
 int main() {
-	clog << "Starting Analyzer..." << endl;
+	clog << "Analyzer Starting..." << endl;
 	concurrent_unordered_map<string, Ticks> ticks;
 
+	auto endpoints_filename = "endpoints.json"s; // TODO get from argv
+	clog << "Loading " << endpoints_filename << "..." << endl;
+	json endpoints = json::parse(ifstream(endpoints_filename));
+	clog << "Endpoints: " << endpoints.dump() << endl;
+
+	auto parameter_filename = "parameter.json"s;
+	clog << "Loading " << parameter_filename << "..." << endl;
+	json parameter = json::parse(ifstream(parameter_filename));
+	Strategy strategy(parameter);
+	clog << "Parameter: " << parameter.dump() << endl;
+
+	clog << "ZeroMQ initalizing..." << endl;
+	zmq::context_t ctx;
 	int major, minor, patch = 0;
 	zmq::version(&major, &minor, &patch);
 	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
 
-	zmq::context_t ctx;
+	zmq::socket_t sock_tick(ctx, zmq::socket_type::pull);
+	sock_tick.bind(endpoints["analyzers"][0]);
+	clog << "Listening TickMsg at " << endpoints["analyzers"][0] << endl;
 
-	zmq::socket_t sock_tick(ctx, zmq::socket_type::sub);
-	sock_tick.bind("tcp://127.0.0.1:3001");
+	zmq::socket_t sock_signal(ctx, zmq::socket_type::push);
+	sock_signal.connect(endpoints["broker"]);
+	clog << "Connecting Broker at " << endpoints["broker"] << endl;
 
-	zmq::socket_t sock_signal(ctx, zmq::socket_type::pub);
-	sock_signal.connect("tcp://127.0.0.1:9999");
+	while (true) {
+		zmq::message_t buffer;
+		sock_tick.recv(buffer);
+		clog << "Received: " << buffer.data() << endl;
 
-	string paramFile = "basicParam.txt";
-	Parameter p = Parameter::Parse(paramFile);
-	Strategy strategy(p);
+		clog << "Calculating..." << endl;
+		this_thread::sleep_for(20ms);
 
-	clog << "Strategy initalized" << endl;
-	clog << "Parameter: " << p.threshold << endl;
-
-
-
-	// Bind a SUB socket for TickMsg
-	// Bind a PUB socket for SignalMsg
-
-
-	clog << "Calculating..." << endl;
+		ostringstream out;
+		out << "AAAAAA " << strategy.CalcStrength();
+		sock_signal.send(zmq::buffer(out.str()), zmq::send_flags::dontwait);
+		clog << "Sent: " << out.str() << endl;
+	}
 
 	return EXIT_SUCCESS;
 }
+
 
 //auto ticks = ticksMap[msg.symbol];
 //ticks.AddTick(msg);

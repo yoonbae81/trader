@@ -1,11 +1,14 @@
 #include "pch.h"
 #include "Strategy.h"
-#include "Parameter.h"
 
-Strategy::Strategy(const Parameter& p) {
+using namespace std;
+using json = nlohmann::json;
+
+
+Strategy::Strategy(const json& parameter) : parameter_(parameter) {
 	return;
 }
 
 int Strategy::CalcStrength() {
-	return 0;
+	return rand() % 10;
 }

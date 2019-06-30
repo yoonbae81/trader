@@ -11,6 +11,7 @@
 #include <ctime>
 #include <iostream>
 #include <iterator>
+#include <fstream>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -23,6 +24,7 @@
 #include <concurrent_unordered_map.h>
 
 #include <zmq.hpp>
+#include <json.hpp>
 //#include "ta-lib/ta_libc.h"
 //#include "zmq/zmq.h"
 

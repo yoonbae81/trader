@@ -10,12 +10,18 @@
 #define STRATEGY_API __declspec(dllimport)
 #endif
 
-#include "Parameter.h"
+#include "pch.h"
+
+using namespace std;
+using json = nlohmann::json;
 
 class STRATEGY_API Strategy {
 public:
-	Strategy(const Parameter& parameter);
+	Strategy(const json& parameter);
 
 	int CalcStrength();
+
+private:
+	json parameter_;
 };
 

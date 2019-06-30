@@ -1,40 +1,45 @@
 #include "pch.h"
 #include "../Library/Asset.h"
 #include "../Library/Exceptions.h"
+#include "../Library/TickMsg.h"
+#include "../Library/SignalMsg.h"
+#include "../Library/StoplossMsg.h"
+#include "TickReader.h"
+#include "SignalHandler.h"
+#include "StoplossMonitor.h"
+#include "OrderWriter.h"
 
 using namespace std;
 using namespace concurrency;
+using json = nlohmann::json;
 
 int main() {
 	clog << "Starting Backtest..." << endl;
+
+	auto endpoints_filename = "endpoints.json"s; // TODO get from argv
+	clog << "Loading " << endpoints_filename << "..." << endl;
+	json endpoints = json::parse(ifstream(endpoints_filename));
+	clog << "Endpoints: " << endpoints.dump() << endl;
 
 	int major, minor, patch = 0;
 	zmq_version(&major, &minor, &patch);
 	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
 
-	zmq::context_t ctx;
+	unbounded_buffer<TickMsg> tick_buffer;
+	unbounded_buffer<SignalMsg> signal_buffer;
+	unbounded_buffer<StoplossMsg> stoploss_buffer;
 
-	zmq::socket_t sock_tick(ctx, zmq::socket_type::pub);
-	sock_tick.connect("tcp://127.0.0.1:3001");
-
-	zmq::socket_t sock_signal(ctx, zmq::socket_type::sub);
-	sock_signal.bind("tcp://127.0.0.1:9999");
-	
 	concurrent_unordered_map<string, Holding> holdings;
 	concurrent_unordered_map<string, double> stoploss;
 
-	// init output socket for Fetcher
-	// init input socket for 
+	TickReader tick_reader("temp", endpoints.at("analyzers").get<vector<string>>());
+	tick_reader.start();
 
-	//string filename = "10lines.txt";
-	//unique_ptr<istream> source = make_unique<ifstream>(filename);
-	//if (!source.is_open()) {
-	//	clog << "Couldn't open a file: " << filePath << endl;
-	//	exit(1);
-	//}
-	//TickFetcherAgent tf(*source);
+	SignalHandler signal_handler(endpoints["broker"]);
+	signal_handler.start();
 
-
+	agent::wait(&tick_reader);
+	agent::wait(&signal_handler);
 
 	clog << "Backtest finished" << endl;
 

@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include "../Library/Asset.h"
 
+using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 TEST_CLASS(AssetTest) {
