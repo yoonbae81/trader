@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "../Library/Ticks.h"
 
-#include "../Strategy/Parameter.h"
 #include "../Strategy/Strategy.h"
 
 using namespace std;
@@ -30,25 +29,26 @@ int main() {
 	clog << "ZeroMQ version: " << major << '.' << minor << '.' << patch << '\n';
 
 	zmq::socket_t sock_tick(ctx, zmq::socket_type::pull);
-	sock_tick.bind(endpoints["analyzers"][0]);
 	clog << "Listening TickMsg at " << endpoints["analyzers"][0] << endl;
+	sock_tick.bind(endpoints["analyzers"][0]);
 
 	zmq::socket_t sock_signal(ctx, zmq::socket_type::push);
-	sock_signal.connect(endpoints["broker"]);
 	clog << "Connecting Broker at " << endpoints["broker"] << endl;
+	sock_signal.connect(endpoints["broker"]);
 
 	while (true) {
 		zmq::message_t buffer;
 		sock_tick.recv(buffer);
-		clog << "Received: " << buffer.data() << endl;
+		clog << "Received TickMsg: " << buffer.data() << endl;
 
-		clog << "Calculating..." << endl;
+		clog << "Calculating Strength..." << endl;
 		this_thread::sleep_for(20ms);
+		int strength = strategy.CalcStrength();
 
 		ostringstream out;
-		out << "AAAAAA " << strategy.CalcStrength();
+		out << "AAAAAA " << strength;
 		sock_signal.send(zmq::buffer(out.str()), zmq::send_flags::dontwait);
-		clog << "Sent: " << out.str() << endl;
+		clog << "Sent SignalMsg: " << out.str() << endl;
 	}
 
 	return EXIT_SUCCESS;

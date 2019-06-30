@@ -27,7 +27,7 @@
     <ClInclude Include="OrderWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SignalHandler.h">
+    <ClInclude Include="QuantityCalculator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,11 +41,15 @@
     <ClCompile Include="OrderWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SignalHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Backtester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QuantityCalculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="endpoints.json" />
+    <None Include="parameter.json" />
   </ItemGroup>
 </Project>

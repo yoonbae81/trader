@@ -5,7 +5,7 @@
 #include "../Library/SignalMsg.h"
 #include "../Library/StoplossMsg.h"
 #include "TickReader.h"
-#include "SignalHandler.h"
+#include "QuantityCalculator.h"
 #include "StoplossMonitor.h"
 #include "OrderWriter.h"
 
@@ -28,18 +28,23 @@ int main() {
 	unbounded_buffer<TickMsg> tick_buffer;
 	unbounded_buffer<SignalMsg> signal_buffer;
 	unbounded_buffer<StoplossMsg> stoploss_buffer;
+	auto order_channel = make_unique<unbounded_buffer<OrderMsg>>();
 
 	concurrent_unordered_map<string, Holding> holdings;
 	concurrent_unordered_map<string, double> stoploss;
 
-	TickReader tick_reader("temp", endpoints.at("analyzers").get<vector<string>>());
-	tick_reader.start();
+	TickReader tr("temp", endpoints.at("analyzers").get<vector<string>>());
+	tr.start();
 
-	SignalHandler signal_handler(endpoints["broker"]);
-	signal_handler.start();
+	QuantityCalculator qc(endpoints["broker"], *order_channel);
+	qc.start();
+	
+	OrderWriter ow(*order_channel, "order.log");
+	ow.start();
 
-	agent::wait(&tick_reader);
-	agent::wait(&signal_handler);
+	agent::wait(&tr);
+	agent::wait(&qc);
+	agent::wait(&ow);
 
 	clog << "Backtest finished" << endl;
 

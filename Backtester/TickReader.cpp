@@ -30,7 +30,7 @@ void TickReader::run() {
 		// TODO Read from a file
 		const std::string_view msg = "AAAAAA 4000 10 1234512345";
 		sock->send(zmq::buffer(msg), zmq::send_flags::dontwait);
-		clog << "Sent: " << msg << endl;
+		clog << "Sent TickMsg: " << msg << endl;
 	}
 
 	done();

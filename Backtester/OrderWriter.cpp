@@ -4,7 +4,10 @@
 using namespace std;
 using namespace concurrency;
 
-OrderWriter::OrderWriter(ISource<OrderMsg>& order_channel, const string& filepath) {
+OrderWriter::OrderWriter(ISource<OrderMsg>& order_channel,
+						 const string& filepath) :
+	order_channel_(order_channel), filepath_(filepath) {
+
 	double cash = 10000;
 	Asset asset(cash);
 
@@ -21,6 +24,10 @@ void OrderWriter::run() {
 	// 2. Calculate quantity to buy/sell
 	// 3. Place an order
 	// 4. Send stoploss
+	while (true) {
+		OrderMsg msg = receive(order_channel_);
+		clog << "Received OrderMsg: " << msg.ToString() << endl;
+	}
 
 	done();
 }

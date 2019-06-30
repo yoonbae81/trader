@@ -100,6 +100,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)References\libzmq-mt-sgd-4_3_2.lib;Ws2_32.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)*.json $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -165,16 +168,20 @@
   <ItemGroup>
     <ClCompile Include="Backtester.cpp" />
     <ClCompile Include="OrderWriter.cpp" />
-    <ClCompile Include="SignalHandler.cpp" />
+    <ClCompile Include="QuantityCalculator.cpp" />
     <ClCompile Include="TickReader.cpp" />
     <ClCompile Include="StoplossMonitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OrderWriter.h" />
-    <ClInclude Include="SignalHandler.h" />
-    <ClInclude Include="TIckReader.h" />
+    <ClInclude Include="QuantityCalculator.h" />
+    <ClInclude Include="TickReader.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StoplossMonitor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="endpoints.json" />
+    <None Include="parameter.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

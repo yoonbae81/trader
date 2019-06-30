@@ -11,7 +11,7 @@ struct OrderMsg {
 
 	// TODO Rename or override with << 
 	const string& ToString() const {
-		throw runtime_error("Not Implemented");
+		return symbol_;
 	};
 
 	// TODO implement
