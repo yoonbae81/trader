@@ -19,7 +19,7 @@ public:
 
 	TEST_METHOD(AddTest) {
 		string line("AAAAAA 3000 10 1000000000");
-		auto m = TickMsg::Parse(line);
+		auto m = Msg::Parse(line);
 
 		auto sut = Ticks();
 		sut.AddTick(m);
@@ -40,7 +40,7 @@ public:
 	TEST_METHOD(AddTest_Multiple) {
 		auto count = 1000 * 1000;
 		auto line = "AAAAAA 3000 10 1000000000";
-		auto msg = TickMsg::Parse(line);
+		auto msg = Msg::Parse(line);
 
 		auto sut = Ticks();
 		// TODO use parallel_for

@@ -4,15 +4,10 @@
 
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using json = nlohmann::json;
 
 TEST_CLASS(StrategyTest) {
 public:
 	TEST_METHOD(DummyTest) {
-		Parameter p = Parameter::Parse("NoFile");
-		Strategy sut(p);
-
-		auto expected = 3;
-		auto actual = p.threshold;
-		Assert::AreEqual(expected, actual);
 	}
 };

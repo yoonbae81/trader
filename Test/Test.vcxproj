@@ -169,9 +169,10 @@
     <ClCompile Include="BacktesterTest.cpp" />
     <ClCompile Include="JsonTest.cpp" />
     <ClCompile Include="StrategyTest.cpp" />
-    <ClCompile Include="TickMsgTest.cpp" />
+    <ClCompile Include="MsgTest.cpp" />
     <ClCompile Include="TicksTest.cpp" />
     <ClCompile Include="TraderTest.cpp" />
+    <ClCompile Include="TransformerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

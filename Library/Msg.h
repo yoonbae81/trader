@@ -5,9 +5,9 @@
 
 using namespace std;
 
-struct TickMsg {
-	TickMsg(TickMsg&& src) = default;
-	~TickMsg() = default;
+struct Msg {
+	Msg(Msg&& src) = default;
+	~Msg() = default;
 
 	string symbol;
 	double price {};
@@ -19,8 +19,8 @@ struct TickMsg {
 		throw runtime_error("Not Implemented");
 	};
 
-	static TickMsg Parse(const string& line) {
-		TickMsg msg;
+	static Msg Parse(const string& line) {
+		Msg msg;
 		string tokens[4];
 		istringstream ss(line);
 
@@ -45,10 +45,10 @@ struct TickMsg {
 
 
 private:
-	TickMsg() = default;
+	Msg() = default;
 
-	TickMsg(const TickMsg&) = delete;
-	TickMsg& operator=(const TickMsg&) = delete;
-	TickMsg& operator=(TickMsg&&) = delete;
+	Msg(const Msg&) = delete;
+	Msg& operator=(const Msg&) = delete;
+	Msg& operator=(Msg&&) = delete;
 };
 

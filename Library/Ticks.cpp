@@ -8,7 +8,7 @@ Ticks::Ticks() : capacity(rand() % 9999 + 9999) {
 	quantities.reserve(capacity);
 }
 
-bool Ticks::AddTick(const TickMsg& m) {
+bool Ticks::AddTick(const Msg& m) {
 	bool added = false;
 
 	if (timestamp == m.timestamp) {

@@ -12,7 +12,5 @@ protected:
 	void run() override;
 
 private:
-	zmq::context_t ctx_;
-	vector<unique_ptr<zmq::socket_t>> analyzer_socks;
 };
 

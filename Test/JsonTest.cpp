@@ -13,7 +13,7 @@ public:
 		json sut;
 		sut["Key"] = "Value";
 
-		auto expected = "{\"Key\":\"value\"}"s;
+		auto expected = "{\"Key\":\"Value\"}"s;
 		auto actual = sut.dump();
 
 		Assert::AreEqual(expected, actual);

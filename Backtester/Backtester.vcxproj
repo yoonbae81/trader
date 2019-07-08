@@ -167,17 +167,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Backtester.cpp" />
-    <ClCompile Include="OrderWriter.cpp" />
-    <ClCompile Include="QuantityCalculator.cpp" />
     <ClCompile Include="TickReader.cpp" />
-    <ClCompile Include="StoplossMonitor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OrderWriter.h" />
-    <ClInclude Include="QuantityCalculator.h" />
     <ClInclude Include="TickReader.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="StoplossMonitor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="endpoints.json" />

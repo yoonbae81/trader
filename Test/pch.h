@@ -25,6 +25,5 @@
 #include <ppl.h>
 #include <agents.h>
 
-#include <zmq.h>
 #include <json.hpp>
 #endif //PCH_H_TEST

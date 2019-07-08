@@ -1,13 +1,13 @@
 ﻿#pragma once
 #include "pch.h"
-#include "TickMsg.h"
+#include "Msg.h"
 
 using namespace std;
 
 struct Ticks {
 	Ticks();
 
-	bool AddTick(const TickMsg& m);
+	bool AddTick(const Msg& m);
 
 	static const size_t kNumKeep = 100;	// number of ticks to keep during DeleteOld()
 	const size_t capacity;
