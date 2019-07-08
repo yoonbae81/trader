@@ -6,28 +6,24 @@
 using namespace std;
 
 struct Msg {
-	Msg(Msg&& src) = default;
-	~Msg() = default;
+	//Msg() = default;
+	//Msg(Msg&& src) = default;
+	//~Msg() = default;
 
 	string symbol;
 	double price {};
 	double quantity {};
 	time_t timestamp {};
 
-	// TODO Rename or override with << 
-	const string& ToString() const {
-		throw runtime_error("Not Implemented");
-	};
-
 	static Msg Parse(const string& line) {
 		Msg msg;
 		string tokens[4];
 		istringstream ss(line);
 
-		std::getline(ss, tokens[0], ' ');
-		std::getline(ss, tokens[1], ' ');
-		std::getline(ss, tokens[2], ' ');
-		std::getline(ss, tokens[3], ' ');
+		getline(ss, tokens[0], ' ');
+		getline(ss, tokens[1], ' ');
+		getline(ss, tokens[2], ' ');
+		getline(ss, tokens[3], ' ');
 
 		try {
 			msg.symbol = tokens[0];
@@ -43,12 +39,13 @@ struct Msg {
 		return msg;
 	};
 
+	friend ostream& operator<<(ostream& os, const Msg& msg) {
+		os << "[Msg] " << msg.symbol << " : " << msg.price << " x " << msg.quantity;
+		return os;
+	}
 
 private:
-	Msg() = default;
-
-	Msg(const Msg&) = delete;
-	Msg& operator=(const Msg&) = delete;
-	Msg& operator=(Msg&&) = delete;
+	//Msg(const Msg&) = delete;
+	//Msg& operator=(const Msg&) = delete;
+	//Msg& operator=(Msg&&) = delete;
 };
-

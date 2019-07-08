@@ -14,8 +14,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Backtester", "Backtester\Ba
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Strategy", "Strategy\Strategy.vcxproj", "{650C4BFC-5785-4398-9A8A-D14EC253D21F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Trader", "Trader\Trader.vcxproj", "{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -56,14 +54,6 @@ Global
 		{650C4BFC-5785-4398-9A8A-D14EC253D21F}.Release|x64.Build.0 = Release|x64
 		{650C4BFC-5785-4398-9A8A-D14EC253D21F}.Release|x86.ActiveCfg = Release|Win32
 		{650C4BFC-5785-4398-9A8A-D14EC253D21F}.Release|x86.Build.0 = Release|Win32
-		{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}.Debug|x64.ActiveCfg = Debug|x64
-		{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}.Debug|x64.Build.0 = Debug|x64
-		{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}.Debug|x86.ActiveCfg = Debug|Win32
-		{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}.Debug|x86.Build.0 = Debug|Win32
-		{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}.Release|x64.ActiveCfg = Release|x64
-		{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}.Release|x64.Build.0 = Release|x64
-		{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}.Release|x86.ActiveCfg = Release|Win32
-		{DB14B2AC-B5C1-445C-B12A-1B5E73E793D8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

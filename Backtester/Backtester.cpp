@@ -19,6 +19,16 @@ int main() {
 	concurrent_unordered_map<string, Holding> holdings;
 	concurrent_unordered_map<string, double> stoploss;
 
+	TickReader fetcher("tick/", tick_buffer);
+	fetcher.start();
+	
+	for (auto i = 0; i < 10; i++) {
+		auto msg = receive(tick_buffer);
+		clog << "Received: " << msg << endl;
+		//clog << "Received: " << receive(tick_buffer).symbol << endl;
+	}
+
+	agent::wait(&fetcher);
 	clog << "Backtest finished" << endl;
 
 	return EXIT_SUCCESS;

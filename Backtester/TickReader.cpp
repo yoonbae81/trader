@@ -4,10 +4,8 @@
 using namespace std;
 using namespace concurrency;
 
-TickReader::TickReader(const string& filepath,
-					   vector<string> analyzer_endpoints) {
-	for (auto endpoint : analyzer_endpoints) {
-	}
+TickReader::TickReader(const string& dir, ITarget<Msg>& target)
+	: target_(target) {
 
 	// TODO uncommentn below
 	//unique_ptr<istream> source = make_unique<ifstream>(filepath);
@@ -17,15 +15,18 @@ TickReader::TickReader(const string& filepath,
 	//}
 }
 
-
 void TickReader::run() {
 	// TODO consider load balancing
 
 	for (auto i = 0; i < 10; ++i) {
-		this_thread::sleep_for(100ms);
+		concurrency::wait(100);
 		// TODO Read from a file
-		const std::string_view msg = "AAAAAA 4000 10 1234512345";
-		clog << "Sent Msg: " << msg << endl;
+		const string line = "AAAAAA 4000 10 1234512345";
+		
+		auto msg = Msg::Parse(line);
+		clog << "Sending Msg: " << line << endl;
+
+		send(target_, msg);
 	}
 
 	done();
@@ -51,8 +52,6 @@ void TickReader::run() {
 	//	// TODO Calculate quantity to sell; How will calculate the quantity?
 	//	broker->Order(msg.symbol, -1);
 	//}
-
-
 
 //		// TODO send a message somewhere
 //	} catch (ParsingException& ex) {
