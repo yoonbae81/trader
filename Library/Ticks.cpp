@@ -11,13 +11,13 @@ Ticks::Ticks() : capacity(rand() % 9999 + 9999) {
 bool Ticks::AddTick(const Msg& m) {
 	bool added = false;
 
-	if (timestamp == m.timestamp) {
-		prices.back() = m.price;
-		quantities.back() += m.quantity;
+	if (timestamp == m.tick_timestamp) {
+		prices.back() = m.tick_price;
+		quantities.back() += m.tick_quantity;
 	} else {
-		AddValue(prices, m.price);
-		AddValue(quantities, m.quantity);
-		timestamp = m.timestamp;
+		AddValue(prices, m.tick_price);
+		AddValue(quantities, m.tick_quantity);
+		timestamp = m.tick_timestamp;
 		added = true;
 	}
 

@@ -5,9 +5,11 @@ using namespace std;
 using namespace concurrency;
 
 TickReader::TickReader(const string& dir, ITarget<Msg>& target)
-	: target_(target) {
+	: Fetcher(target) {
 
-	// TODO uncommentn below
+	clog << "Initializing TickReader..." << endl;
+
+	// TODO uncomment below
 	//unique_ptr<istream> source = make_unique<ifstream>(filepath);
 	//if (!source.is_open()) {
 	//	clog << "Couldn't open a file: " << filepath << endl;
@@ -18,11 +20,13 @@ TickReader::TickReader(const string& dir, ITarget<Msg>& target)
 void TickReader::run() {
 	// TODO consider load balancing
 
+	clog << "Getting a message..." << endl;
+
 	for (auto i = 0; i < 10; ++i) {
-		concurrency::wait(100);
+		concurrency::wait(10);
 		// TODO Read from a file
 		const string line = "AAAAAA 4000 10 1234512345";
-		
+
 		auto msg = Msg::Parse(line);
 		clog << "Sending Msg: " << line << endl;
 
@@ -34,11 +38,8 @@ void TickReader::run() {
 
 //while (true) {
 //	try {
-//		clog << "Getting a message..." << endl;
 //		string line;
 //		source_.getline(line);
-//		auto msg = Msg::Parse(line);
-
 //		if (getline(msgFile, line)) {
 //			clog << "Got a message: " << line << endl;
 //		} else {

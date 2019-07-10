@@ -162,7 +162,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Analyzer.h" />
     <ClInclude Include="Asset.h" />
+    <ClInclude Include="Broker.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Fetcher.h" />
     <ClInclude Include="Holding.h" />
@@ -172,7 +174,9 @@
     <ClInclude Include="Ticks.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Analyzer.cpp" />
     <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="Broker.cpp" />
     <ClCompile Include="Fetcher.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Ticks.cpp" />

@@ -8,17 +8,15 @@ using namespace concurrency;
 
 using Holdings = concurrent_unordered_map<string, Holding>;
 
-class Manager : public agent {
+class Broker : public agent {
 public:
-	Manager(ISource<Msg>& source, ITarget<Msg>& target, Holdings& holdings);
+	Broker(ISource<Msg>& source, Holdings& holdings);
 
 protected:
 	void run() override;
 
 private:
 	ISource<Msg>& source_;
-	ITarget<Msg>& target_;
 	Holdings& holdings_;
-
 };
 
