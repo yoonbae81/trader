@@ -167,10 +167,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Backtester.cpp" />
-    <ClCompile Include="TickReader.cpp" />
+    <ClCompile Include="FileFetcher.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TickReader.h" />
+    <ClInclude Include="FileFetcher.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

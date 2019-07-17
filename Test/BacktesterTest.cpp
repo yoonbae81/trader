@@ -6,13 +6,11 @@
 using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-TEST_CLASS(BacktestFetcherTest)
-{
+TEST_CLASS(BacktestFetcherTest) {
 	string filename = "temp.txt";
 
 public:
-	TEST_METHOD_INITIALIZE(GenerateFile)
-	{
+	TEST_METHOD_INITIALIZE(GenerateFile) {
 		//ofstream outfile(filename);
 		//Assert::IsTrue(outfile.is_open());
 
@@ -21,8 +19,7 @@ public:
 		//outfile.close();
 	}
 
-	TEST_METHOD(ReadMessages)
-	{
+	TEST_METHOD(ReadMessages) {
 		//BacktestFetcher fetcher(filename);
 
 		//Assert::AreEqual(string("AAAAAA"), fetcher.GetMessage().symbol);

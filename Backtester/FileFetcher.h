@@ -6,12 +6,14 @@
 using namespace std;
 using namespace concurrency;
 
-class TickReader : public Fetcher {
+class FileFetcher : public Fetcher {
 public:
-	explicit TickReader(const string& dir, ITarget<Msg>& target);
+	explicit FileFetcher(const string& dir, ITarget<Msg>& target);
 	
 protected:
 	void run() override;
 
+private:
+	const string dir_;
 };
 

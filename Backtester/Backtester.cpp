@@ -6,7 +6,7 @@
 #include "../Library/Asset.h"
 #include "../Library/Exceptions.h"
 #include "../Library/Msg.h"
-#include "TickReader.h"
+#include "FileFetcher.h"
 
 using namespace std;
 using namespace concurrency;
@@ -19,25 +19,22 @@ int main() {
 	unbounded_buffer<Msg> order_channel;
 	concurrent_unordered_map<string, Holding> holdings;
 
-	TickReader fetcher("tick/", tick_channel);
+	FileFetcher fetcher("tick/", tick_channel);
 	Analyzer analyzer(tick_channel, signal_channel);
 	Manager manager(signal_channel, order_channel, holdings);
 	Broker broker(order_channel, holdings);
-
 
 	fetcher.start();
 	analyzer.start();
 	manager.start();
 	broker.start();
 
-	// init Manager
-
 	agent::wait(&fetcher);
 	agent::wait(&analyzer);
 	agent::wait(&manager);
 	agent::wait(&broker);
-	clog << "Backtest finished" << endl;
 
+	clog << "Backtest finished" << endl;
 	return EXIT_SUCCESS;
 }
 

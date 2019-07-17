@@ -18,15 +18,15 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TIckReader.h">
+    <ClInclude Include="FileFetcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TickReader.cpp">
+    <ClCompile Include="Backtester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Backtester.cpp">
+    <ClCompile Include="FileFetcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
