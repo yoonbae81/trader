@@ -2,19 +2,19 @@
 #include "Broker.h"
 
 Broker::Broker(ISource<Msg>& source, Holdings& holdings)
-	: source_(source), holdings_(holdings) {
+	: source(source)
+	, holdings(holdings) 
+	, logger(spdlog::stdout_color_mt("broker")) {
 
-	clog << "Initializing Broker..." << endl;
-
+	logger->debug("Initializing");
+	logger->debug("Initialized");
 }
 
 void Broker::run() {
-	clog << "Broker run" << endl;
-
 	while (true) {
-		auto msg = receive(source_);
+		auto msg = receive(source);
 
-		clog << "Ordered: " << msg.order_quantity << endl;
+		logger->trace("Ordered: {}", msg.order_quantity);
 		msg.filled_quantity = 2;
 	}
 
@@ -22,5 +22,4 @@ void Broker::run() {
 	done();
 }
 
-
-
+ 

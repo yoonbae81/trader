@@ -14,11 +14,10 @@ public:
 
 protected:
 	void run() override;
+	ISource<Msg>& source;
+	ITarget<Msg>& target;
+	Holdings& holdings;
 
-private:
-	ISource<Msg>& source_;
-	ITarget<Msg>& target_;
-	Holdings& holdings_;
-
+	shared_ptr<spdlog::logger> logger;
 };
 

@@ -7,12 +7,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library", "Library\Library.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{98719B8A-9EDD-4E7A-8E6F-F702D39DB878}"
 	ProjectSection(ProjectDependencies) = postProject
+		{5152C656-45C3-4606-A20A-B28B3AEB36F3} = {5152C656-45C3-4606-A20A-B28B3AEB36F3}
 		{650C4BFC-5785-4398-9A8A-D14EC253D21F} = {650C4BFC-5785-4398-9A8A-D14EC253D21F}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Backtester", "Backtester\Backtester.vcxproj", "{5152C656-45C3-4606-A20A-B28B3AEB36F3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Strategy", "Strategy\Strategy.vcxproj", "{650C4BFC-5785-4398-9A8A-D14EC253D21F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{327BADA9-D7DB-4CFC-A1F2-E1EDC2243CF6} = {327BADA9-D7DB-4CFC-A1F2-E1EDC2243CF6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

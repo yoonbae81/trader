@@ -2,17 +2,18 @@
 #include "Analyzer.h"
 
 Analyzer::Analyzer(ISource<Msg>& source, ITarget<Msg>& target)
-	: source_(source), target_(target) {
-
-	clog << "Initializing Analyzer..." << endl;
+	: source(source)
+	, target(target) 
+	, logger(spdlog::stdout_color_mt("analyzer")) {
+	
+	logger->debug("Initializing");
+	logger->debug("Initialized");
 
 }
 
 void Analyzer::run() {
-	clog << "Analyzer run" << endl;
-
 	while (true) {
-		auto msg = receive(source_);
+		auto msg = receive(source);
 		msg.signal_strength = 10;
 
 		//if (holdingMap.contains(msg.symbol) 
@@ -23,7 +24,7 @@ void Analyzer::run() {
 		//	broker->Order(msg.symbol, -1);
 		//}
 
-		send(target_, msg);
+		send(target, msg);
 	}
 
 	done();

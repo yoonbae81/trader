@@ -9,11 +9,11 @@
 
 // add headers that you want to pre-compile here
 #include <algorithm>
-#include <cstdio> // for remove() file
 #include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <sstream>

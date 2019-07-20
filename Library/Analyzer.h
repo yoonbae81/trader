@@ -12,8 +12,9 @@ public:
 protected:
 	void run() override;
 
-private:
-	ISource<Msg>& source_;
-	ITarget<Msg>& target_;
+	ISource<Msg>& source;
+	ITarget<Msg>& target;
+
+	shared_ptr<spdlog::logger> logger;
 };
 

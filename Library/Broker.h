@@ -14,9 +14,9 @@ public:
 
 protected:
 	void run() override;
+	ISource<Msg>& source;
+	Holdings& holdings;
 
-private:
-	ISource<Msg>& source_;
-	Holdings& holdings_;
+	shared_ptr<spdlog::logger> logger;
 };
 

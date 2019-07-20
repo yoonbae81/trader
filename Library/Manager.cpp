@@ -2,18 +2,21 @@
 #include "Manager.h"
 
 Manager::Manager(ISource<Msg>& source, ITarget<Msg>& target, Holdings& holdings)
-	: source_(source), target_(target), holdings_(holdings) {
+	: source(source)
+	, target(target)
+	, holdings(holdings)
+	, logger(spdlog::stdout_color_mt("manager")) {
 
-	clog << "Initializing Manager..." << endl;
+	logger->debug("Initializing");
+	logger->debug("Initialized");
+
 }
 
 void Manager::run() {
-	clog << "Manager run" << endl;
-
 	while (true) {
-		auto msg = receive(source_);
+		auto msg = receive(source);
 		msg.order_quantity = rand() % 100;
-		send(target_, msg);
+		send(target, msg);
 	}
 
 	done();

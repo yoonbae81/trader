@@ -7,11 +7,10 @@ using namespace concurrency;
 
 class Fetcher : public agent {
 public:
-	Fetcher(ITarget<Msg>& target) : target_(target) {}
-	
+	Fetcher(ITarget<Msg>& target);
+
 protected:
-	ITarget<Msg>& target_;
-
-
+	ITarget<Msg>& target;
+	shared_ptr<spdlog::logger> logger;
 };
 

@@ -2,37 +2,47 @@
 #include "FileFetcher.h"
 
 using namespace std;
+using namespace std::filesystem;
+using namespace std::string_literals;
 using namespace concurrency;
 
-FileFetcher::FileFetcher(const string& dir, ITarget<Msg>& target)
+FileFetcher::FileFetcher(const path& dir, ITarget<Msg>& target)
 	: dir_(dir), Fetcher(target) {
 
-	clog << "Initializing FileFetcher..." << endl;
-	clog << "Opening directory: " << dir_ << endl;
-	// TODO check directory exists
+	logger->debug("Current directory: {}", current_path().string());
+	logger->debug("Finding files in {}", dir_.string());
+	if (!exists(dir_)) throw runtime_error("Not exists " + dir_.string());
+
+	for (auto& p : directory_iterator(dir_)) {
+		files_.push_back(p.path().string());
+		logger->trace("Found: {}",
+					  p.path().string());
+	}
+
+	logger->debug("{} files found", files_.size());
+	logger->debug("Initialized");
 }
 
 void FileFetcher::run() {
 	// TODO consider load balancing
-	// TODO Get file lists ends with txt
-	// 
-	clog << "Getting a message..." << endl;
 
-	for (auto i = 0; i < 10; ++i) {
-		concurrency::wait(10);
-		// TODO Read from a file
-		//unique_ptr<istream> source = make_unique<ifstream>(filepath);
-		//if (!source.is_open()) {
-		//	clog << "Couldn't open a file: " << filepath << endl;
-		//	exit(1);
-		//}
+	logger->debug("Getting messages...");
 
-		const string line = "AAAAAA 4000 10 1234512345";
+	sort(files_.begin(), files_.end());
+	for (auto filepath : files_) {
+		logger->info("Loading: {}", filepath);
+		ifstream file(filepath);
 
-		auto msg = Msg::Parse(line);
-		clog << "Sending Msg: " << line << endl;
-
-		send(target_, msg);
+		size_t count = 0;
+		string line;
+		while (getline(file, line)) {
+			auto msg = Msg::Parse(line);
+			send(target, msg);
+			logger->trace("Sent: {}", line);
+			concurrency::wait(10);		// TODO delete later
+			count++;
+		}
+		logger->debug("{} ticks sent", count);
 	}
 
 	done();

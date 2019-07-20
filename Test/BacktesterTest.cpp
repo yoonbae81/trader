@@ -1,36 +1,44 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-
-#include "../Library/Exceptions.h"
+#include "../Backtester/FileFetcher.h"
 
 using namespace std;
+using namespace std::filesystem;
+using namespace concurrency;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-TEST_CLASS(BacktestFetcherTest) {
-	string filename = "temp.txt";
+TEST_CLASS(BacktesterTest) {
+private:
+	path dir_ = "temp/";
+	string filename_ = "BacktesterData.txt";
 
 public:
 	TEST_METHOD_INITIALIZE(GenerateFile) {
-		//ofstream outfile(filename);
-		//Assert::IsTrue(outfile.is_open());
+		create_directories(dir_);
+		ofstream outfile(dir_ / filename_);
+		Assert::IsTrue(outfile.is_open());
 
-		//outfile << "AAAAAA 1243 10 112300201" << endl;
-		//outfile << "BBBBBB 1243 20 112300202" << endl;
-		//outfile.close();
+		outfile << "AAAAAA 1243 10 1234512345" << endl;
+		outfile << "BBBBBB 5000 20 1234512345" << endl;
+		outfile.close();
 	}
 
-	TEST_METHOD(ReadMessages) {
-		//BacktestFetcher fetcher(filename);
+	TEST_METHOD(FileFetcherTest) {
+		// TODO validate whether the number of lines from files were sent to buffer
 
-		//Assert::AreEqual(string("AAAAAA"), fetcher.GetMessage().symbol);
-		//Assert::AreEqual(string("BBBBBB"), fetcher.GetMessage().symbol);
+		unbounded_buffer<Msg> output;
+		//FileFetcher fetcher(dir_, output);
 
-		// no more message
-		//try { auto m = fetcher.GetMessage(); }
-		//catch (QuitException) { Assert::IsTrue(true); }
+		Assert::IsTrue(exists(dir_));
+		//fetcher.start();
+		//agent::wait(&fetcher);
+
+		// TODO expected = lines of the file
+		// TODO actual = items in buffer
+		// Assert.AreEqual(expected, actual);
 	}
 
-	TEST_METHOD_CLEANUP(DeleteFile) {
-		remove(filename.data());
+	TEST_METHOD_CLEANUP(DeleteGeneratedFile) {
+//		filesystem::remove_all(dir_);
 	}
 };

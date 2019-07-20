@@ -4,16 +4,18 @@
 #include "../Library/Msg.h"
 
 using namespace std;
+using namespace std::filesystem;
 using namespace concurrency;
 
 class FileFetcher : public Fetcher {
 public:
-	explicit FileFetcher(const string& dir, ITarget<Msg>& target);
+	explicit FileFetcher(const path& dir, ITarget<Msg>& target);
 	
 protected:
 	void run() override;
 
 private:
-	const string dir_;
+	const path& dir_;
+	vector<string> files_;
 };
 

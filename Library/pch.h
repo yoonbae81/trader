@@ -28,6 +28,9 @@
 #include <concurrent_vector.h>
 #include <concurrent_unordered_map.h>
 
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+
 //#include "ta-lib/ta_libc.h"
 
 #endif //PCH_H_LIBRARY
