@@ -1,19 +1,19 @@
 #include "pch.h"
 #include "Analyzer.h"
 
-Analyzer::Analyzer(ISource<Msg>& source, ITarget<Msg>& target)
-	: source(source)
-	, target(target) 
+Analyzer::Analyzer(Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
+	: asset_(asset)
+	, source_(source)
+	, target_(target) 
 	, logger(spdlog::stdout_color_mt("analyzer")) {
 	
 	logger->debug("Initializing");
-	logger->debug("Initialized");
-
 }
 
 void Analyzer::run() {
+	logger->info("Started");
 	while (true) {
-		auto msg = receive(source);
+		auto msg = receive(source_);
 		msg.signal_strength = 10;
 
 		//if (holdingMap.contains(msg.symbol) 
@@ -24,7 +24,7 @@ void Analyzer::run() {
 		//	broker->Order(msg.symbol, -1);
 		//}
 
-		send(target, msg);
+		send(target_, msg);
 	}
 
 	done();

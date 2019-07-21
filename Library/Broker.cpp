@@ -1,18 +1,18 @@
 #include "pch.h"
 #include "Broker.h"
 
-Broker::Broker(ISource<Msg>& source, Holdings& holdings)
-	: source(source)
-	, holdings(holdings) 
+Broker::Broker(Asset& asset, ISource<Msg>& source)
+	: asset_(asset)
+	, source_(source)
 	, logger(spdlog::stdout_color_mt("broker")) {
 
 	logger->debug("Initializing");
-	logger->debug("Initialized");
 }
 
 void Broker::run() {
+	logger->info("Started");
 	while (true) {
-		auto msg = receive(source);
+		auto msg = receive(source_);
 
 		logger->trace("Ordered: {}", msg.order_quantity);
 		msg.filled_quantity = 2;

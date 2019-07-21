@@ -34,4 +34,8 @@
     <None Include="endpoints.json" />
     <None Include="parameter.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="TickData\2lines.txt" />
+    <Text Include="TickData\5lines.txt" />
+  </ItemGroup>
 </Project>

@@ -1,21 +1,20 @@
 #pragma once
 #include "pch.h"
+#include "Asset.h"
 #include "Msg.h"
-#include "Holding.h"
 
 using namespace std;
 using namespace concurrency;
 
-using Holdings = concurrent_unordered_map<string, Holding>;
-
 class Broker : public agent {
 public:
-	Broker(ISource<Msg>& source, Holdings& holdings);
+	Broker(Asset& asset, ISource<Msg>& source);
 
 protected:
 	void run() override;
-	ISource<Msg>& source;
-	Holdings& holdings;
+
+	Asset& asset_;
+	ISource<Msg>& source_;
 
 	shared_ptr<spdlog::logger> logger;
 };

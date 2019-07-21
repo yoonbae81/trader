@@ -10,7 +10,8 @@ public:
 	Fetcher(ITarget<Msg>& target);
 
 protected:
-	ITarget<Msg>& target;
+	ITarget<Msg>& target_;
+
 	shared_ptr<spdlog::logger> logger;
 };
 

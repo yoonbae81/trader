@@ -15,30 +15,30 @@ private:
 public:
 	TEST_METHOD_INITIALIZE(GenerateFile) {
 		create_directories(dir_);
-		ofstream outfile(dir_ / filename_);
-		Assert::IsTrue(outfile.is_open());
 
+		ofstream outfile(dir_ / filename_);
 		outfile << "AAAAAA 1243 10 1234512345" << endl;
 		outfile << "BBBBBB 5000 20 1234512345" << endl;
+		outfile << "CCCCCC 1000 20 1234512345" << endl;
 		outfile.close();
 	}
 
 	TEST_METHOD(FileFetcherTest) {
-		// TODO validate whether the number of lines from files were sent to buffer
-
 		unbounded_buffer<Msg> output;
-		//FileFetcher fetcher(dir_, output);
+		FileFetcher sut(dir_, output);
+		sut.start();
+		agent::wait(&sut);
 
-		Assert::IsTrue(exists(dir_));
-		//fetcher.start();
-		//agent::wait(&fetcher);
-
-		// TODO expected = lines of the file
-		// TODO actual = items in buffer
-		// Assert.AreEqual(expected, actual);
+		string line;
+		ifstream infile(dir_ / filename_);
+		while (getline(infile, line)) {
+			auto expected = Msg::Parse(line);
+			auto actual = receive(output);
+			Assert::AreEqual(expected.symbol, actual.symbol);
+		}
 	}
 
 	TEST_METHOD_CLEANUP(DeleteGeneratedFile) {
-//		filesystem::remove_all(dir_);
+		filesystem::remove_all(dir_);
 	}
 };

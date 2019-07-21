@@ -15,54 +15,39 @@ FileFetcher::FileFetcher(const path& dir, ITarget<Msg>& target)
 
 	for (auto& p : directory_iterator(dir_)) {
 		files_.push_back(p.path().string());
-		logger->trace("Found: {}",
-					  p.path().string());
+		logger->trace("Found: {}", p.path().string());
 	}
 
 	logger->debug("{} files found", files_.size());
-	logger->debug("Initialized");
 }
 
 void FileFetcher::run() {
-	// TODO consider load balancing
-
-	logger->debug("Getting messages...");
+	logger->info("Started");
 
 	sort(files_.begin(), files_.end());
 	for (auto filepath : files_) {
 		logger->info("Loading: {}", filepath);
 		ifstream file(filepath);
 
-		size_t count = 0;
 		string line;
+		size_t count = 0;
 		while (getline(file, line)) {
-			auto msg = Msg::Parse(line);
-			send(target, msg);
-			logger->trace("Sent: {}", line);
-			concurrency::wait(10);		// TODO delete later
-			count++;
+			try {
+				auto msg = Msg::Parse(line);
+				send(target_, msg);
+				count++;
+
+				logger->trace("Sent: {}", line);
+			} catch (ParsingException& e) {
+				logger->warn("ParsingException: {}", e.what());
+				continue;
+			}
 		}
-		logger->debug("{} ticks sent", count);
+		logger->info("{} ticks sent", count);
 	}
+
+	// TODO Let other agents know it's done
 
 	done();
 }
-
-//while (true) {
-//	try {
-//		string line;
-//		source_.getline(line);
-//		if (getline(msgFile, line)) {
-//			clog << "Got a message: " << line << endl;
-//		} else {
-//			clog << "End of file" << endl;
-//			line = "QUIT";
-//		}
-//	} catch (ParsingException& ex) {
-//		clog << "Ignored wrong message: " << ex.what() << endl;
-//		continue;
-//	} catch (QuitException) {
-//		clog << "Quitting" << endl;
-//		break;
-//	}
 
