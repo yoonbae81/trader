@@ -31,7 +31,7 @@ public:
 		output << setw(4) << sut1 << endl;
 		output.close();
 
-		json sut2 = json::parse(ifstream(filename));
+		auto sut2 = json::parse(ifstream(filename));
 		string expected = value;
 		string actual = sut2[key];
 

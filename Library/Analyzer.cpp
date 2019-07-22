@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "Analyzer.h"
 
-Analyzer::Analyzer(Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
+Analyzer::Analyzer(Asset& asset, Strategy& strategy, ISource<Msg>& source, ITarget<Msg>& target)
 	: asset_(asset)
+	, strategy_(strategy)
 	, source_(source)
-	, target_(target) 
+	, target_(target)
 	, logger(spdlog::stdout_color_mt("analyzer")) {
-	
+
 	logger->debug("Initializing");
 }
 
@@ -17,6 +18,8 @@ void Analyzer::run() {
 		auto msg = receive(source_);
 		msg.signal_strength = 10;
 
+		// TODO Compare the current bought_price to calculated stoploss bought_price
+		// TODO When stoploss activated, Send an Order
 
 		//asset_.bought_price(msg.symbol);
 

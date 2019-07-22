@@ -2,19 +2,20 @@
 #include "Strategy.h"
 
 using namespace std;
-using json = nlohmann::json;
 
+Strategy::Strategy(const json& parameter)
+	: parameter_(parameter)
+	, logger(spdlog::stdout_color_mt("strategy")) {
 
-Strategy::Strategy(const json& parameter) : parameter_(parameter) {
+	logger->debug("Initializing");
+	logger->debug("Parameter: {}", parameter.dump());
+
 	return;
 }
 
 int Strategy::CalcStrength() {
 	return rand() % 10;
 }
-
-
-
 
 //auto ticks = ticksMap[msg.symbol];
 //ticks.AddTick(msg);

@@ -28,6 +28,7 @@
 #include <concurrent_vector.h>
 #include <concurrent_unordered_map.h>
 
+#include "json.hpp"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 

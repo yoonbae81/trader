@@ -10,8 +10,6 @@ public:
 	Asset(double cash);
 
 	// TODO Subscribe holdings_ from TickFetcher
-	// TODO Compare the current bought_price to calculated stoploss bought_price
-	// TODO When stoploss activated, Send an Order
 	// TODO Consider the persistence of Cash. e.g. Load from a file or something 
 
 	void Bought(const string& symbol, double quantity, double bought_price);
