@@ -13,12 +13,12 @@ FileFetcher::FileFetcher(const path& dir, ITarget<Msg>& target)
 	logger->debug("Finding files in {}", dir_.string());
 	if (!exists(dir_)) throw runtime_error("Not exists " + dir_.string());
 
-	for (auto& p : directory_iterator(dir_)) {
-		files_.push_back(p.path().string());
-		logger->trace("Found: {}", p.path().string());
+	for (auto& f : directory_iterator(dir_)) {
+		files_.push_back(f.path().string());
+		logger->trace("Found: {}", f.path().string());
 	}
 
-	logger->debug("{} files found", files_.size());
+	logger->debug("Found: {} files", files_.size());
 }
 
 void FileFetcher::run() {
@@ -38,6 +38,7 @@ void FileFetcher::run() {
 				count++;
 
 				logger->trace("Sent: {}", line);
+
 			} catch (ParsingException& e) {
 				logger->warn("ParsingException: {}", e.what());
 				continue;

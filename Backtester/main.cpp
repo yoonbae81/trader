@@ -2,7 +2,6 @@
 
 #include "FileFetcher.h"
 #include "../Library/Analyzer.h"
-#include "../Library/Manager.h"
 #include "../Library/Broker.h"
 #include "../Library/Asset.h"
 #include "../Library/Msg.h"
@@ -14,7 +13,7 @@ using namespace concurrency;
 shared_ptr<spdlog::logger> get_logger() {
 	auto logger = spdlog::stdout_color_mt("main");
 	spdlog::set_level(spdlog::level::trace);
-	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-7l%$ %-8n %-5t | %v");
+	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-7l%$ %-8n | %v"); // add thread_id with %-5t if necessary
 
 	return logger;
 }
@@ -26,31 +25,27 @@ int main(int argc, char* argv[]) {
 		return EXIT_FAILURE;
 	}
 
+	auto logger = get_logger();
+	logger->info("Started");
+
 	path   tick_dir = argv[1];
 	double initial_cash = 100 * 10000.0;	// TODO Load initial cash from argv 
 
-	Asset  asset(initial_cash);
+	Asset asset(initial_cash);
 	unbounded_buffer<Msg> tick_channel;
-	unbounded_buffer<Msg> signal_channel;
 	unbounded_buffer<Msg> order_channel;
 
-	auto logger = get_logger();
 	try {
-		logger->info("Started");
-
 		FileFetcher fetcher(tick_dir, tick_channel);
-		Analyzer analyzer(asset, tick_channel, signal_channel);
-		Manager manager(asset, signal_channel, order_channel);
+		Analyzer analyzer(asset, tick_channel, order_channel); // TODO make multiple agents
 		Broker broker(asset, order_channel);
 
 		fetcher.start();
 		analyzer.start();
-		manager.start();
 		broker.start();
 
 		agent::wait(&fetcher);
 		agent::wait(&analyzer);
-		agent::wait(&manager);
 		agent::wait(&broker);
 
 		logger->info("Done");

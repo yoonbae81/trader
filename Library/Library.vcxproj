@@ -168,7 +168,6 @@
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Fetcher.h" />
     <ClInclude Include="Holding.h" />
-    <ClInclude Include="Manager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Msg.h" />
     <ClInclude Include="Ticks.h" />
@@ -178,7 +177,6 @@
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="Broker.cpp" />
     <ClCompile Include="Fetcher.cpp" />
-    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Ticks.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

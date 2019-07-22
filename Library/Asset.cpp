@@ -1,7 +1,11 @@
 #include "pch.h"
 #include "Asset.h"
 
-Asset::Asset(double cash) : cash_(cash) {
+Asset::Asset(double cash) 
+	: cash_(cash) 
+	, logger(spdlog::stdout_color_mt("asset")) {
+
+	logger->debug("Initializing");
 }
 
 void Asset::Bought(const string& symbol, double quantity, double bought_price) {
