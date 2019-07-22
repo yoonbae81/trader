@@ -27,9 +27,6 @@
     <ClCompile Include="AssetTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StrategyTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="JsonTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

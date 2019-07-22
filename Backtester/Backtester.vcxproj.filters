@@ -31,12 +31,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="endpoints.json" />
-    <None Include="analyzer.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="TickData\2lines.txt" />
     <Text Include="TickData\5lines.txt" />
-    <Text Include="Data\TickData.txt" />
+    <Text Include="data\TickData.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="analyzer.json" />
   </ItemGroup>
 </Project>

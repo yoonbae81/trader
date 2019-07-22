@@ -19,24 +19,29 @@ shared_ptr<spdlog::logger> get_logger() {
 }
 
 int main(int argc, char* argv[]) {
-	if (argc == 1) {
+	if (argc != 3) {
 		auto exe_name = path(argv[0]).filename().string();
-		cout << "usage: " << exe_name << " TICKDATA_DIR" << endl;
+		cout << "usage: " << exe_name << "ANALYZER_JSON TICKDATA_DIR" << endl;
+		return EXIT_FAILURE;
+	}
+
+	if (!exists(argv[1])) {
+		cout << "Not found: " << argv[1] << endl;
 		return EXIT_FAILURE;
 	}
 
 	auto logger = get_logger();
 	logger->info("Started");
-
-	path tick_dir(argv[1]);
-	auto parameter = json::parse(ifstream("analyzer.json"));
-	double cash = 100 * 10000.0;	// TODO Load initial cash from argv 
-	Asset asset(cash);
-
-	unbounded_buffer<Msg> tick_channel;
-	unbounded_buffer<Msg> order_channel;
-
+	
 	try {
+		auto parameter = json::parse(ifstream(argv[1]));
+		path tick_dir(argv[2]);
+		double cash = 100 * 10000.0;	// TODO Load initial cash from argv 
+		Asset asset(cash);
+
+		unbounded_buffer<Msg> tick_channel;
+		unbounded_buffer<Msg> order_channel;
+
 		FileFetcher fetcher(tick_dir, tick_channel);
 		Analyzer analyzer(parameter, asset, tick_channel, order_channel); // TODO make multiple agents
 		Broker broker(asset, order_channel);
@@ -52,7 +57,7 @@ int main(int argc, char* argv[]) {
 		logger->info("Done");
 		return EXIT_SUCCESS;
 
-	} catch (runtime_error& e) {
+	} catch (exception& e) {
 		logger->error(e.what());
 		return EXIT_FAILURE;
 	}
