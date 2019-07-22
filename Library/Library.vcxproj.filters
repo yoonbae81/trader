@@ -42,9 +42,6 @@
     <ClInclude Include="Fetcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Strategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ticks.cpp">
@@ -60,9 +57,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Fetcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Strategy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

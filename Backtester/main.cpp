@@ -6,7 +6,6 @@
 #include "../Library/Asset.h"
 #include "../Library/Msg.h"
 #include "../Library/Exceptions.h"
-#include "../Library/Strategy.h"
 
 using namespace std;
 using namespace concurrency;
@@ -29,20 +28,17 @@ int main(int argc, char* argv[]) {
 	auto logger = get_logger();
 	logger->info("Started");
 
-	path   tick_dir = argv[1];
-	double initial_cash = 100 * 10000.0;	// TODO Load initial cash from argv 
-	auto parameter(json::parse(ifstream("parameter.json")));
+	path tick_dir(argv[1]);
+	auto parameter = json::parse(ifstream("analyzer.json"));
+	double cash = 100 * 10000.0;	// TODO Load initial cash from argv 
+	Asset asset(cash);
+
+	unbounded_buffer<Msg> tick_channel;
+	unbounded_buffer<Msg> order_channel;
 
 	try {
-		Asset asset(initial_cash);
-		Strategy strategy(parameter);
-
-		unbounded_buffer<Msg> tick_channel;
-		unbounded_buffer<Msg> order_channel;
-
 		FileFetcher fetcher(tick_dir, tick_channel);
-
-		Analyzer analyzer(asset, strategy, tick_channel, order_channel); // TODO make multiple agents
+		Analyzer analyzer(parameter, asset, tick_channel, order_channel); // TODO make multiple agents
 		Broker broker(asset, order_channel);
 
 		fetcher.start();

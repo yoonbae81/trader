@@ -175,9 +175,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="endpoints.json" />
-    <None Include="parameter.json" />
+    <None Include="analyzer.json" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Data\TickData.txt" />
     <Text Include="TickData\2lines.txt" />
     <Text Include="TickData\5lines.txt" />
   </ItemGroup>

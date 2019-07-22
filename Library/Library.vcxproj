@@ -170,7 +170,6 @@
     <ClInclude Include="Holding.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Msg.h" />
-    <ClInclude Include="Strategy.h" />
     <ClInclude Include="Ticks.h" />
   </ItemGroup>
   <ItemGroup>
@@ -178,7 +177,6 @@
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="Broker.cpp" />
     <ClCompile Include="Fetcher.cpp" />
-    <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="Ticks.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

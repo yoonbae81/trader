@@ -2,24 +2,22 @@
 #include "pch.h"
 #include "Asset.h"
 #include "Msg.h"
-#include "Strategy.h"
 
 using namespace std;
 using namespace concurrency;
+using json = nlohmann::json;
 
 class Analyzer : public agent {
 public:
-	Analyzer(Asset& asset, Strategy& strategy, ISource<Msg>& source, ITarget<Msg>& target);
+	Analyzer(const json& parameter, Asset& asset, ISource<Msg>& source, ITarget<Msg>& target);
 
 protected:
 	void run() override;
 
+	json parameter_;
 	Asset& asset_;
-	Strategy& strategy_;
-
 	ISource<Msg>& source_;
 	ITarget<Msg>& target_;
-
 	shared_ptr<spdlog::logger> logger;
 };
 
