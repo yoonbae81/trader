@@ -18,12 +18,13 @@ public:
 
 		ofstream outfile(dir_ / filename_);
 		outfile << "AAAAAA 1243 10 1234512345" << endl;
-		outfile << "BBBBBB 5000 20 1234512345" << endl;
-		outfile << "CCCCCC 1000 20 1234512345" << endl;
+		outfile << "AAAAAA 1240 20 1234512345" << endl;
+		outfile << "BBBBBB 5000 30 1234512345" << endl;
+		outfile << "CCCCCC 1000 40 1234512345" << endl;
 		outfile.close();
 	}
 
-	TEST_METHOD(ReadTest) {
+	TEST_METHOD(Read) {
 		unbounded_buffer<Msg> output;
 		FileFetcher sut(dir_, output);
 		sut.start();
@@ -38,8 +39,12 @@ public:
 		}
 	}
 
-	TEST_METHOD(RouteTest) {
-		vector<unbounded_buffer<Msg>> outputs;
+	TEST_METHOD(Route) {
+		size_t num_channels = 2;
+
+		vector<unbounded_buffer<Msg>> outputs(num_channels);
+
+		//FileFetcher sut(dir_, outputs);
 
 
 	}

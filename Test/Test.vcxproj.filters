@@ -18,9 +18,6 @@
     <ClCompile Include="TicksTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BacktesterTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AssetTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -28,6 +25,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MsgTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_Template.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileFetcherTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

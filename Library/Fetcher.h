@@ -7,10 +7,13 @@ using namespace concurrency;
 
 class Fetcher : public agent {
 public:
-	Fetcher(ITarget<Msg>& target);
+	void add_target(shared_ptr<ITarget<Msg>> target);
+	ITarget<Msg>& get_target(const Msg& msg);
 
 protected:
-	ITarget<Msg>& target_;
+	vector<shared_ptr<ITarget<Msg>>> targets_;
+	unordered_map<string, shared_ptr<ITarget<Msg>>> assigned_;
+	unordered_map<shared_ptr<ITarget<Msg>>, size_t> counts_;
 
 	static shared_ptr<spdlog::logger> logger;
 };

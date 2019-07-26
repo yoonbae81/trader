@@ -9,7 +9,7 @@ using namespace concurrency;
 
 class FileFetcher : public Fetcher {
 public:
-	explicit FileFetcher(const path& dir, ITarget<Msg>& target);
+	explicit FileFetcher(const path& dir);
 	
 protected:
 	void run() override;

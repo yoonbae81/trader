@@ -55,7 +55,8 @@ void Analyzer::run() {
 // TODO holdingMap[msg.symbol].Bought(quantity, bought_price);
 
 		// TODO calculate quantity to buy or sell based on asset
-		msg.order_quantity = rand() % 100;
+		//msg.order_quantity = rand() % 100;
+		msg.order_quantity = msg.tick_quantity;
 		logger->trace("Quantity: {}", msg.order_quantity);
 
 		send(target_, msg);

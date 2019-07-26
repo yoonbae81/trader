@@ -8,8 +8,8 @@ using namespace concurrency;
 
 shared_ptr<spdlog::logger> Fetcher::logger = spdlog::stdout_color_mt("fetcher");
 
-FileFetcher::FileFetcher(const path& dir, ITarget<Msg>& target)
-	: dir_(dir), Fetcher(target) {
+FileFetcher::FileFetcher(const path& dir) : dir_(dir) {
+	logger->debug("Initializing");
 
 	logger->debug("Current directory: {}", current_path().string());
 	logger->debug("Finding files in {}", dir_.string());
@@ -36,7 +36,7 @@ void FileFetcher::run() {
 		while (getline(file, line)) {
 			try {
 				auto msg = Msg::Parse(line);
-				send(target_, msg);
+				send(get_target(msg), msg);
 				count++;
 
 				logger->trace("Sent: {}", line);

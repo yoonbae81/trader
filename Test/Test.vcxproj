@@ -170,10 +170,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssetTest.cpp" />
-    <ClCompile Include="BacktesterTest.cpp" />
+    <ClCompile Include="FileFetcherTest.cpp" />
     <ClCompile Include="JsonTest.cpp" />
     <ClCompile Include="MsgTest.cpp" />
     <ClCompile Include="TicksTest.cpp" />
+    <ClCompile Include="_Template.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
