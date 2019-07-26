@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "Analyzer.h"
 
+shared_ptr<spdlog::logger> Analyzer::logger = spdlog::stdout_color_mt("analyzer");
+
 Analyzer::Analyzer(const json& parameter, Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
 	: parameter_(parameter)
 	, asset_(asset)
 	, source_(source)
-	, target_(target)
-	, logger(spdlog::stdout_color_mt("analyzer")) {
+	, target_(target) {
 
 	logger->debug("Parameter: {}", parameter_.dump());
 	logger->debug("Initializing");

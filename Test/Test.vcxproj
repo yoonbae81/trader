@@ -174,7 +174,6 @@
     <ClCompile Include="JsonTest.cpp" />
     <ClCompile Include="MsgTest.cpp" />
     <ClCompile Include="TicksTest.cpp" />
-    <ClCompile Include="TraderTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

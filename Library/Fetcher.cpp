@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "Fetcher.h"
 
+
 Fetcher::Fetcher(ITarget<Msg>& target)
-	: target_(target)
-	, logger(spdlog::stdout_color_mt("fetcher")) {
-	
+	: target_(target) {
+
 	logger->debug("Initializing");
 }

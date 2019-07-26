@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "../Library/Holding.h"
+#include "Holding.h"
 
 using namespace std;
 using namespace concurrency;
@@ -24,6 +24,6 @@ private:
 	atomic<double> cash_;
 	concurrent_unordered_map<string, Holding> holdings_;
 
-	shared_ptr<spdlog::logger> logger;
+	static shared_ptr<spdlog::logger> logger;
 };
 

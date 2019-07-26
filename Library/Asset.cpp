@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "Asset.h"
 
-Asset::Asset(double cash) 
-	: cash_(cash) 
-	, logger(spdlog::stdout_color_mt("asset")) {
+shared_ptr<spdlog::logger> Asset::logger = spdlog::stdout_color_mt("asset");
 
+Asset::Asset(double cash)
+	: cash_(cash) {
 	logger->debug("Initializing");
 }
 

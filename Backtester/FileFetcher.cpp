@@ -6,6 +6,8 @@ using namespace std::filesystem;
 using namespace std::string_literals;
 using namespace concurrency;
 
+shared_ptr<spdlog::logger> Fetcher::logger = spdlog::stdout_color_mt("fetcher");
+
 FileFetcher::FileFetcher(const path& dir, ITarget<Msg>& target)
 	: dir_(dir), Fetcher(target) {
 

@@ -16,6 +16,6 @@ protected:
 	Asset& asset_;
 	ISource<Msg>& source_;
 
-	shared_ptr<spdlog::logger> logger;
+	static shared_ptr<spdlog::logger> logger;
 };
 
