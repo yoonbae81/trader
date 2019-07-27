@@ -21,7 +21,7 @@ shared_ptr<spdlog::logger> get_logger() {
 int main(int argc, char* argv[]) {
 	if (argc != 3) {
 		auto exe_name = path(argv[0]).filename().string();
-		cout << "usage: " << exe_name << "ANALYZER_JSON TICKDATA_DIR" << endl;
+		cout << "usage: " << exe_name << " ANALYZER_JSON TICKDATA_DIR" << endl;
 		return EXIT_FAILURE;
 	}
 
@@ -32,32 +32,35 @@ int main(int argc, char* argv[]) {
 
 	auto logger = get_logger();
 	logger->info("Started");
-	
+
 	try {
-		size_t num_analyzer = 3;
-		auto parameter = json::parse(ifstream(argv[1]));
+		// Fetcher
 		path tick_dir(argv[2]);
+		FileFetcher fetcher(tick_dir);
+
+		// Broker
 		double cash = 100 * 10000.0;	// TODO Load initial cash from argv 
 		Asset asset(cash);
-
-		FileFetcher fetcher(tick_dir);
-		vector<Analyzer> analyzers;
 		unbounded_buffer<Msg> order_channel;
 		Broker broker(asset, order_channel);
 
-		for(auto i = 0; i < num_analyzer; ++i) {
+		// Analyzers
+		vector<Analyzer> analyzers;
+		size_t num_analyzer = thread::hardware_concurrency() - 2;
+		auto param = json::parse(ifstream(argv[1]));
+		for (auto i = 0; i < num_analyzer; ++i) {
 			auto tick_channel = make_shared<unbounded_buffer<Msg>>();
 			fetcher.add_target(tick_channel);
-			analyzers.emplace_back(parameter, asset, *tick_channel, order_channel);
+			analyzers.emplace_back(param, asset, *tick_channel, order_channel);
 		}
 
 		fetcher.start();
-		for (auto& analyzer : analyzers) analyzer.start();
 		broker.start();
+		for (auto& analyzer : analyzers) analyzer.start();
 
 		agent::wait(&fetcher);
-		for (auto& analyzer : analyzers) agent::wait(&analyzer);
 		agent::wait(&broker);
+		for (auto& analyzer : analyzers) agent::wait(&analyzer);
 
 		logger->info("Done");
 		return EXIT_SUCCESS;

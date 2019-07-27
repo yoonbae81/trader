@@ -36,7 +36,7 @@ void FileFetcher::run() {
 		while (getline(file, line)) {
 			try {
 				auto msg = Msg::Parse(line);
-				send(get_target(msg), msg);
+				send(*get_target(msg.symbol), msg);
 				count++;
 
 				logger->trace("Sent: {}", line);

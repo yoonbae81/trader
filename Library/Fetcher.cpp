@@ -3,21 +3,21 @@
 
 void Fetcher::add_target(shared_ptr<ITarget<Msg>> target) {
 	targets_.push_back(target);
-	counts_[target] = 0;
+	frequency_[target] = 0;
 	logger->debug("Target added");
 }
 
-ITarget<Msg>& Fetcher::get_target(const Msg& msg) {
+shared_ptr<ITarget<Msg>> Fetcher::get_target(const string& symbol) {
 	try {
-		return *assigned_.at(msg.symbol);
+		return assigned_.at(symbol);
 	} catch (out_of_range) {
-		auto item = min_element(counts_.begin(), counts_.end(),
+		auto item = min_element(frequency_.begin(), frequency_.end(),
 								[](const auto& l, const auto& r) {return l.second < r.second; });
 		auto target = item->first;
-		assigned_[msg.symbol] = target;
-		counts_[target]++;
+		assigned_[symbol] = target;
+		frequency_[target]++;
 
-		return *target;
+		return target;
 	}
 }
 
