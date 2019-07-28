@@ -10,12 +10,12 @@ using namespace concurrency;
 class FileFetcher : public Fetcher {
 public:
 	explicit FileFetcher(const path& dir);
-	
-protected:
-	void run() override;
 
 private:
+	void run() override;
+
 	const path& dir_;
 	vector<string> files_;
+
 };
 

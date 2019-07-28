@@ -13,10 +13,11 @@ public:
 
 	Analyzer(const Analyzer&) = delete;
 	Analyzer(Analyzer&& src) noexcept
-		: parameter_(move(src.parameter_))
+		: parameter_(src.parameter_)
 		, asset_(src.asset_)
 		, source_(src.source_)
-		, target_(src.target_) {};
+		, target_(src.target_)
+		, logger(src.logger) {};
 
 protected:
 	void run() override;
@@ -25,7 +26,8 @@ protected:
 	Asset& asset_;
 	ISource<Msg>& source_;
 	ITarget<Msg>& target_;
+	shared_ptr<spdlog::logger> logger;
 
-	static shared_ptr<spdlog::logger> logger;
+	static atomic<int> id;
 };
 

@@ -11,8 +11,7 @@ public:
 	shared_ptr<ITarget<Msg>> get_target(const string& msg);
 
 protected:
-	vector<shared_ptr<ITarget<Msg>>> targets_;
-	unordered_map<shared_ptr<ITarget<Msg>>, size_t> frequency_;
+	unordered_map<shared_ptr<ITarget<Msg>>, size_t> targets_;
 	unordered_map<string, shared_ptr<ITarget<Msg>>> assigned_;
 
 	static shared_ptr<spdlog::logger> logger;

@@ -19,14 +19,15 @@ public:
 		ofstream outfile(dir_ / filename_);
 		outfile << "AAAAAA 1243 10 1234512345" << endl;
 		outfile << "AAAAAA 1240 20 1234512345" << endl;
+		outfile << "AAAAAA 1240 30 1234512345" << endl;
 		outfile << "BBBBBB 5000 30 1234512345" << endl;
-		outfile << "CCCCCC 1000 40 1234512345" << endl;
 		outfile.close();
 	}
 
-	TEST_METHOD(Read) {
-		unbounded_buffer<Msg> output;
-		FileFetcher sut(dir_, output);
+	TEST_METHOD(OneChannel) {
+		auto channel = make_shared<unbounded_buffer<Msg>>();
+		FileFetcher sut(dir_);
+		sut.add_target(channel);
 		sut.start();
 		agent::wait(&sut);
 
@@ -34,21 +35,34 @@ public:
 		ifstream infile(dir_ / filename_);
 		while (getline(infile, line)) {
 			auto expected = Msg::Parse(line);
-			auto actual = receive(output);
+			auto actual = receive(*channel);
 			Assert::AreEqual(expected.symbol, actual.symbol);
 		}
 	}
 
-	TEST_METHOD(Route) {
-		size_t num_channels = 2;
+	TEST_METHOD(RouteToChannels) {
+		auto channel1 = make_shared<unbounded_buffer<Msg>>();
+		auto channel2 = make_shared<unbounded_buffer<Msg>>();
 
-		vector<unbounded_buffer<Msg>> outputs(num_channels);
+		FileFetcher sut(dir_);
+		sut.add_target(channel1);
+		sut.add_target(channel2);
+		sut.start();
+		agent::wait(&sut);
 
-		//FileFetcher sut(dir_, outputs);
-
-
+		auto msg = receive(*channel1);
+		if (msg.symbol == "AAAAAA") {
+			Assert::AreEqual(string("AAAAAA"), receive(*channel1).symbol);
+			Assert::AreEqual(string("AAAAAA"), receive(*channel1).symbol);
+			Assert::AreEqual(string("BBBBBB"), receive(*channel2).symbol);
+		} else if (msg.symbol == "BBBBBB") {
+			Assert::AreEqual(string("AAAAAA"), receive(*channel2).symbol);
+			Assert::AreEqual(string("AAAAAA"), receive(*channel2).symbol);
+			Assert::AreEqual(string("AAAAAA"), receive(*channel2).symbol);
+		} else {
+			Assert::IsTrue(false); // never should be here 
+		}
 	}
-
 
 	TEST_METHOD_CLEANUP(DeleteGeneratedFile) {
 		filesystem::remove_all(dir_);

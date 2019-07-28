@@ -13,7 +13,7 @@ using namespace concurrency;
 shared_ptr<spdlog::logger> get_logger() {
 	auto logger = spdlog::stdout_color_mt("main");
 	spdlog::set_level(spdlog::level::trace);
-	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-7l%$ %-8n %5t | %v"); // add thread_id with %-5t if necessary
+	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-7l%$ %-9n | %v"); // add thread_id with %5t if necessary
 
 	return logger;
 }
@@ -34,15 +34,14 @@ int main(int argc, char* argv[]) {
 	logger->info("Started");
 
 	try {
-		// Fetcher
-		path tick_dir(argv[2]);
-		FileFetcher fetcher(tick_dir);
-
-		// Broker
+		// Asset
 		double cash = 100 * 10000.0;	// TODO Load initial cash from argv 
 		Asset asset(cash);
 		unbounded_buffer<Msg> order_channel;
-		Broker broker(asset, order_channel);
+
+		// Fetcher
+		path tick_dir(argv[2]);
+		FileFetcher fetcher(tick_dir);
 
 		// Analyzers
 		vector<Analyzer> analyzers;
@@ -54,13 +53,16 @@ int main(int argc, char* argv[]) {
 			analyzers.emplace_back(param, asset, *tick_channel, order_channel);
 		}
 
+		// Broker
+		Broker broker(asset, order_channel);
+
 		fetcher.start();
-		broker.start();
 		for (auto& analyzer : analyzers) analyzer.start();
+		broker.start();
 
 		agent::wait(&fetcher);
-		agent::wait(&broker);
 		for (auto& analyzer : analyzers) agent::wait(&analyzer);
+		agent::wait(&broker);
 
 		logger->info("Done");
 		return EXIT_SUCCESS;

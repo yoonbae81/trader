@@ -14,11 +14,13 @@ void Broker::run() {
 	logger->info("Started");
 	while (true) {
 		auto msg = receive(source_);
+		if (msg == Msg::QUIT) break;
 
 		logger->trace("Ordered: {}", msg.order_quantity);
 		msg.filled_quantity = 2;
 	}
 
+	logger->debug("Done");
 	done();
 }
 

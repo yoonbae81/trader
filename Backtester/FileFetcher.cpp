@@ -36,7 +36,7 @@ void FileFetcher::run() {
 		while (getline(file, line)) {
 			try {
 				auto msg = Msg::Parse(line);
-				send(*get_target(msg.symbol), msg);
+				asend(*get_target(msg.symbol), msg);
 				count++;
 
 				logger->trace("Sent: {}", line);
@@ -49,7 +49,9 @@ void FileFetcher::run() {
 		logger->info("{} ticks sent", count);
 	}
 
-	// TODO Let other agents know it's done
+	for (auto& item : targets_) {
+		asend(*item.first, Msg::QUIT);
+	}
 
 	done();
 }

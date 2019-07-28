@@ -1,16 +1,17 @@
 #include "pch.h"
 #include "Analyzer.h"
 
-shared_ptr<spdlog::logger> Analyzer::logger = spdlog::stdout_color_mt("analyzer");
+atomic<int> Analyzer::id = 0;
 
 Analyzer::Analyzer(const json& parameter, Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
 	: parameter_(parameter)
 	, asset_(asset)
 	, source_(source)
-	, target_(target) {
+	, target_(target)
+	, logger(spdlog::stdout_color_mt("analyzer" + to_string(++id))) {
 
-	logger->debug("Parameter: {}", parameter_.dump());
 	logger->debug("Initializing");
+	logger->debug("Parameter: {}", parameter_.dump());
 }
 
 void Analyzer::run() {
@@ -18,6 +19,9 @@ void Analyzer::run() {
 
 	while (true) {
 		auto msg = receive(source_);
+
+		if (msg == Msg::QUIT) break;
+
 		msg.signal_strength = 10;
 
 		// TODO Compare the current bought_price to calculated stoploss bought_price
@@ -57,10 +61,12 @@ void Analyzer::run() {
 		// TODO calculate quantity to buy or sell based on asset
 		//msg.order_quantity = rand() % 100;
 		msg.order_quantity = msg.tick_quantity;
-		logger->trace("Quantity: {}", msg.order_quantity);
+		logger->trace("Quantity: {} {}", msg.symbol, msg.order_quantity);
 
-		send(target_, msg);
+		asend(target_, msg);
 	}
 
+	asend(target_, Msg::QUIT);
+	logger->debug("Done");
 	done();
 }
