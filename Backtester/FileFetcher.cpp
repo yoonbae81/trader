@@ -12,47 +12,38 @@ FileFetcher::FileFetcher(const path& dir) : dir_(dir) {
 	logger->debug("Initializing");
 
 	logger->debug("Current directory: {}", current_path().string());
-	logger->debug("Finding files in {}", dir_.string());
+	logger->debug("Finding file(s) in {}", dir_.string());
 	if (!exists(dir_)) throw runtime_error("Not exists " + dir_.string());
 
 	for (auto& f : directory_iterator(dir_)) {
-		files_.push_back(f.path().string());
+		if (f.path().extension() != ".txt") continue;
+		paths_.push_back(f.path());
 		logger->trace("Found: {}", f.path().string());
 	}
 
-	logger->debug("Found: {} files", files_.size());
+	sort(paths_.begin(), paths_.end());
+	logger->debug("Found: {} file(s)", paths_.size());
+
+	it_ = paths_.begin();
+	load();
 }
 
-void FileFetcher::run() {
-	logger->info("Started");
+bool FileFetcher::load() {
+	if (it_ == paths_.end()) return false;
 
-	sort(files_.begin(), files_.end());
-	for (auto filepath : files_) {
-		logger->info("Loading: {}", filepath);
-		ifstream file(filepath);
+	file_ = ifstream(*it_);
+	logger->info("Loading: {}", it_->string());
 
-		string line;
-		size_t count = 0;
-		while (getline(file, line)) {
-			try {
-				auto msg = Msg::Parse(line);
-				asend(*get_target(msg.symbol), msg);
-				count++;
-
-				logger->trace("Sent: {}", line);
-
-			} catch (ParsingException& e) {
-				logger->warn("ParsingException: {}", e.what());
-				continue;
-			}
-		}
-		logger->info("{} ticks sent", count);
-	}
-
-	for (auto& item : targets_) {
-		asend(*item.first, Msg::QUIT);
-	}
-
-	done();
+	return true;
 }
 
+bool FileFetcher::fetch(string& line) {
+	getline(file_, line);
+
+	if (!file_) {
+		it_++;
+		return load();
+	}
+
+	return true;
+}

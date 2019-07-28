@@ -8,7 +8,7 @@ using namespace std;
 struct Msg {
 	static const Msg QUIT;
 	static const Msg RESET;
-	static Msg Parse(const string& line);
+	static Msg parse(const string& line);
 
 	Msg(const string& symbol) : symbol(symbol) {};
 

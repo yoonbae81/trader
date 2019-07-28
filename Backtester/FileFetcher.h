@@ -11,11 +11,16 @@ class FileFetcher : public Fetcher {
 public:
 	explicit FileFetcher(const path& dir);
 
+protected:
+	virtual bool fetch(string& line);
+
 private:
-	void run() override;
+	bool load();
 
 	const path& dir_;
-	vector<string> files_;
+	vector<path> paths_;
+	vector<path>::iterator it_;
+	ifstream file_;
 
 };
 

@@ -11,6 +11,9 @@ public:
 	shared_ptr<ITarget<Msg>> get_target(const string& msg);
 
 protected:
+	void run() override;
+	virtual bool fetch(string& line) = 0;
+
 	unordered_map<shared_ptr<ITarget<Msg>>, size_t> targets_;
 	unordered_map<string, shared_ptr<ITarget<Msg>>> assigned_;
 

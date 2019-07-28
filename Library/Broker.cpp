@@ -11,7 +11,7 @@ Broker::Broker(Asset& asset, ISource<Msg>& source)
 }
 
 void Broker::run() {
-	logger->info("Started");
+	logger->info("Running");
 	while (true) {
 		auto msg = receive(source_);
 		if (msg == Msg::QUIT) break;

@@ -4,7 +4,7 @@
 const Msg Msg::QUIT = Msg("QUIT");
 const Msg Msg::RESET = Msg("RESET");
 
-Msg Msg::Parse(const string& line) {
+Msg Msg::parse(const string& line) {
 	string tokens[4];
 	istringstream ss(line);
 	getline(ss, tokens[0], ' ');

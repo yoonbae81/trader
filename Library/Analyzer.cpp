@@ -15,12 +15,12 @@ Analyzer::Analyzer(const json& parameter, Asset& asset, ISource<Msg>& source, IT
 }
 
 void Analyzer::run() {
-	logger->info("Started");
+	logger->info("Running");
 
 	while (true) {
 		auto msg = receive(source_);
-
 		if (msg == Msg::QUIT) break;
+		// TODO else if (msg == Msg::RESET) RESET();
 
 		msg.signal_strength = 10;
 
