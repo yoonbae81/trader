@@ -3,15 +3,15 @@
 
 atomic<int> Analyzer::id = 0;
 
-Analyzer::Analyzer(const json& parameter, Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
-	: parameter_(parameter)
+Analyzer::Analyzer(const json& param, Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
+	: param_(param)
 	, asset_(asset)
 	, source_(source)
 	, target_(target)
 	, logger(spdlog::stdout_color_mt("analyzer" + to_string(++id))) {
 
 	logger->debug("Initializing");
-	logger->debug("Parameter: {}", parameter_.dump());
+	logger->debug("Parameter: {}", param_.dump());
 }
 
 void Analyzer::run() {
@@ -22,7 +22,6 @@ void Analyzer::run() {
 		if (msg == Msg::QUIT) break;
 		// TODO else if (msg == Msg::RESET) RESET();
 
-		msg.signal_strength = 10;
 
 		// TODO Compare the current bought_price to calculated stoploss bought_price
 		// TODO When stoploss activated, Send an Order
@@ -37,11 +36,9 @@ void Analyzer::run() {
 		//	broker->Order(msg.symbol, -1);
 		//}
 
-		// TODO add ticks
+		auto& ticks = ticks_map[msg.symbol];
+		ticks.add(msg);
 
-//auto ticks = ticksMap[msg.symbol];
-//ticks.AddTick(msg);
-// TODO AddTick Msg into Ticks
 
 // - compare timestamp between the recent message and the one stored in Ticks object
 // 	- if time difference is more than 1 second, add bought_price and quantity, and calculate
@@ -60,6 +57,7 @@ void Analyzer::run() {
 
 		// TODO calculate quantity to buy or sell based on asset
 		//msg.order_quantity = rand() % 100;
+		msg.signal_strength = 10;
 		msg.order_quantity = msg.tick_quantity;
 		logger->trace("Quantity: {} {}", msg.symbol, msg.order_quantity);
 

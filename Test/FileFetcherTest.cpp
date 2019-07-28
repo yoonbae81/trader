@@ -34,7 +34,7 @@ public:
 		string line;
 		ifstream infile(dir_ / filename_);
 		while (getline(infile, line)) {
-			auto expected = Msg::Parse(line);
+			auto expected = Msg::parse(line);
 			auto actual = receive(*channel);
 			Assert::AreEqual(expected.symbol, actual.symbol);
 		}

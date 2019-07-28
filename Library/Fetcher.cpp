@@ -45,6 +45,7 @@ void Fetcher::run() {
 		asend(*item.first, Msg::QUIT);
 	}
 
+	logger->debug("Done");
 	done();
 }
 

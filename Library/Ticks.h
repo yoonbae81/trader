@@ -7,7 +7,7 @@ using namespace std;
 struct Ticks {
 	Ticks();
 
-	bool AddTick(const Msg& m);
+	bool add(const Msg& m);
 
 	static const size_t kNumKeep = 100;	// number of ticks to keep during DeleteOld()
 	const size_t capacity;
@@ -17,6 +17,6 @@ struct Ticks {
 	vector<double> quantities;
 
 private:
-	void AddValue(vector<double>& v, double value);
-	void DeleteOld(vector<double>& v, size_t num_keep);
+	void add(vector<double>& v, double value);
+	void erase_old(vector<double>& v, size_t num_keep);
 };
