@@ -15,9 +15,9 @@ Msg Msg::parse(const string& line) {
 	Msg msg(tokens[0]);
 
 	try {
-		msg.tick_price = stod(tokens[1]);
-		msg.tick_quantity = stoi(tokens[2]);
-		msg.tick_timestamp = stoi(tokens[3]);
+		msg.fetcher_price = stod(tokens[1]);
+		msg.fetcher_quantity = stoi(tokens[2]);
+		msg.fetcher_timestamp = stoi(tokens[3]);
 	} catch (invalid_argument) {
 		if (msg.symbol == "QUIT") throw QuitException();
 		if (msg.symbol == "RESET") throw ResetException();

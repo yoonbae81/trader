@@ -28,14 +28,14 @@ public:
 		auto expected = cash;
 
 		parallel_invoke(
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Sold(symbol, quantity, bought_price); },
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Sold(symbol, quantity, bought_price); },
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Sold(symbol, quantity, bought_price); },
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Sold(symbol, quantity, bought_price); });
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.sold(symbol, quantity, bought_price); },
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.sold(symbol, quantity, bought_price); },
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.sold(symbol, quantity, bought_price); },
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.sold(symbol, quantity, bought_price); });
 		auto actual = sut.cash();
 
 		Assert::AreEqual(expected, actual);
@@ -51,16 +51,16 @@ public:
 		auto expected = quantity;
 
 		parallel_invoke(
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Sold(symbol, quantity, bought_price); },
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Sold(symbol, quantity, bought_price); },
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Sold(symbol, quantity, bought_price); },
-			[&] { sut.Bought(symbol, quantity, bought_price); },
-			[&] { sut.Sold(symbol, quantity, bought_price); });
-		auto actual = sut.quantity(symbol);
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.sold(symbol, quantity, bought_price); },
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.sold(symbol, quantity, bought_price); },
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.sold(symbol, quantity, bought_price); },
+			[&] { sut.bought(symbol, quantity, bought_price); },
+			[&] { sut.sold(symbol, quantity, bought_price); });
+		auto actual = sut[symbol].quantity;
 
 		Assert::AreEqual(expected, actual);
 	}
@@ -74,8 +74,8 @@ public:
 		auto bought_price = 100.0;
 		auto expected = bought_price;
 
-		sut.Bought(symbol, quantity, bought_price);
-		auto actual = sut.bought_price(symbol);
+		sut.bought(symbol, quantity, bought_price);
+		auto actual = sut[symbol].bought_price;
 
 		Assert::AreEqual(expected, actual);
 	}
@@ -90,11 +90,11 @@ public:
 
 		Asset sut(cash);
 		parallel_invoke(
-			[&] { sut.Bought(symbol, quantity1, price1); },
-			[&] { sut.Bought(symbol, quantity2, price2); });
+			[&] { sut.bought(symbol, quantity1, price1); },
+			[&] { sut.bought(symbol, quantity2, price2); });
 
 		auto expected = (price1 * quantity1 + price2 * quantity2) / (quantity1 + quantity2);
-		auto actual = sut.bought_price(symbol);
+		auto actual = sut[symbol].bought_price;
 
 		Assert::AreEqual(expected, actual);
 	}
@@ -116,12 +116,12 @@ public:
 		auto price3 = 100.0;
 
 		Asset sut(cash);
-		sut.Bought(symbol1, quantity1, price1);
-		sut.Bought(symbol2, quantity2, price2);
-		sut.Bought(symbol3, quantity3, price3);
+		sut.bought(symbol1, quantity1, price1);
+		sut.bought(symbol2, quantity2, price2);
+		sut.bought(symbol3, quantity3, price3);
 
 		auto expected = quantity1 * price1 + quantity2 * price2 + quantity3 * price3;
-		auto actual = sut.GetTotalRisk();
+		auto actual = sut.total_risk();
 
 		Assert::AreEqual(expected, actual);
 	}

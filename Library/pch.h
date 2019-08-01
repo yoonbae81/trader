@@ -9,7 +9,7 @@
 
 #include <cassert>
 #include <algorithm>
-#include <ctime>
+#include <chrono>
 #include <deque>
 #include <iostream>
 #include <iterator>

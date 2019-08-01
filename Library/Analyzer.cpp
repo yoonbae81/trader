@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "Analyzer.h"
 
-atomic<int> Analyzer::id = 0;
+atomic<int> Analyzer::count = 0; // initialize static member
 
-Analyzer::Analyzer(const json& param, Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
+Analyzer::Analyzer(json& param, Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
 	: param_(param)
 	, asset_(asset)
 	, source_(source)
 	, target_(target)
-	, logger(spdlog::stdout_color_mt("analyzer" + to_string(++id))) {
+	, logger(spdlog::stdout_color_mt("analyzer" + to_string(++count))) {
 
 	logger->debug("Initializing");
 	logger->debug("Parameter: {}", param_.dump());
@@ -18,53 +18,53 @@ void Analyzer::run() {
 	logger->info("Running");
 
 	while (true) {
-		auto msg = receive(source_);
-		if (msg == Msg::QUIT) break;
-		// TODO else if (msg == Msg::RESET) RESET();
+		Msg m = receive(source_);
 
+		if (m == Msg::QUIT) break;
+		if (m == Msg::RESET) {
+			ticks_map_.clear();
+			continue;
+		}
 
-		// TODO Compare the current bought_price to calculated stoploss bought_price
-		// TODO When stoploss activated, Send an Order
+		if (!ticks_map_[m.symbol].update(m)) continue;
 
-		//asset_.bought_price(msg.symbol);
+		m.analyzer_strength = calc_strength(m);
+		m.analyzer_quantity = calc_quantity(m);
 
-		//if (holdingMap.contains(msg.symbol) 
-		//	&& msg.bought_price <= holdingMap[msg.symbol].stoploss())
-		//{
-		//	std::clog << "Hits stoploss" << std::endl;
-		//	// TODO Calculate quantity to sell; How will calculate the quantity?
-		//	broker->Order(msg.symbol, -1);
-		//}
+		logger->trace("[{}] Strength: {}", m.symbol, m.analyzer_strength);
+		logger->trace("[{}] Quantity: {}", m.symbol, m.analyzer_quantity);
 
-		auto& ticks = ticks_map[msg.symbol];
-		ticks.add(msg);
-
-
-// - compare timestamp between the recent message and the one stored in Ticks object
-// 	- if time difference is more than 1 second, add bought_price and quantity, and calculate
-// 		- if the result of calculation is strong enough, make an order to broker in async thread
-// 			- to determine quantity to buy, use AccountManager to query Redis
-// 			- when the order completed, update Ticks's quantity which is atom
-// 	- else update bought_price and add quantity, and skip to calculate
-
-// if a ticks's timestamp is shorter than 1 second, skip calculating 
-//int strength = analyzer->CalcStrength(ticks);
-//clog << "Strength: " << strength << endl;
-
-// TODO Calculate quantity to buy
-//if (strength) broker->Order(msg.symbol, 0);
-// TODO holdingMap[msg.symbol].Bought(quantity, bought_price);
-
-		// TODO calculate quantity to buy or sell based on asset
-		//msg.order_quantity = rand() % 100;
-		msg.signal_strength = 10;
-		msg.order_quantity = msg.tick_quantity;
-		logger->trace("Quantity: {} {}", msg.symbol, msg.order_quantity);
-
-		asend(target_, msg);
+		if (m.analyzer_quantity) asend(target_, m);
+		if (asset_.has(m.symbol)) update_stoploss(m);
 	}
 
 	asend(target_, Msg::QUIT);
 	logger->debug("Done");
 	done();
 }
+
+int Analyzer::calc_strength(const Msg& msg) {
+	// TODO
+	//if (asset_.has(m.symbol)
+	//	&& m.fetcher_price < asset_[m.symbol].stoploss_price) {
+	//	logger->info("[{}] below stoploss (Tick: {} < Limit: {})", m.symbol, m.fetcher_price, asset_[m.symbol].stoploss_price);
+	//	m.analyzer_quantity = quantity_sell(m);
+	//	return asset_[msg.symbol].quantity * -1;
+	//}
+
+	return rand() % 10;
+}
+
+double Analyzer::calc_quantity(const Msg& msg) {
+	if (msg.analyzer_strength < param_["threshold"]) return 0.0;
+
+	// TODO
+
+	return rand() % 100;
+}
+
+void Analyzer::update_stoploss(const Msg& msg) {
+	// TODO
+}
+
+

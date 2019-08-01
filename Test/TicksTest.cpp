@@ -21,19 +21,19 @@ public:
 		auto m = Msg::parse(line);
 
 		auto sut = Ticks();
-		sut.add(m);
+		sut.update(m);
 
-		Assert::AreEqual(m.tick_timestamp, sut.timestamp);
-		Assert::AreEqual(m.tick_price, sut.prices.front());
-		Assert::AreEqual(m.tick_price, sut.prices.data()[0]);
-		Assert::AreEqual(m.tick_quantity, sut.quantities.front());
-		Assert::AreEqual(m.tick_quantity, sut.quantities.data()[0]);
+		Assert::AreEqual(m.fetcher_timestamp, sut.timestamp);
+		Assert::AreEqual(m.fetcher_price, sut.prices.front());
+		Assert::AreEqual(m.fetcher_price, sut.prices.data()[0]);
+		Assert::AreEqual(m.fetcher_quantity, sut.quantities.front());
+		Assert::AreEqual(m.fetcher_quantity, sut.quantities.data()[0]);
 
 		// when timestamp is same, subsequent request should update bought_price and add quantity
-		m.tick_price *= 2;
-		Assert::IsFalse(sut.add(m));
-		Assert::AreEqual(m.tick_price, sut.prices.back());
-		Assert::AreEqual(m.tick_quantity * 2, sut.quantities.back());
+		m.fetcher_price *= 2;
+		Assert::IsFalse(sut.update(m));
+		Assert::AreEqual(m.fetcher_price, sut.prices.back());
+		Assert::AreEqual(m.fetcher_quantity * 2, sut.quantities.back());
 	}
 
 	TEST_METHOD(AddTest_Multiple) {
@@ -44,8 +44,8 @@ public:
 		auto sut = Ticks();
 		// TODO use parallel_for
 		for (auto i = 0; i < count; i++) {
-			msg.tick_timestamp += i;
-			sut.add(msg);
+			msg.fetcher_timestamp += i;
+			sut.update(msg);
 		}
 
 		auto expected = count % (sut.capacity - sut.kNumKeep);

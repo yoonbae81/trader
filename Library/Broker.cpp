@@ -16,8 +16,8 @@ void Broker::run() {
 		auto msg = receive(source_);
 		if (msg == Msg::QUIT) break;
 
-		logger->trace("Ordered: {}", msg.order_quantity);
-		msg.filled_quantity = 2;
+		logger->trace("Ordered: {}", msg.analyzer_quantity);
+		msg.broker_quantity = 2;
 	}
 
 	logger->debug("Done");

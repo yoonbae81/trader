@@ -4,6 +4,7 @@
 #include "Exceptions.h"
 
 using namespace std;
+using namespace std::chrono;
 
 struct Msg {
 	static const Msg QUIT;
@@ -15,20 +16,15 @@ struct Msg {
 	const string symbol;
 
 	// TODO consider nested struct
-	double tick_price {};
-	double tick_quantity {};
-	time_t tick_timestamp {};
+	double fetcher_price {};
+	double fetcher_quantity {};
+	time_t fetcher_timestamp {};
 
-	int    signal_strength {};
-	time_t signal_timestamp {};
+	size_t analyzer_strength {};
+	double analyzer_quantity {};
 
-	double order_price {};
-	double order_quantity {};
-	time_t order_timestamp {};
-
-	double filled_price {};
-	double filled_quantity {};
-	time_t filled_timestamp {};
+	double broker_price {};
+	double broker_quantity {};
 
 	bool operator==(const Msg& rhs);
 	friend ostream& operator<<(ostream& os, const Msg& msg);

@@ -9,16 +9,16 @@ class Asset {
 public:
 	Asset(double cash);
 
-	// TODO Subscribe holdings_ from TickFetcher
-	// TODO Consider the persistence of Cash. e.g. Load from a file or something 
+	// TODO Load cash and holdings from a file or something 
 
-	void Bought(const string& symbol, double quantity, double bought_price);
-	void Sold(const string& symbol, double quantity, double bought_price);
-	double GetTotalRisk();
-
+	void bought(const string& symbol, double quantity, double bought_price);
+	void sold(const string& symbol, double quantity, double bought_price);
+	
+	double total_risk() const;
 	double cash() const;
-	double quantity(const string& symbol) const;
-	double bought_price(const string& symbol) const;
+
+	bool has(const string& symbol) const;
+	Holding& operator[](const string& symbol);
 
 private:
 	atomic<double> cash_;

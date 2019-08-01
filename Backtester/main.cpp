@@ -37,24 +37,25 @@ int main(int argc, char* argv[]) {
 		// Asset
 		double cash = 100 * 10000.0;	// TODO Load initial cash from argv 
 		Asset asset(cash);
-		unbounded_buffer<Msg> order_channel;
 
 		// Fetcher
 		path tick_dir(argv[2]);
 		FileFetcher fetcher(tick_dir);
 
+		// Broker
+		unbounded_buffer<Msg> order_channel;
+		Broker broker(asset, order_channel);
+
 		// Analyzers
 		vector<Analyzer> analyzers;
 		size_t num_analyzer = thread::hardware_concurrency() - 2;
 		auto param = json::parse(ifstream(argv[1]));
+
 		for (auto i = 0; i < num_analyzer; ++i) {
 			auto tick_channel = make_shared<unbounded_buffer<Msg>>();
 			fetcher.add_target(tick_channel);
 			analyzers.emplace_back(param, asset, *tick_channel, order_channel);
 		}
-
-		// Broker
-		Broker broker(asset, order_channel);
 
 		fetcher.start();
 		for (auto& analyzer : analyzers) analyzer.start();

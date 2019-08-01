@@ -21,9 +21,9 @@ public:
 		auto sut = Msg::parse(msg);
 
 		Assert::AreEqual(s, sut.symbol);
-		Assert::AreEqual(p, sut.tick_price);
-		Assert::AreEqual(v, sut.tick_quantity);
-		Assert::AreEqual(t, sut.tick_timestamp);
+		Assert::AreEqual(p, sut.fetcher_price);
+		Assert::AreEqual(v, sut.fetcher_quantity);
+		Assert::AreEqual(t, sut.fetcher_timestamp);
 	}
 
 	TEST_METHOD(EmptyMessage)

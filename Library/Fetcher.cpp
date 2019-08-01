@@ -32,6 +32,7 @@ void Fetcher::run() {
 			asend(*get_target(msg.symbol), msg);
 			count++;
 
+			// TODO set msg.fetcher_timestamp 
 			logger->trace("Sent: {}", line);
 
 		} catch (ParsingException& e) {

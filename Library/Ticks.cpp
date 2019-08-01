@@ -8,20 +8,22 @@ Ticks::Ticks() : capacity(rand() % 9999 + 9999) {
 	quantities.reserve(capacity);
 }
 
-bool Ticks::add(const Msg& m) {
-	bool added = false;
-
-	if (timestamp == m.tick_timestamp) {
-		prices.back() = m.tick_price;
-		quantities.back() += m.tick_quantity;
+bool Ticks::update(const Msg& m) {
+	if (timestamp == m.fetcher_timestamp) {
+		prices.back() = m.fetcher_price;
+		quantities.back() += m.fetcher_quantity;
 	} else {
-		add(prices, m.tick_price);
-		add(quantities, m.tick_quantity);
-		timestamp = m.tick_timestamp;
-		added = true;
+		add(prices, m.fetcher_price);
+		add(quantities, m.fetcher_quantity);
+		timestamp = m.fetcher_timestamp;
 	}
 
-	return added;
+	// return whether price changed
+	if (latest_price_ == m.fetcher_price) return false;
+	else {
+		latest_price_ = m.fetcher_price;
+		return true;
+	}
 }
 
 void Ticks::add(vector<double>& v, double value) {

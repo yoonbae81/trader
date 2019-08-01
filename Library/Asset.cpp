@@ -8,7 +8,7 @@ Asset::Asset(double cash)
 	logger->debug("Initializing");
 }
 
-void Asset::Bought(const string& symbol, double quantity, double bought_price) {
+void Asset::bought(const string& symbol, double quantity, double bought_price) {
 	auto& h = holdings_[symbol];
 
 	critical_section::scoped_lock(*h.mutex);
@@ -24,7 +24,7 @@ void Asset::Bought(const string& symbol, double quantity, double bought_price) {
 	while (!cash_.compare_exchange_weak(current_cash, current_cash - quantity * bought_price));
 }
 
-void Asset::Sold(const string& symbol, double quantity, double bought_price) {
+void Asset::sold(const string& symbol, double quantity, double bought_price) {
 	Holding& h = holdings_[symbol];
 
 	critical_section::scoped_lock(*h.mutex);
@@ -37,7 +37,7 @@ void Asset::Sold(const string& symbol, double quantity, double bought_price) {
 	while (!cash_.compare_exchange_weak(current_cash, current_cash + quantity * bought_price));
 }
 
-double Asset::GetTotalRisk() {
+double Asset::total_risk() const {
 	double result {};
 
 	for_each(begin(holdings_), end(holdings_), [&result](auto& p) {
@@ -51,11 +51,11 @@ double Asset::cash() const {
 	return cash_.load();
 }
 
-double Asset::quantity(const string& symbol) const {
-	return holdings_.at(symbol).quantity;
+bool Asset::has(const string& symbol) const {
+	return holdings_.find(symbol) != holdings_.end();
 }
 
-double Asset::bought_price(const string& symbol) const {
-	return holdings_.at(symbol).bought_price;
+Holding& Asset::operator[](const string& symbol) {
+	return holdings_.at(symbol);
 }
 
