@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Fetcher.h"
 
+Fetcher::Fetcher() {}
+Fetcher::~Fetcher() {}
+
 void Fetcher::add_target(shared_ptr<ITarget<Msg>> target) {
 	targets_.insert({target, 0});
 	logger->trace("Target added");

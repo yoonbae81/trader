@@ -10,6 +10,7 @@ using namespace concurrency;
 class FileFetcher : public Fetcher {
 public:
 	explicit FileFetcher(const path& dir);
+	virtual ~FileFetcher();
 
 protected:
 	virtual bool fetch(string& line);
@@ -21,6 +22,5 @@ private:
 	vector<path> paths_;
 	vector<path>::iterator it_;
 	ifstream file_;
-
 };
 

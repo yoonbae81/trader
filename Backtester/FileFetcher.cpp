@@ -12,7 +12,7 @@ FileFetcher::FileFetcher(const path& dir) : dir_(dir) {
 	logger->debug("Initializing");
 
 	logger->debug("Current directory: {}", current_path().string());
-	logger->debug("Finding file(s) in {}", dir_.string());
+	logger->debug("Finding file in {}", dir_.string());
 	if (!exists(dir_)) throw runtime_error("Not exists " + dir_.string());
 
 	for (auto& f : directory_iterator(dir_)) {
@@ -27,6 +27,8 @@ FileFetcher::FileFetcher(const path& dir) : dir_(dir) {
 	it_ = paths_.begin();
 	load();
 }
+
+FileFetcher::~FileFetcher() {}
 
 bool FileFetcher::load() {
 	if (it_ == paths_.end()) return false;

@@ -4,20 +4,21 @@
 #include "Msg.h"
 
 using namespace std;
+using namespace std::filesystem;
 using namespace concurrency;
 
-class Broker : public agent {
+class Ledger : public agent {
 public:
-	Broker(Asset& asset, ISource<Msg>& source, ITarget<Msg>& target);
-	~Broker();
+	Ledger(ISource<Msg>& source, const string& filename);
+	~Ledger();
 
 protected:
 	void run() override;
-
-	Asset& asset_;
 	ISource<Msg>& source_;
-	ITarget<Msg>& target_;
 
 	static shared_ptr<spdlog::logger> logger;
+
+private:
+	const string& filename_;
 };
 

@@ -7,6 +7,9 @@ using namespace concurrency;
 
 class Fetcher : public agent {
 public:
+	Fetcher();
+	virtual ~Fetcher();
+
 	void add_target(shared_ptr<ITarget<Msg>> target);
 	shared_ptr<ITarget<Msg>> get_target(const string& msg);
 
