@@ -20,22 +20,23 @@ public:
 
 	TEST_METHOD(CashTest) {
 		auto cash = 1000.0;
-		auto symbol = "AAAAAA";
 		Asset sut(cash);
 
-		auto quantity = 2.0;
-		auto bought_price = 100.0;
+		Msg m("AAAAAA");
+		m.broker_quantity = 2.0;
+		m.broker_price = 100.0;
+
 		auto expected = cash;
 
 		parallel_invoke(
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.sold(symbol, quantity, bought_price); },
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.sold(symbol, quantity, bought_price); },
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.sold(symbol, quantity, bought_price); },
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.sold(symbol, quantity, bought_price); });
+			[&] { sut.bought(m); },
+			[&] { sut.sold(m); },
+			[&] { sut.bought(m); },
+			[&] { sut.sold(m); },
+			[&] { sut.bought(m); },
+			[&] { sut.sold(m); },
+			[&] { sut.bought(m); },
+			[&] { sut.sold(m); });
 		auto actual = sut.cash();
 
 		Assert::AreEqual(expected, actual);
@@ -46,35 +47,39 @@ public:
 		auto symbol = "AAAAAA";
 		Asset sut(cash);
 
-		auto quantity = 2.0;
-		auto bought_price = 100.0;
-		auto expected = quantity;
+		Msg m(symbol);
+		m.broker_price = 100.0;
+		m.broker_quantity = 2.0;
+
+		auto expected = m.broker_quantity;
 
 		parallel_invoke(
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.sold(symbol, quantity, bought_price); },
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.sold(symbol, quantity, bought_price); },
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.sold(symbol, quantity, bought_price); },
-			[&] { sut.bought(symbol, quantity, bought_price); },
-			[&] { sut.sold(symbol, quantity, bought_price); });
+			[&] { sut.bought(m); },
+			[&] { sut.bought(m); },
+			[&] { sut.sold(m); },
+			[&] { sut.bought(m); },
+			[&] { sut.sold(m); },
+			[&] { sut.bought(m); },
+			[&] { sut.sold(m); },
+			[&] { sut.bought(m); },
+			[&] { sut.sold(m); });
 		auto actual = sut[symbol].quantity;
 
 		Assert::AreEqual(expected, actual);
 	}
 
 	TEST_METHOD(PriceTest) {
-		auto cash = 1000.0;
 		auto symbol = "AAAAAA";
+		auto cash = 1000.0;
 		Asset sut(cash);
 
-		auto quantity = 2.0;
-		auto bought_price = 100.0;
-		auto expected = bought_price;
+		Msg m(symbol);
+		m.broker_price = 100.0;
+		m.broker_quantity = 2.0;
 
-		sut.bought(symbol, quantity, bought_price);
+		auto expected = m.broker_price;
+
+		sut.bought(m);
 		auto actual = sut[symbol].bought_price;
 
 		Assert::AreEqual(expected, actual);
@@ -83,17 +88,22 @@ public:
 	TEST_METHOD(PriceAverageTest) {
 		auto cash = 1000.0;
 		auto symbol = "AAAAAA";
-		auto quantity1 = 1.0;
-		auto price1 = 100.0;
-		auto quantity2 = 1.0;
-		auto price2 = 200.0;
+
+		Msg m1(symbol);
+		m1.broker_price = 100.0;
+		m1.broker_quantity = 1.0;
+
+		Msg m2(symbol);
+		m2.broker_price = 200.0;
+		m2.broker_quantity = 1.0;
 
 		Asset sut(cash);
 		parallel_invoke(
-			[&] { sut.bought(symbol, quantity1, price1); },
-			[&] { sut.bought(symbol, quantity2, price2); });
+			[&] { sut.bought(m1); },
+			[&] { sut.bought(m2); });
 
-		auto expected = (price1 * quantity1 + price2 * quantity2) / (quantity1 + quantity2);
+		auto expected = (m1.broker_price * m1.broker_quantity + m2.broker_price * m2.broker_quantity) 
+			/ (m1.broker_quantity + m2.broker_quantity);
 		auto actual = sut[symbol].bought_price;
 
 		Assert::AreEqual(expected, actual);
@@ -103,24 +113,26 @@ public:
 	TEST_METHOD(TotalRiskTest) {
 		auto cash = 1000.0;
 
-		auto symbol1 = "AAAAAA";
-		auto quantity1 = 1.0;
-		auto price1 = 100.0;
+		Msg m1("AAAAAA");
+		m1.broker_price = 100.0;
+		m1.broker_quantity = 1.0;
 
-		auto symbol2 = "BBBBBBB";
-		auto quantity2 = 2.0;
-		auto price2 = 100.0;
+		Msg m2("BBBBBB");
+		m2.broker_price = 100.0;
+		m2.broker_quantity = 2.0;
 
-		auto symbol3 = "CCCCCC";
-		auto quantity3 = 3.0;
-		auto price3 = 100.0;
+		Msg m3("CCCCCC");
+		m3.broker_price = 100.0;
+		m3.broker_quantity = 3.0;
 
 		Asset sut(cash);
-		sut.bought(symbol1, quantity1, price1);
-		sut.bought(symbol2, quantity2, price2);
-		sut.bought(symbol3, quantity3, price3);
+		sut.bought(m1);
+		sut.bought(m2);
+		sut.bought(m3);
 
-		auto expected = quantity1 * price1 + quantity2 * price2 + quantity3 * price3;
+		auto expected = m1.broker_price * m1.broker_quantity
+			+ m2.broker_price * m2.broker_quantity
+			+ m3.broker_price * m3.broker_quantity;
 		auto actual = sut.total_risk();
 
 		Assert::AreEqual(expected, actual);

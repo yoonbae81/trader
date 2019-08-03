@@ -18,12 +18,11 @@ bool Ticks::update(const Msg& m) {
 		timestamp = m.fetcher_timestamp;
 	}
 
-	// return whether price changed
+	// return false when price is not changed
 	if (latest_price_ == m.fetcher_price) return false;
-	else {
-		latest_price_ = m.fetcher_price;
-		return true;
-	}
+
+	latest_price_ = m.fetcher_price;
+	return true;
 }
 
 void Ticks::add(vector<double>& v, double value) {

@@ -6,36 +6,40 @@ shared_ptr<spdlog::logger> Asset::logger = spdlog::stdout_color_mt("asset");
 Asset::Asset(double cash)
 	: cash_(cash) {
 	logger->debug("Initializing");
-	logger->info("Initial cash: {:0f}", cash_);
+	logger->info("Initial cash: {:.0f}", cash_);
 }
 
-void Asset::bought(const string& symbol, double quantity, double bought_price) {
-	auto& h = holdings_[symbol];
+void Asset::bought(const Msg& m) {
+	auto& h = holdings_[m.symbol];
 
 	critical_section::scoped_lock(*h.mutex);
 	{
 		auto quantity_old = h.quantity;
 		auto price_old = h.bought_price;
 
-		h.quantity = quantity_old + quantity;
-		h.bought_price = (quantity_old * price_old + quantity * bought_price) / (quantity_old + quantity);
+		h.quantity = quantity_old + m.broker_quantity;
+		h.bought_price = (quantity_old * price_old + m.broker_quantity * m.broker_price) / (quantity_old + m.broker_quantity);
 	}
 
 	auto current_cash = cash_.load();
-	while (!cash_.compare_exchange_weak(current_cash, current_cash - quantity * bought_price));
+	while (!cash_.compare_exchange_weak(current_cash, current_cash - m.broker_quantity * m.broker_price));
+
+	// TODO Log 
 }
 
-void Asset::sold(const string& symbol, double quantity, double bought_price) {
-	Holding& h = holdings_[symbol];
+void Asset::sold(const Msg& m) {
+	Holding& h = holdings_[m.symbol];
 
 	critical_section::scoped_lock(*h.mutex);
 	{
 		auto quantity_old = h.quantity;
-		h.quantity -= quantity;
+		h.quantity -= m.broker_quantity;
 	}
 
 	auto current_cash = cash_.load();
-	while (!cash_.compare_exchange_weak(current_cash, current_cash + quantity * bought_price));
+	while (!cash_.compare_exchange_weak(current_cash, current_cash + m.broker_quantity * m.broker_price));
+
+	// TODO Log 
 }
 
 double Asset::total_risk() const {

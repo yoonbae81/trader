@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "Msg.h"
 #include "Holding.h"
 
 using namespace std;
@@ -11,8 +12,9 @@ public:
 
 	// TODO Load cash and holdings from a file or something 
 
-	void bought(const string& symbol, double quantity, double bought_price);
-	void sold(const string& symbol, double quantity, double bought_price);
+	// TODO change following to Msg
+	void bought(const Msg& m);
+	void sold(const Msg& m);
 	
 	double total_risk() const;
 	double cash() const;

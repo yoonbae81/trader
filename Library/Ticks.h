@@ -10,12 +10,12 @@ struct Ticks {
 
 	bool update(const Msg& m);
 
-	static const size_t kNumKeep = 100;	// number of ticks to keep during DeleteOld()
 	const size_t capacity;
-	
-	time_t timestamp {};
 	vector<double> prices;
 	vector<double> quantities;
+	time_t timestamp {};
+
+	static const size_t kNumKeep = 100;	// number of ticks to keep during DeleteOld()
 
 private:
 	void add(vector<double>& v, double value);

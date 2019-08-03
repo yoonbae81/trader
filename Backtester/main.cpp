@@ -3,8 +3,8 @@
 #include "FileFetcher.h"
 #include "../Library/Analyzer.h"
 #include "../Library/Broker.h"
-#include "../Library/Ledger.h"
 #include "../Library/Asset.h"
+#include "../Library/Ledger.h"
 #include "../Library/Msg.h"
 #include "../Library/Exceptions.h"
 
@@ -42,8 +42,6 @@ int main(int argc, char* argv[]) {
 	logger->info("Started");
 
 	try {
-		// Asset
-		Asset asset(stod(argv[3]));
 
 		// Fetcher
 		path tick_dir(argv[2]);
@@ -54,31 +52,37 @@ int main(int argc, char* argv[]) {
 		size_t num_analyzer = thread::hardware_concurrency() - 2;
 		auto param = json::parse(ifstream(argv[1]));
 
+		// Asset, Ledger
+		Asset asset(stod(argv[3]));
+		Ledger ledger("log.json");
+
 		// Broker
 		unbounded_buffer<Msg> order_channel;
-		unbounded_buffer<Msg> result_channel;
-		Broker broker(asset, order_channel, result_channel);
+		Broker broker(asset, ledger, order_channel);
 
-		// Ledger
-		Ledger ledger(result_channel, "log.json");
+		// Start Agents
+		//for (auto i = 0; i < num_analyzer; ++i) {
+		//	auto tick_channel = make_shared<unbounded_buffer<Msg>>();
+		//	fetcher.add_target(tick_channel);
+		//	analyzers.emplace_back(param, asset, *tick_channel, order_channel);
+		//	analyzers[i].start();
+		//}
 
-		// Analyzers
-		for (auto i = 0; i < num_analyzer; ++i) {
-			auto tick_channel = make_shared<unbounded_buffer<Msg>>();
-			fetcher.add_target(tick_channel);
-			analyzers.emplace_back(param, asset, *tick_channel, order_channel);
-		}
+		auto tick_channel1 = make_shared<unbounded_buffer<Msg>>();
+		Analyzer analyzer1(param, asset, *tick_channel1, order_channel);
+		analyzer1.start();
 
-		ledger.start();
-		for (auto& analyzer : analyzers) analyzer.start();
+		auto tick_channel2 = make_shared<unbounded_buffer<Msg>>();
+		Analyzer analyzer2(param, asset, *tick_channel2, order_channel);
+		analyzer2.start();
+
 		broker.start();
 		fetcher.start();
 
+		// Wait Agents
 		agent::wait(&fetcher);
 		for (auto& analyzer : analyzers) agent::wait(&analyzer);
 		agent::wait(&broker);
-		agent::wait(&ledger);
-		
 
 		logger->info("Done");
 		return EXIT_SUCCESS;

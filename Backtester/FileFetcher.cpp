@@ -22,7 +22,7 @@ FileFetcher::FileFetcher(const path& dir) : dir_(dir) {
 	}
 
 	sort(paths_.begin(), paths_.end());
-	logger->debug("Found: {} file(s)", paths_.size());
+	logger->debug("{} file(s) found", paths_.size());
 
 	it_ = paths_.begin();
 	load();

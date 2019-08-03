@@ -1,24 +1,18 @@
 #pragma once
 #include "pch.h"
-#include "Asset.h"
 #include "Msg.h"
 
 using namespace std;
-using namespace std::filesystem;
 using namespace concurrency;
 
-class Ledger : public agent {
+class Ledger {
 public:
-	Ledger(ISource<Msg>& source, const string& filename);
-	~Ledger();
-
-protected:
-	void run() override;
-	ISource<Msg>& source_;
-
-	static shared_ptr<spdlog::logger> logger;
-
+	Ledger(const string& filename);
+	void write(const Msg& msg);
 private:
 	const string& filename_;
+	unique_ptr<critical_section> mutex_;
+	
+	static shared_ptr<spdlog::logger> logger;
 };
 

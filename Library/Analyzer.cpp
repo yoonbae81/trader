@@ -3,7 +3,7 @@
 
 atomic<int> Analyzer::count = 0; // initialize static member
 
-Analyzer::Analyzer(json& param, Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
+Analyzer::Analyzer(const json& param, const Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
 	: param_(param)
 	, asset_(asset)
 	, source_(source)
@@ -26,7 +26,12 @@ void Analyzer::run() {
 			continue;
 		}
 
-		if (!ticks_map_[m.symbol].update(m)) continue;
+		logger->trace("Adding Tick...");
+		auto ticks = ticks_map_[m.symbol];
+		auto updated = ticks.update(m);
+		if (!updated) continue;
+
+		//if (!ticks_map_[m.symbol].update(m)) continue;
 
 		m.analyzer_strength = calc_strength(m);
 		m.analyzer_quantity = calc_quantity(m);

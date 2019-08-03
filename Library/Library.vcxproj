@@ -172,7 +172,6 @@
     <ClInclude Include="Ledger.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Msg.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Ticks.h" />
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +182,6 @@
     <ClCompile Include="Ledger.cpp" />
     <ClCompile Include="Msg.cpp" />
     <ClCompile Include="Ticks.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Library.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,10 +3,10 @@
 
 shared_ptr<spdlog::logger> Broker::logger = spdlog::stdout_color_mt("broke");
 
-Broker::Broker(Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
+Broker::Broker(Asset& asset, Ledger& ledger, ISource<Msg>& source)
 	: asset_(asset)
-	, source_(source)
-	, target_(target) {
+	, ledger_(ledger)
+	, source_(source) {
 
 	logger->debug("Initializing");
 
@@ -17,18 +17,20 @@ Broker::~Broker() {}
 void Broker::run() {
 	logger->info("Running");
 	while (true) {
-		auto msg = receive(source_);
-		if (msg == Msg::QUIT) break;
-
-		logger->trace("Ordered: {}", msg.analyzer_quantity);
-		msg.broker_quantity = 2;
-
-		// TODO on callback 
-		asend(target_, msg);
+		auto m = receive(source_);
+		if (m == Msg::QUIT) break;
+		
+		callback(m);
 	}
 
-	asend(target_, Msg::QUIT);
 	logger->debug("Done");
 	done();
+}
+
+
+void Broker::callback(Msg& m) {
+	m.broker_quantity = 2;
+	ledger_.write(m);
+	logger->trace("Ordered: {}", m.analyzer_quantity);
 }
 
