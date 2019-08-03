@@ -3,6 +3,7 @@
 
 atomic<int> Analyzer::count = 0; // initialize static member
 
+//Analyzer::Analyzer(const json& param, const Asset& asset, shared_ptr<ISource<Msg>> source, ITarget<Msg>& target)
 Analyzer::Analyzer(const json& param, const Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
 	: param_(param)
 	, asset_(asset)
@@ -11,7 +12,6 @@ Analyzer::Analyzer(const json& param, const Asset& asset, ISource<Msg>& source, 
 	, logger(spdlog::stdout_color_mt("analyzer" + to_string(++count))) {
 
 	logger->debug("Initializing");
-	logger->debug("Parameter: {}", param_.dump());
 }
 
 void Analyzer::run() {
@@ -26,11 +26,10 @@ void Analyzer::run() {
 			continue;
 		}
 
-		logger->trace("Adding Tick...");
 		auto& ticks = ticks_map_[m.symbol];
 		if (!ticks.update(m)) continue;
+		logger->trace("[{}]: {} tick(s) updated", m.symbol, ticks.prices.size());
 
-		//if (!ticks_map_[m.symbol].update(m)) continue;
 
 		m.analyzer_strength = calc_strength(m);
 		m.analyzer_quantity = calc_quantity(m);

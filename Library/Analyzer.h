@@ -12,13 +12,13 @@ class Analyzer : public agent {
 public:
 	Analyzer(const json& param, const Asset& asset, ISource<Msg>& source, ITarget<Msg>& target);
 
-	//Analyzer(Analyzer&& src) noexcept
-	//	: param_(src.param_)
-	//	, asset_(src.asset_)
-	//	, source_(src.source_)
-	//	, target_(src.target_)
-	//	, ticks_map_(move(src.ticks_map_))
-	//	, logger(src.logger) {};
+	Analyzer(Analyzer&& src) noexcept
+		: param_(src.param_)
+		, asset_(src.asset_)
+		, source_(src.source_)
+		, target_(src.target_)
+		//, ticks_map_(move(src.ticks_map_))
+		, logger(src.logger) {};
 
 	static atomic<int> count;
 

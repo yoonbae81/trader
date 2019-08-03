@@ -8,6 +8,13 @@ using namespace std::chrono;
 struct Ticks {
 	Ticks();
 
+	Ticks(Ticks&& src) noexcept
+		: capacity(src.capacity)
+		, prices(move(src.prices))
+		, quantities(move(src.quantities))
+		, timestamp(src.timestamp)
+		, latest_price_(src.latest_price_) {};
+
 	bool update(const Msg& m);
 
 	const size_t capacity;

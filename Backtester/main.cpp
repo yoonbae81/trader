@@ -42,15 +42,17 @@ int main(int argc, char* argv[]) {
 	logger->info("Started");
 
 	try {
-
 		// Fetcher
 		path tick_dir(argv[2]);
 		FileFetcher fetcher(tick_dir);
 
+		// Parameter
+		auto param = json::parse(ifstream(argv[1]));
+		logger->debug("Parameter: {}", param.dump());
+
 		// Analyzers
 		vector<Analyzer> analyzers;
 		size_t num_analyzer = thread::hardware_concurrency() - 2;
-		auto param = json::parse(ifstream(argv[1]));
 
 		// Asset, Ledger
 		Asset asset(stod(argv[3]));
@@ -65,20 +67,10 @@ int main(int argc, char* argv[]) {
 			auto tick_channel = make_shared<unbounded_buffer<Msg>>();
 			fetcher.add_target(tick_channel);
 			analyzers.emplace_back(param, asset, *tick_channel, order_channel);
-			analyzers[i].start();
 		}
 
-		//auto tick_channel1 = make_shared<unbounded_buffer<Msg>>();
-		//fetcher.add_target(tick_channel1);
-		//Analyzer analyzer1(param, asset, *tick_channel1, order_channel);
-		//analyzer1.start();
-
-		//auto tick_channel2 = make_shared<unbounded_buffer<Msg>>();
-		//fetcher.add_target(tick_channel2);
-		//Analyzer analyzer2(param, asset, *tick_channel2, order_channel);
-		//analyzer2.start();
-
 		broker.start();
+		for (auto& analyzer : analyzers) analyzer.start();
 		fetcher.start();
 
 		// Wait Agents
