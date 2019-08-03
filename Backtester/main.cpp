@@ -61,20 +61,22 @@ int main(int argc, char* argv[]) {
 		Broker broker(asset, ledger, order_channel);
 
 		// Start Agents
-		//for (auto i = 0; i < num_analyzer; ++i) {
-		//	auto tick_channel = make_shared<unbounded_buffer<Msg>>();
-		//	fetcher.add_target(tick_channel);
-		//	analyzers.emplace_back(param, asset, *tick_channel, order_channel);
-		//	analyzers[i].start();
-		//}
+		for (auto i = 0; i < num_analyzer; ++i) {
+			auto tick_channel = make_shared<unbounded_buffer<Msg>>();
+			fetcher.add_target(tick_channel);
+			analyzers.emplace_back(param, asset, *tick_channel, order_channel);
+			analyzers[i].start();
+		}
 
-		auto tick_channel1 = make_shared<unbounded_buffer<Msg>>();
-		Analyzer analyzer1(param, asset, *tick_channel1, order_channel);
-		analyzer1.start();
+		//auto tick_channel1 = make_shared<unbounded_buffer<Msg>>();
+		//fetcher.add_target(tick_channel1);
+		//Analyzer analyzer1(param, asset, *tick_channel1, order_channel);
+		//analyzer1.start();
 
-		auto tick_channel2 = make_shared<unbounded_buffer<Msg>>();
-		Analyzer analyzer2(param, asset, *tick_channel2, order_channel);
-		analyzer2.start();
+		//auto tick_channel2 = make_shared<unbounded_buffer<Msg>>();
+		//fetcher.add_target(tick_channel2);
+		//Analyzer analyzer2(param, asset, *tick_channel2, order_channel);
+		//analyzer2.start();
 
 		broker.start();
 		fetcher.start();

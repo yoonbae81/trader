@@ -27,9 +27,8 @@ void Analyzer::run() {
 		}
 
 		logger->trace("Adding Tick...");
-		auto ticks = ticks_map_[m.symbol];
-		auto updated = ticks.update(m);
-		if (!updated) continue;
+		auto& ticks = ticks_map_[m.symbol];
+		if (!ticks.update(m)) continue;
 
 		//if (!ticks_map_[m.symbol].update(m)) continue;
 
