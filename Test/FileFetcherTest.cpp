@@ -25,7 +25,7 @@ public:
 	}
 
 	TEST_METHOD(OneChannel) {
-		auto channel = make_shared<unbounded_buffer<Msg>>();
+		unbounded_buffer<Msg> channel;
 		FileFetcher sut(dir_);
 		sut.add_target(channel);
 		sut.start();
@@ -35,14 +35,14 @@ public:
 		ifstream infile(dir_ / filename_);
 		while (getline(infile, line)) {
 			auto expected = Msg::parse(line);
-			auto actual = receive(*channel);
+			auto actual = receive(channel);
 			Assert::AreEqual(expected.symbol, actual.symbol);
 		}
 	}
 
 	TEST_METHOD(RouteToChannels) {
-		auto channel1 = make_shared<unbounded_buffer<Msg>>();
-		auto channel2 = make_shared<unbounded_buffer<Msg>>();
+		unbounded_buffer<Msg> channel1;
+		unbounded_buffer<Msg> channel2;
 
 		FileFetcher sut(dir_);
 		sut.add_target(channel1);
@@ -50,15 +50,15 @@ public:
 		sut.start();
 		agent::wait(&sut);
 
-		auto msg = receive(*channel1);
+		auto msg = receive(channel1);
 		if (msg.symbol == "AAAAAA") {
-			Assert::AreEqual(string("AAAAAA"), receive(*channel1).symbol);
-			Assert::AreEqual(string("AAAAAA"), receive(*channel1).symbol);
-			Assert::AreEqual(string("BBBBBB"), receive(*channel2).symbol);
+			Assert::AreEqual(string("AAAAAA"), receive(channel1).symbol);
+			Assert::AreEqual(string("AAAAAA"), receive(channel1).symbol);
+			Assert::AreEqual(string("BBBBBB"), receive(channel2).symbol);
 		} else if (msg.symbol == "BBBBBB") {
-			Assert::AreEqual(string("AAAAAA"), receive(*channel2).symbol);
-			Assert::AreEqual(string("AAAAAA"), receive(*channel2).symbol);
-			Assert::AreEqual(string("AAAAAA"), receive(*channel2).symbol);
+			Assert::AreEqual(string("AAAAAA"), receive(channel2).symbol);
+			Assert::AreEqual(string("AAAAAA"), receive(channel2).symbol);
+			Assert::AreEqual(string("AAAAAA"), receive(channel2).symbol);
 		} else {
 			Assert::IsTrue(false); // never should be here 
 		}

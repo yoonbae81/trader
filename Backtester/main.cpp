@@ -15,7 +15,7 @@ using namespace concurrency;
 shared_ptr<spdlog::logger> get_logger() {
 	auto logger = spdlog::stdout_color_mt("main");
 	spdlog::set_level(spdlog::level::trace);
-	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-7l%$ %-9n | %v"); // add thread_id with %5t if necessary
+	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-8l%$ %-9n | %v"); // add thread_id with %5t if necessary
 
 	return logger;
 }
@@ -46,14 +46,6 @@ int main(int argc, char* argv[]) {
 		path tick_dir(argv[2]);
 		FileFetcher fetcher(tick_dir);
 
-		// Parameter
-		auto param = json::parse(ifstream(argv[1]));
-		logger->debug("Parameter: {}", param.dump());
-
-		// Analyzers
-		vector<Analyzer> analyzers;
-		size_t num_analyzer = thread::hardware_concurrency() - 2;
-
 		// Asset, Ledger
 		Asset asset(stod(argv[3]));
 		Ledger ledger("log.json");
@@ -61,12 +53,18 @@ int main(int argc, char* argv[]) {
 		// Broker
 		unbounded_buffer<Msg> order_channel;
 		Broker broker(asset, ledger, order_channel);
+		
+		// Parameter for Analyzer
+		auto param = json::parse(ifstream(argv[1]));
+		logger->debug("Parameter: {}", param.dump());
 
-		// Start Agents
-		for (auto i = 0; i < num_analyzer; ++i) {
-			auto tick_channel = make_shared<unbounded_buffer<Msg>>();
+		// Analyzers
+		vector<Analyzer> analyzers;
+		size_t num_analyzer = thread::hardware_concurrency() - 2;
+		vector<unbounded_buffer<Msg>> tick_channels(num_analyzer);
+		for (auto& tick_channel : tick_channels) {
 			fetcher.add_target(tick_channel);
-			analyzers.emplace_back(param, asset, *tick_channel, order_channel);
+			analyzers.emplace_back(param, asset, tick_channel, order_channel);
 		}
 
 		broker.start();

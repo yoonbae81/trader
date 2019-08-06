@@ -4,13 +4,13 @@
 Fetcher::Fetcher() {}
 Fetcher::~Fetcher() {}
 
-void Fetcher::add_target(shared_ptr<ITarget<Msg>> target) {
-	targets_.insert({target, 0});
+void Fetcher::add_target(ITarget<Msg>& target) {
+	targets_.insert({&target, 0});
 	logger->trace("Target added");
 }
 
-shared_ptr<ITarget<Msg>> Fetcher::get_target(const string& symbol) {
-	shared_ptr<ITarget<Msg>> target;
+ITarget<Msg>& Fetcher::get_target(const string& symbol) {
+	ITarget<Msg>* target;
 	try {
 		target = assigned_.at(symbol);
 	} catch (out_of_range) {
@@ -21,7 +21,7 @@ shared_ptr<ITarget<Msg>> Fetcher::get_target(const string& symbol) {
 	}
 
 	targets_[target]++;
-	return target;
+	return *target;
 }
 
 void Fetcher::run() {
@@ -31,8 +31,9 @@ void Fetcher::run() {
 	size_t count = 0;
 	while (fetch(line)) {
 		try {
-			auto msg = Msg::parse(line);
-			asend(*get_target(msg.symbol), msg);
+			auto m = Msg::parse(line);
+			auto& target = get_target(m.symbol);
+			asend(target, m);
 			count++;
 
 			// TODO set msg.fetcher_timestamp 

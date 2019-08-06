@@ -3,7 +3,6 @@
 
 atomic<int> Analyzer::count = 0; // initialize static member
 
-//Analyzer::Analyzer(const json& param, const Asset& asset, shared_ptr<ISource<Msg>> source, ITarget<Msg>& target)
 Analyzer::Analyzer(const json& param, const Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
 	: param_(param)
 	, asset_(asset)
