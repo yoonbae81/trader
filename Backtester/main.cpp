@@ -24,7 +24,8 @@ int main(int argc, char* argv[]) {
 	if (argc != 4) {
 		cout << "usage: "
 			<< path(argv[0]).filename().string()
-			<< " TICKDATA_DIR PARAMETER_JSON INITIAL_CASH" << endl;
+			<< " PARAM_JSON TICK_DIR INITIAL_CASH" << endl;
+
 		return EXIT_FAILURE;
 	}
 
@@ -48,7 +49,7 @@ int main(int argc, char* argv[]) {
 
 		// Asset, Ledger
 		Asset asset(stod(argv[3]));
-		Ledger ledger("log.json");
+		Ledger ledger("transaction_log.json", asset.cash());
 
 		// Broker
 		unbounded_buffer<Msg> order_channel;

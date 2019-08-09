@@ -18,27 +18,16 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileFetcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FileFetcher.cpp">
+    <ClCompile Include="FileFetcherTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="JsonTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="TickData\2lines.txt" />
-    <Text Include="TickData\5lines.txt" />
-    <Text Include="data\TickData.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="param.json" />
   </ItemGroup>
 </Project>

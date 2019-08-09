@@ -15,9 +15,10 @@ public:
 	// TODO change following to Msg
 	void bought(const Msg& m);
 	void sold(const Msg& m);
-	
-	double total_risk() const;
+
 	double cash() const;
+	double current_risk() const;
+	double available_risk() const;
 
 	bool has(const string& symbol) const;
 	Holding& operator[](const string& symbol);

@@ -4,34 +4,26 @@
 // However, files listed here are ALL re-compiled if any one of them is updated between builds.
 // Do not add files here that you will be updating frequently as this negates the performance advantage.
 
-#ifndef PCH_H_LIBRARY
-#define PCH_H_LIBRARY
+#ifndef PCH_H_TEST
+#define PCH_H_TEST
 
-//#include <cassert>
+// add headers that you want to pre-compile here
 #include <algorithm>
-#include <chrono>
+#include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <filesystem>
 #include <fstream>
-#include <functional>
 #include <memory>
 #include <sstream>
 #include <string>
-//#include <thread>
 #include <random>
 #include <vector>
 #include <unordered_map>
 
 #include <ppl.h>
 #include <agents.h>
-#include <concurrent_vector.h>
-#include <concurrent_unordered_map.h>
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <nlohmann/json.hpp>
-//#include "ta-lib/ta_libc.h"
-
-#endif //PCH_H_LIBRARY
-
+//#include <nlohmann/json.hpp>
+#endif //PCH_H_TEST

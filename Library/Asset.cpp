@@ -42,7 +42,7 @@ void Asset::sold(const Msg& m) {
 	// TODO Log 
 }
 
-double Asset::total_risk() const {
+double Asset::current_risk() const {
 	double result {};
 
 	for_each(begin(holdings_), end(holdings_), [&result](auto& p) {
@@ -52,8 +52,12 @@ double Asset::total_risk() const {
 	return result;
 }
 
+double Asset::available_risk() const {
+	return cash_ * 0.1;
+}
+
 double Asset::cash() const {
-	return cash_.load();
+	return cash_;
 }
 
 bool Asset::has(const string& symbol) const {

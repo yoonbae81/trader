@@ -133,7 +133,7 @@ public:
 		auto expected = m1.broker_price * m1.broker_quantity
 			+ m2.broker_price * m2.broker_quantity
 			+ m3.broker_price * m3.broker_quantity;
-		auto actual = sut.total_risk();
+		auto actual = sut.current_risk();
 
 		Assert::AreEqual(expected, actual);
 	}
