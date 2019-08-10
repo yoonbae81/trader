@@ -36,7 +36,7 @@
   <ItemGroup>
     <Text Include="TickData\2lines.txt" />
     <Text Include="TickData\5lines.txt" />
-    <Text Include="data\TickData.txt" />
+    <Text Include="input\TickData.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="param.json" />

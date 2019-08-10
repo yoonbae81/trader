@@ -8,7 +8,7 @@ using namespace concurrency;
 
 class Ledger {
 public:
-	Ledger(double initial_cash, ostream& result);
+	Ledger(double initial_cash, ostream& out);
 	~Ledger();
 
 	void write(const Msg& msg);

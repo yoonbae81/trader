@@ -1,3 +1,4 @@
 {
-    "threshold": 5
+  "initial_cash": 1000000,
+  "threshold": 5
 }

@@ -24,6 +24,6 @@
 
 #include <ppl.h>
 #include <agents.h>
+#include <nlohmann/json.hpp>
 
-//#include <nlohmann/json.hpp>
 #endif //PCH_H_TEST

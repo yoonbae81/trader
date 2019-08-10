@@ -24,18 +24,18 @@ int main(int argc, char* argv[]) {
 	if (argc != 4) {
 		cout << "usage: "
 			<< path(argv[0]).filename().string()
-			<< " PARAM_JSON TICK_DIR INITIAL_CASH" << endl;
+			<< " PARAM_JSON TICKS_DIR OUTPUT_FILE" << endl;
 
 		return EXIT_FAILURE;
 	}
 
 	if (!exists(argv[1])) {
-		cout << "Not found: " << argv[1] << endl;
+		cout << "Not found parameter file: " << argv[1] << endl;
 		return EXIT_FAILURE;
 	}
 
 	if (!exists(argv[2])) {
-		cout << "Not found: " << argv[2] << endl;
+		cout << "Not found directory: " << argv[2] << endl;
 		return EXIT_FAILURE;
 	}
 
@@ -46,14 +46,15 @@ int main(int argc, char* argv[]) {
 		auto param = json::parse(ifstream(argv[1]));
 		logger->debug("Parameter: {}", param.dump());
 
-		path tick_dir(argv[2]);
-		double initial_cash = stod(argv[3]);
+		path input_dir(argv[2]);
+		path output_file(argv[3]);
+		double initial_cash = param["initial_cash"];
 
-		FileFetcher fetcher(tick_dir);
+		FileFetcher fetcher(input_dir);
 		Asset asset(initial_cash);
 
-		unique_ptr<ostream> result = make_unique<ofstream>("ledger.jsonl");
-		Ledger ledger(initial_cash, *result);
+		ofstream out(output_file);
+		Ledger ledger(initial_cash, out);
 
 		unbounded_buffer<Msg> order_channel;
 		Broker broker(asset, ledger, order_channel);

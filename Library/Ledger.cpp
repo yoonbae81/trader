@@ -4,16 +4,15 @@
 shared_ptr<spdlog::logger> Ledger::logger = spdlog::stdout_color_mt("ledger");
 const string Ledger::FORMAT_MSG = "{{\"timestamp\": {}, \"symbol\": \"{}\", \"price\": {}, \"quantity\": {}, \"tax\": {}, \"commission\": {}}}";
 
-Ledger::Ledger(double initial_cash, ostream& result)
-	: out_(result)
+Ledger::Ledger(double initial_cash, ostream& out)
+	: out_(out)
 	, mutex_(make_unique<critical_section>()) {
 
 	logger->debug("Initializing");
-	logger->info("Initial Cash: {:.0f}", initial_cash);
+	logger->info("Initial cash: {:.0f}", initial_cash);
 
 	out_ << fmt::format("{{\"initial_cash\": {:.0f}}}"
-						, initial_cash)
-		 << endl;
+						, initial_cash) << endl;
 }
 
 Ledger::~Ledger() {}
