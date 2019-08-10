@@ -16,7 +16,8 @@ shared_ptr<spdlog::logger> get_logger() {
 	auto logger = spdlog::stdout_color_mt("main");
 	//spdlog::set_level(spdlog::level::trace);
 	//spdlog::set_level(spdlog::level::debug);
-	spdlog::set_level(spdlog::level::critical);
+	spdlog::set_level(spdlog::level::info);
+	//spdlog::set_level(spdlog::level::critical);
 	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-8l%$ %-9n | %v"); // add thread_id with %5t if necessary
 
 	return logger;
@@ -62,7 +63,7 @@ int main(int argc, char* argv[]) {
 		Broker broker(asset, ledger, order_channel);
 
 		vector<Analyzer> analyzers;
-		size_t num_analyzer = thread::hardware_concurrency() - 2;
+		size_t num_analyzer = thread::hardware_concurrency() - 1;
 		vector<unbounded_buffer<shared_ptr<Msg>>> tick_channels(num_analyzer);
 		for (auto& tick_channel : tick_channels) {
 			fetcher.add_target(tick_channel);

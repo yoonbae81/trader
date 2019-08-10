@@ -22,7 +22,10 @@ void Analyzer::run() {
 	while (true) {
 		auto m = receive(source_);
 
-		if (*m == Msg::QUIT) break;
+		if (*m == Msg::QUIT) {
+			asend(target_, m);
+			break;
+		}
 		if (*m == Msg::RESET) {
 			ticks_map_.clear();
 			continue;
@@ -44,7 +47,6 @@ void Analyzer::run() {
 		if (asset_.has(m->symbol)) update_stoploss(*m);
 	}
 
-	asend(target_, make_shared<Msg>(Msg::QUIT));
 	done();
 }
 

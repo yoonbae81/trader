@@ -9,11 +9,11 @@ using namespace std::chrono;
 struct Msg {
 	static const Msg QUIT;
 	static const Msg RESET;
-	static Msg parse(const string& line);
+	static shared_ptr<Msg> parse(const string& line);
 
 	Msg(const string& symbol) : symbol(symbol) {};
 	~Msg();
-
+	
 	const string symbol;
 
 	// TODO consider nested struct

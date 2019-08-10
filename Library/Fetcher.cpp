@@ -36,8 +36,7 @@ void Fetcher::run() {
 	size_t count = 0;
 	while (fetch(line)) {
 		try {
-			//auto m = Msg::parse(line);
-			auto m = make_shared<Msg>(Msg::parse(line));
+			auto m = Msg::parse(line);
 			auto& target = get_target(m->symbol);
 			asend(target, m);
 			count++;
@@ -45,15 +44,16 @@ void Fetcher::run() {
 			// TODO set msg.fetcher_timestamp 
 			logger->trace("Sent [{}]", line);
 
-		} catch (invalid_argument& e) {
+		} catch (ParsingException& e) {
 			logger->warn("Error {}", e.what());
 			continue;
 		}
 	}
 	logger->info("Sent {} ticks", count);
 
+	auto m = make_shared<Msg>(Msg::QUIT);
 	for (auto& item : targets_) {
-		asend(*item.first, make_shared<Msg>(Msg::QUIT));
+		asend(*item.first, m);
 	}
 
 	done();
