@@ -9,7 +9,7 @@ using namespace concurrency;
 
 class Broker : public agent {
 public:
-	Broker(Asset& asset, Ledger& ledger, ISource<Msg>& source);
+	Broker(Asset& asset, Ledger& ledger, ISource<shared_ptr<Msg>>& source);
 	~Broker();
 
 protected:
@@ -18,7 +18,7 @@ protected:
 
 	Asset& asset_;
 	Ledger& ledger_;
-	ISource<Msg>& source_;
+	ISource<shared_ptr<Msg>>& source_;
 
 	static shared_ptr<spdlog::logger> logger;
 };

@@ -3,7 +3,7 @@
 
 atomic<int> Analyzer::count = 0; // initialize static member
 
-Analyzer::Analyzer(const json& param, const Asset& asset, ISource<Msg>& source, ITarget<Msg>& target)
+Analyzer::Analyzer(const json& param, const Asset& asset, ISource<shared_ptr<Msg>>& source, ITarget<shared_ptr<Msg>>& target)
 	: param_(param)
 	, asset_(asset)
 	, source_(source)
@@ -20,31 +20,31 @@ void Analyzer::run() {
 	logger->debug("Running");
 
 	while (true) {
-		Msg m = receive(source_);
+		auto m = receive(source_);
 
-		if (m == Msg::QUIT) break;
-		if (m == Msg::RESET) {
+		if (*m == Msg::QUIT) break;
+		if (*m == Msg::RESET) {
 			ticks_map_.clear();
 			continue;
 		}
 
-		auto& ticks = ticks_map_[m.symbol];
-		if (!ticks.update(m)) continue;
-		logger->trace("Added {} {} tick(s)", m.symbol, ticks.prices.size());
+		auto& ticks = ticks_map_[m->symbol];
+		if (!ticks.update(*m)) continue;
+		logger->trace("Added {} {} tick(s)", m->symbol, ticks.prices.size());
 
-		m.analyzer_strength = calc_strength(m);
-		m.analyzer_quantity = calc_quantity(m);
+		m->analyzer_strength = calc_strength(*m);
+		m->analyzer_quantity = calc_quantity(*m);
 
-		logger->trace("Analyzed {} !{} x{}", m.symbol, m.analyzer_strength, m.analyzer_quantity);
+		logger->trace("Analyzed {} !{} x{}", m->symbol, m->analyzer_strength, m->analyzer_quantity);
 
-		if (m.analyzer_quantity) {
+		if (m->analyzer_quantity) {
 			asend(target_, m);
-			logger->debug("Sent {} !{} x{}", m.symbol, m.analyzer_strength, m.analyzer_quantity);
+			logger->debug("Sent {} !{} x{}", m->symbol, m->analyzer_strength, m->analyzer_quantity);
 		}
-		if (asset_.has(m.symbol)) update_stoploss(m);
+		if (asset_.has(m->symbol)) update_stoploss(*m);
 	}
 
-	asend(target_, Msg::QUIT);
+	asend(target_, make_shared<Msg>(Msg::QUIT));
 	done();
 }
 

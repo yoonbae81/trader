@@ -58,12 +58,12 @@ int main(int argc, char* argv[]) {
 		ofstream out(output_file);
 		Ledger ledger(initial_cash, out);
 
-		unbounded_buffer<Msg> order_channel;
+		unbounded_buffer<shared_ptr<Msg>> order_channel;
 		Broker broker(asset, ledger, order_channel);
 
 		vector<Analyzer> analyzers;
 		size_t num_analyzer = thread::hardware_concurrency() - 2;
-		vector<unbounded_buffer<Msg>> tick_channels(num_analyzer);
+		vector<unbounded_buffer<shared_ptr<Msg>>> tick_channels(num_analyzer);
 		for (auto& tick_channel : tick_channels) {
 			fetcher.add_target(tick_channel);
 			analyzers.emplace_back(param, asset, tick_channel, order_channel);

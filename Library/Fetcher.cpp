@@ -9,13 +9,13 @@ Fetcher::~Fetcher() {
 	logger->trace("Done");
 }
 
-void Fetcher::add_target(ITarget<Msg>& target) {
+void Fetcher::add_target(ITarget<shared_ptr<Msg>>& target) {
 	targets_.insert({&target, 0});
 	//logger->trace("Target added");
 }
 
-ITarget<Msg>& Fetcher::get_target(const string& symbol) {
-	ITarget<Msg>* target;
+ITarget<shared_ptr<Msg>>& Fetcher::get_target(const string& symbol) {
+	ITarget<shared_ptr<Msg>>* target;
 	try {
 		target = assigned_.at(symbol);
 	} catch (out_of_range) {
@@ -36,8 +36,9 @@ void Fetcher::run() {
 	size_t count = 0;
 	while (fetch(line)) {
 		try {
-			auto m = Msg::parse(line);
-			auto& target = get_target(m.symbol);
+			//auto m = Msg::parse(line);
+			auto m = make_shared<Msg>(Msg::parse(line));
+			auto& target = get_target(m->symbol);
 			asend(target, m);
 			count++;
 
@@ -52,7 +53,7 @@ void Fetcher::run() {
 	logger->info("Sent {} ticks", count);
 
 	for (auto& item : targets_) {
-		asend(*item.first, Msg::QUIT);
+		asend(*item.first, make_shared<Msg>(Msg::QUIT));
 	}
 
 	done();

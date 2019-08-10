@@ -28,7 +28,7 @@ Msg Msg::parse(const string& line) {
 
 Msg::~Msg() {
 	if (symbol != "QUIT")
-		cout << "MSG DESTRUCTOR" << endl;
+		cout << "MSG DESTRUCTOR " << symbol << endl;
 }
 
 
