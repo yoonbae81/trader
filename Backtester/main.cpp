@@ -43,23 +43,21 @@ int main(int argc, char* argv[]) {
 	logger->info("Started");
 
 	try {
-		// Fetcher
-		path tick_dir(argv[2]);
-		FileFetcher fetcher(tick_dir);
-
-		// Asset, Ledger
-		Asset asset(stod(argv[3]));
-		Ledger ledger("transaction_log.json", asset.cash());
-
-		// Broker
-		unbounded_buffer<Msg> order_channel;
-		Broker broker(asset, ledger, order_channel);
-		
-		// Parameter for Analyzer
 		auto param = json::parse(ifstream(argv[1]));
 		logger->debug("Parameter: {}", param.dump());
 
-		// Analyzers
+		path tick_dir(argv[2]);
+		double initial_cash = stod(argv[3]);
+
+		FileFetcher fetcher(tick_dir);
+		Asset asset(initial_cash);
+
+		unique_ptr<ostream> result = make_unique<ofstream>("ledger.jsonl");
+		Ledger ledger(initial_cash, *result);
+
+		unbounded_buffer<Msg> order_channel;
+		Broker broker(asset, ledger, order_channel);
+
 		vector<Analyzer> analyzers;
 		size_t num_analyzer = thread::hardware_concurrency() - 2;
 		vector<unbounded_buffer<Msg>> tick_channels(num_analyzer);

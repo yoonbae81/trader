@@ -3,8 +3,8 @@
 
 shared_ptr<spdlog::logger> Asset::logger = spdlog::stdout_color_mt("asset");
 
-Asset::Asset(double cash)
-	: cash_(cash) {
+Asset::Asset(double initial_cash)
+	: initial_cash_(initial_cash), cash_(initial_cash) {
 	logger->debug("Initializing");
 	logger->info("Initial cash: {:.0f}", cash_);
 }
@@ -54,6 +54,10 @@ double Asset::current_risk() const {
 
 double Asset::available_risk() const {
 	return cash_ * 0.1;
+}
+
+double Asset::profit_rate() const {
+	return cash_ / initial_cash_ - 1;
 }
 
 double Asset::cash() const {

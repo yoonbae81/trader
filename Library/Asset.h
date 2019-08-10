@@ -8,22 +8,23 @@ using namespace concurrency;
 
 class Asset {
 public:
-	Asset(double cash);
+	Asset(double initial_cash);
 
-	// TODO Load cash and holdings from a file or something 
+	// TODO Load initial_cash and holdings from a file or something 
 
-	// TODO change following to Msg
 	void bought(const Msg& m);
 	void sold(const Msg& m);
 
 	double cash() const;
 	double current_risk() const;
 	double available_risk() const;
+	double profit_rate() const;
 
 	bool has(const string& symbol) const;
 	Holding& operator[](const string& symbol);
 
 private:
+	const double initial_cash_;
 	atomic<double> cash_;
 	concurrent_unordered_map<string, Holding> holdings_;
 

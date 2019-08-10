@@ -8,18 +8,17 @@ using namespace concurrency;
 
 class Ledger {
 public:
-	Ledger(const string& filename,double initial_cash);
+	Ledger(double initial_cash, ostream& result);
 	~Ledger();
 
 	void write(const Msg& msg);
 
 private:
 	const static string FORMAT_MSG;
-	char comma = ' ';
-
-	ofstream outfile_;
-	unique_ptr<critical_section> mutex_;
 	static shared_ptr<spdlog::logger> logger;
+
+	ostream& out_;
+	unique_ptr<critical_section> mutex_;
 
 	Ledger(const Ledger&) = delete;
 	Ledger& operator=(const Ledger&) = delete;
