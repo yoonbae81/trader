@@ -17,8 +17,9 @@ public:
 		, asset_(src.asset_)
 		, source_(src.source_)
 		, target_(src.target_)
-		//, ticks_map_(move(src.ticks_map_))
 		, logger(src.logger) {};
+
+	~Analyzer();
 
 	static atomic<int> count;
 

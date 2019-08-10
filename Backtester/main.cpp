@@ -1,12 +1,12 @@
 #include "pch.h"
 
 #include "FileFetcher.h"
-#include "../Library/Analyzer.h"
-#include "../Library/Broker.h"
-#include "../Library/Asset.h"
-#include "../Library/Ledger.h"
-#include "../Library/Msg.h"
-#include "../Library/Exceptions.h"
+#include "Analyzer.h"
+#include "Broker.h"
+#include "Asset.h"
+#include "Ledger.h"
+#include "Msg.h"
+#include "Exceptions.h"
 
 using namespace std;
 using namespace std::filesystem;
@@ -14,7 +14,9 @@ using namespace concurrency;
 
 shared_ptr<spdlog::logger> get_logger() {
 	auto logger = spdlog::stdout_color_mt("main");
-	spdlog::set_level(spdlog::level::trace);
+	//spdlog::set_level(spdlog::level::trace);
+	//spdlog::set_level(spdlog::level::debug);
+	spdlog::set_level(spdlog::level::critical);
 	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-8l%$ %-9n | %v"); // add thread_id with %5t if necessary
 
 	return logger;
@@ -40,11 +42,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	auto logger = get_logger();
-	logger->info("Started");
+	logger->info("Starting");
 
 	try {
 		auto param = json::parse(ifstream(argv[1]));
-		logger->debug("Parameter: {}", param.dump());
+		logger->debug("Parameter {}", param.dump());
 
 		path input_dir(argv[2]);
 		path output_file(argv[3]);

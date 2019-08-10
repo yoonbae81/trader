@@ -139,7 +139,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -159,13 +159,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)References\libzmq-mt-s-4_3_2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Analyzer.h" />
     <ClInclude Include="Asset.h" />
-    <ClInclude Include="Broker.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Fetcher.h" />
     <ClInclude Include="Holding.h" />
@@ -177,12 +176,12 @@
   <ItemGroup>
     <ClCompile Include="Analyzer.cpp" />
     <ClCompile Include="Asset.cpp" />
-    <ClCompile Include="Broker.cpp" />
     <ClCompile Include="Fetcher.cpp" />
     <ClCompile Include="Ledger.cpp" />
     <ClCompile Include="Msg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Ticks.cpp" />
   </ItemGroup>

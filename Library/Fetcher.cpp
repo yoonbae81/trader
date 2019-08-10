@@ -1,12 +1,17 @@
 #include "pch.h"
 #include "Fetcher.h"
 
-Fetcher::Fetcher() {}
-Fetcher::~Fetcher() {}
+Fetcher::Fetcher() {
+	logger->trace("Initializing");
+}
+
+Fetcher::~Fetcher() {
+	logger->trace("Done");
+}
 
 void Fetcher::add_target(ITarget<Msg>& target) {
 	targets_.insert({&target, 0});
-	logger->trace("Target added");
+	//logger->trace("Target added");
 }
 
 ITarget<Msg>& Fetcher::get_target(const string& symbol) {
@@ -25,7 +30,7 @@ ITarget<Msg>& Fetcher::get_target(const string& symbol) {
 }
 
 void Fetcher::run() {
-	logger->info("Running");
+	logger->debug("Running");
 
 	string line;
 	size_t count = 0;
@@ -37,20 +42,19 @@ void Fetcher::run() {
 			count++;
 
 			// TODO set msg.fetcher_timestamp 
-			logger->trace("Sent: {}", line);
+			logger->trace("Sent [{}]", line);
 
-		} catch (ParsingException& e) {
-			logger->warn("ParsingException: {}", e.what());
+		} catch (invalid_argument& e) {
+			logger->warn("Error {}", e.what());
 			continue;
 		}
 	}
-	logger->info("{} ticks sent", count);
+	logger->info("Sent {} ticks", count);
 
 	for (auto& item : targets_) {
 		asend(*item.first, Msg::QUIT);
 	}
 
-	logger->debug("Done");
 	done();
 }
 

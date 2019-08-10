@@ -8,8 +8,8 @@ Ledger::Ledger(double initial_cash, ostream& out)
 	: out_(out)
 	, mutex_(make_unique<critical_section>()) {
 
-	logger->debug("Initializing");
-	logger->info("Initial cash: {:.0f}", initial_cash);
+	logger->trace("Initializing");
+	logger->debug("Cash {:.0f}", initial_cash);
 
 	out_ << fmt::format("{{\"initial_cash\": {:.0f}}}"
 						, initial_cash) << endl;
@@ -18,7 +18,7 @@ Ledger::Ledger(double initial_cash, ostream& out)
 Ledger::~Ledger() {}
 
 void Ledger::write(const Msg& msg) {
-	logger->debug("Writing: [{}]x{}", msg.symbol, msg.broker_quantity);
+	logger->trace("Wrote {} x{}", msg.symbol, msg.broker_quantity);
 
 	critical_section::scoped_lock(*mutex_);
 	out_ << fmt::format(FORMAT_MSG

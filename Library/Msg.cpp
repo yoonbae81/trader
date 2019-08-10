@@ -13,7 +13,6 @@ Msg Msg::parse(const string& line) {
 	getline(ss, tokens[3], ' ');
 
 	Msg msg(tokens[0]);
-
 	try {
 		msg.fetcher_price = stod(tokens[1]);
 		msg.fetcher_quantity = stoi(tokens[2]);
@@ -25,7 +24,13 @@ Msg Msg::parse(const string& line) {
 	}
 
 	return msg;
-};
+}
+
+Msg::~Msg() {
+	if (symbol != "QUIT")
+		cout << "MSG DESTRUCTOR" << endl;
+}
+
 
 bool Msg::operator==(const Msg& rhs) {
 	return this->symbol == rhs.symbol;

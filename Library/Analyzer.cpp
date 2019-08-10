@@ -10,11 +10,14 @@ Analyzer::Analyzer(const json& param, const Asset& asset, ISource<Msg>& source, 
 	, target_(target)
 	, logger(spdlog::stdout_color_mt("analyzer" + to_string(++count))) {
 
-	logger->debug("Initializing");
+	logger->trace("Initializing");
+}
+Analyzer::~Analyzer() {
+	logger->trace("Done");
 }
 
 void Analyzer::run() {
-	logger->info("Running");
+	logger->debug("Running");
 
 	while (true) {
 		Msg m = receive(source_);
@@ -27,21 +30,21 @@ void Analyzer::run() {
 
 		auto& ticks = ticks_map_[m.symbol];
 		if (!ticks.update(m)) continue;
-		logger->trace("[{}]: {} tick(s) updated", m.symbol, ticks.prices.size());
-
+		logger->trace("Added {} {} tick(s)", m.symbol, ticks.prices.size());
 
 		m.analyzer_strength = calc_strength(m);
 		m.analyzer_quantity = calc_quantity(m);
 
-		logger->trace("[{}] Strength: {}", m.symbol, m.analyzer_strength);
-		logger->trace("[{}] Quantity: {}", m.symbol, m.analyzer_quantity);
+		logger->trace("Analyzed {} !{} x{}", m.symbol, m.analyzer_strength, m.analyzer_quantity);
 
-		if (m.analyzer_quantity) asend(target_, m);
+		if (m.analyzer_quantity) {
+			asend(target_, m);
+			logger->debug("Sent {} !{} x{}", m.symbol, m.analyzer_strength, m.analyzer_quantity);
+		}
 		if (asset_.has(m.symbol)) update_stoploss(m);
 	}
 
 	asend(target_, Msg::QUIT);
-	logger->debug("Done");
 	done();
 }
 
@@ -62,7 +65,7 @@ double Analyzer::calc_quantity(const Msg& msg) {
 
 	// TODO
 
-	return rand() % 100;
+	return rand() % 50;
 }
 
 void Analyzer::update_stoploss(const Msg& msg) {

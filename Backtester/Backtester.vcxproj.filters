@@ -21,6 +21,9 @@
     <ClInclude Include="FileFetcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Broker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileFetcher.cpp">
@@ -30,6 +33,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Broker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

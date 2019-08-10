@@ -5,8 +5,8 @@ shared_ptr<spdlog::logger> Asset::logger = spdlog::stdout_color_mt("asset");
 
 Asset::Asset(double initial_cash)
 	: initial_cash_(initial_cash), cash_(initial_cash) {
-	logger->debug("Initializing");
-	logger->info("Initial cash: {:.0f}", cash_);
+	logger->trace("Initializing");
+	logger->info("Cash {:.0f}", cash_);
 }
 
 void Asset::bought(const Msg& m) {

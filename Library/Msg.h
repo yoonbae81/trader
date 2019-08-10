@@ -12,6 +12,7 @@ struct Msg {
 	static Msg parse(const string& line);
 
 	Msg(const string& symbol) : symbol(symbol) {};
+	~Msg();
 
 	const string symbol;
 
