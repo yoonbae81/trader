@@ -19,8 +19,8 @@ shared_ptr<Msg> Msg::parse(const string& line) {
 		m->fetcher_quantity = stoi(tokens[2]);
 		m->fetcher_timestamp = stoi(tokens[3]);
 	} catch (invalid_argument) {
-		//if (m->symbol == "QUIT") throw QuitException();
-		//if (m->symbol == "RESET") throw ResetException();
+		if (m->symbol == "QUIT") throw QuitException();
+		if (m->symbol == "RESET") throw ResetException();
 		throw ParsingException(line);
 	}
 

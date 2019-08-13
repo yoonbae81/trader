@@ -20,10 +20,10 @@ public:
 		auto msg = "AAAAAA 4000 10 1234512345";
 		auto sut = Msg::parse(msg);
 
-		Assert::AreEqual(s, sut.symbol);
-		Assert::AreEqual(p, sut.fetcher_price);
-		Assert::AreEqual(v, sut.fetcher_quantity);
-		Assert::AreEqual(t, sut.fetcher_timestamp);
+		Assert::AreEqual(s, sut->symbol);
+		Assert::AreEqual(p, sut->fetcher_price);
+		Assert::AreEqual(v, sut->fetcher_quantity);
+		Assert::AreEqual(t, sut->fetcher_timestamp);
 	}
 
 	TEST_METHOD(EmptyMessage)
