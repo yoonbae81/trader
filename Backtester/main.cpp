@@ -1,12 +1,12 @@
 #include "pch.h"
 
 #include "FileFetcher.h"
-#include "Analyzer.h"
+#include "../Library/Analyzer.h"
 #include "Broker.h"
-#include "Asset.h"
-#include "Ledger.h"
-#include "Msg.h"
-#include "Exceptions.h"
+#include "../Library/Asset.h"
+#include "../Library/Ledger.h"
+#include "../Library/Msg.h"
+#include "../Library/Exceptions.h"
 
 using namespace std;
 using namespace std::filesystem;

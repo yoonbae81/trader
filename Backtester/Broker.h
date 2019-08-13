@@ -1,8 +1,8 @@
 #pragma once
 #include "pch.h"
-#include "Msg.h"
-#include "Asset.h"
-#include "Ledger.h"
+#include "../Library/Msg.h"
+#include "../Library/Asset.h"
+#include "../Library/Ledger.h"
 
 using namespace std;
 using namespace concurrency;
