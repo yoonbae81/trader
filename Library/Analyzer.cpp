@@ -3,7 +3,7 @@
 
 atomic<int> Analyzer::count = 0; // initialize static member
 
-Analyzer::Analyzer(const json& param, const Asset& asset, ISource<shared_ptr<Msg>>& source, ITarget<shared_ptr<Msg>>& target)
+Analyzer::Analyzer(const yaml& param, const Asset& asset, ISource<shared_ptr<Msg>>& source, ITarget<shared_ptr<Msg>>& target)
 	: param_(param)
 	, asset_(asset)
 	, source_(source)
@@ -63,7 +63,7 @@ int Analyzer::calc_strength(const Msg& msg) {
 }
 
 double Analyzer::calc_quantity(const Msg& msg) {
-	if (msg.analyzer_strength < param_["threshold"]) return 0.0;
+	if (msg.analyzer_strength < param_["threshold"].as<int>()) return 0.0;
 
 	// TODO
 

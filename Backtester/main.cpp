@@ -15,8 +15,8 @@ using namespace concurrency;
 shared_ptr<spdlog::logger> get_logger() {
 	auto logger = spdlog::stdout_color_mt("main");
 	//spdlog::set_level(spdlog::level::trace);
-	//spdlog::set_level(spdlog::level::debug);
-	spdlog::set_level(spdlog::level::info);
+	spdlog::set_level(spdlog::level::debug);
+	//spdlog::set_level(spdlog::level::info);
 	//spdlog::set_level(spdlog::level::critical);
 	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-8l%$ %-9n | %v"); // add thread_id with %5t if necessary
 
@@ -24,21 +24,16 @@ shared_ptr<spdlog::logger> get_logger() {
 }
 
 int main(int argc, char* argv[]) {
-	if (argc != 4) {
+	if (argc != 2) {
 		cout << "usage: "
 			<< path(argv[0]).filename().string()
-			<< " PARAM_JSON TICKS_DIR OUTPUT_FILE" << endl;
+			<< " CONFIG" << endl;
 
 		return EXIT_FAILURE;
 	}
 
 	if (!exists(argv[1])) {
-		cout << "Not found parameter file: " << argv[1] << endl;
-		return EXIT_FAILURE;
-	}
-
-	if (!exists(argv[2])) {
-		cout << "Not found directory: " << argv[2] << endl;
+		cout << "Not found CONFIG file: " << argv[1] << endl;
 		return EXIT_FAILURE;
 	}
 
@@ -46,12 +41,11 @@ int main(int argc, char* argv[]) {
 	logger->info("Starting");
 
 	try {
-		auto param = json::parse(ifstream(argv[1]));
-		logger->debug("Parameter {}", param.dump());
+		auto config = YAML::LoadFile(argv[1]);
 
-		path input_dir(argv[2]);
-		path output_file(argv[3]);
-		double initial_cash = param["initial_cash"];
+		path input_dir(config["backtester"]["input_dir"].as<string>());
+		path output_file(config["backtester"]["output_file"].as<string>());
+		double initial_cash = config["cash"]["initial"].as<double>();
 
 		FileFetcher fetcher(input_dir);
 		Asset asset(initial_cash);
@@ -67,7 +61,7 @@ int main(int argc, char* argv[]) {
 		vector<unbounded_buffer<shared_ptr<Msg>>> tick_channels(num_analyzer);
 		for (auto& tick_channel : tick_channels) {
 			fetcher.add_target(tick_channel);
-			analyzers.emplace_back(param, asset, tick_channel, order_channel);
+			analyzers.emplace_back(config["analyzer"], asset, tick_channel, order_channel);
 		}
 
 		broker.start();

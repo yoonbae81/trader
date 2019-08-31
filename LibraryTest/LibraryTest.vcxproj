@@ -173,6 +173,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TicksTest.cpp" />
+    <ClCompile Include="YamlTest.cpp" />
     <ClCompile Include="_Template.cpp" />
   </ItemGroup>
   <ItemGroup>

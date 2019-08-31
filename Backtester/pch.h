@@ -23,7 +23,7 @@
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 
 #endif //PCH_BACKTESTER_H
 

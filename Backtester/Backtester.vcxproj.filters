@@ -40,6 +40,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="params\basic.json" />
+    <None Include="config\basic.yaml" />
   </ItemGroup>
 </Project>

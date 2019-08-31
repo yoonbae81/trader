@@ -6,11 +6,11 @@
 
 using namespace std;
 using namespace concurrency;
-using json = nlohmann::json;
+using yaml = YAML::Node;
 
 class Analyzer : public agent {
 public:
-	Analyzer(const json& param, const Asset& asset, ISource<shared_ptr<Msg>>& source, ITarget<shared_ptr<Msg>>& target);
+	Analyzer(const yaml& param, const Asset& asset, ISource<shared_ptr<Msg>>& source, ITarget<shared_ptr<Msg>>& target);
 
 	Analyzer(Analyzer&& src) noexcept
 		: param_(src.param_)
@@ -29,7 +29,7 @@ protected:
 	double calc_quantity(const Msg& msg);
 	void update_stoploss(const Msg& msg);
 
-	const json& param_;
+	const yaml& param_;
 	const Asset& asset_;
 	ISource<shared_ptr<Msg>>& source_;
 	ITarget<shared_ptr<Msg>>& target_;

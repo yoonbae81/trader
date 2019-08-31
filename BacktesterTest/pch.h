@@ -4,8 +4,8 @@
 // However, files listed here are ALL re-compiled if any one of them is updated between builds.
 // Do not add files here that you will be updating frequently as this negates the performance advantage.
 
-#ifndef PCH_H_TEST
-#define PCH_H_TEST
+#ifndef PCH_H_BACKTEST_TEST
+#define PCH_H_BACKTEST_TEST
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
 // add headers that you want to pre-compile here
@@ -27,4 +27,4 @@
 #include <agents.h>
 
 #include <nlohmann/json.hpp>
-#endif //PCH_H_TEST
+#endif //PCH_H_BACKTEST_TEST

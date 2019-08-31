@@ -26,5 +26,6 @@
 #include <ppl.h>
 #include <agents.h>
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 
 #endif //PCH_H_TEST

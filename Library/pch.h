@@ -33,7 +33,7 @@
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 //#include "ta-lib/ta_libc.h"
 
 #endif //PCH_H_LIBRARY

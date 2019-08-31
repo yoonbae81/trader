@@ -1,0 +1,9 @@
+backtester:
+  input_dir: "input/"
+  output_file: "output/basic.jsonl"
+
+cash:
+  initial: 1000000
+
+analyzer:
+  threshold: 5
