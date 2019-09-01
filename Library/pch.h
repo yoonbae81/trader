@@ -9,7 +9,6 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
-//#include <cassert>
 #include <algorithm>
 #include <chrono>
 #include <iostream>
@@ -20,7 +19,6 @@
 #include <memory>
 #include <sstream>
 #include <string>
-//#include <thread>
 #include <random>
 #include <vector>
 #include <unordered_map>
