@@ -1,30 +1,33 @@
 #pragma once
 #include "pch.h"
-#include "../Library/Holding.h"
+#include "Msg.h"
+#include "Holding.h"
 
 using namespace std;
 using namespace concurrency;
 
 class Asset {
 public:
-	Asset(double cash);
+	Asset(double initial_cash);
 
-	// TODO Asset(cash, socketTickFetcher, socketOrderProcessor)
-	// TODO Consider the persistence of Cash. e.g. Load from a file or something 
-	// TODO Subscribe holdings_ from TickFetcher
-	// TODO Compare the current bought_price to calculated stoploss bought_price
-	// TODO When stoploss activated, Send an Order
+	// TODO Load initial_cash and holdings from a file or something 
 
-	void Bought(const string& symbol, double quantity, double bought_price);
-	void Sold(const string& symbol, double quantity, double bought_price);
-	double GetTotalRisk();
+	void bought(const Msg& m);
+	void sold(const Msg& m);
 
 	double cash() const;
-	double quantity(const string& symbol) const;
-	double bought_price(const string& symbol) const;
+	double current_risk() const;
+	double available_risk() const;
+	double profit_rate() const;
+
+	bool has(const string& symbol) const;
+	Holding& operator[](const string& symbol);
 
 private:
+	const double initial_cash_;
 	atomic<double> cash_;
 	concurrent_unordered_map<string, Holding> holdings_;
+
+	static shared_ptr<spdlog::logger> logger;
 };
 

@@ -4,18 +4,18 @@
 // However, files listed here are ALL re-compiled if any one of them is updated between builds.
 // Do not add files here that you will be updating frequently as this negates the performance advantage.
 
-#ifndef PCH_H_LIBRARY
-#define PCH_H_LIBRARY
-
+#ifndef PCH_H_TEST
+#define PCH_H_TEST
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
+// add headers that you want to pre-compile here
 #include <algorithm>
-#include <chrono>
+#include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <filesystem>
 #include <fstream>
-#include <functional>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -25,14 +25,7 @@
 
 #include <ppl.h>
 #include <agents.h>
-#include <concurrent_vector.h>
-#include <concurrent_unordered_map.h>
-
-#include <fmt/core.h>
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
+#include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
-//#include "ta-lib/ta_libc.h"
 
-#endif //PCH_H_LIBRARY
-
+#endif //PCH_H_TEST

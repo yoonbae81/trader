@@ -252,3 +252,5 @@ WiX.Toolset.DummyFile.txt
 GitHubVS.sln.DotSettings
 
 References/
+Backtester/input
+Backtester/output
