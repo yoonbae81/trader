@@ -26,6 +26,7 @@ struct Msg {
 
 	double broker_price {};
 	double broker_quantity {};
+	double broker_cost {};	// transaction cost including tax and brokerage commission 
 
 	bool operator==(const Msg& rhs);
 	friend ostream& operator<<(ostream& os, const Msg& msg);

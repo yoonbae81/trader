@@ -51,6 +51,7 @@ void Fetcher::run() {
 	}
 	logger->info("Sent {} ticks", count);
 
+	this_thread::sleep_for(chrono::milliseconds(100));
 	auto m = make_shared<Msg>(Msg::QUIT);
 	for (auto& item : targets_) {
 		asend(*item.first, m);

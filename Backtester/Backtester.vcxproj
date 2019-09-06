@@ -164,11 +164,13 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SlippageGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Broker.h" />
     <ClInclude Include="FileFetcher.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SlippageGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config\basic.yaml" />

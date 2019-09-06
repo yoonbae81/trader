@@ -2,7 +2,7 @@
 #include "Ledger.h"
 
 shared_ptr<spdlog::logger> Ledger::logger = spdlog::stdout_color_mt("ledger");
-const string Ledger::FORMAT_MSG = "{{\"timestamp\": {}, \"symbol\": \"{}\", \"price\": {}, \"quantity\": {}, \"tax\": {}, \"commission\": {}}}";
+const string Ledger::FORMAT_MSG = "{{\"timestamp\": {}, \"symbol\": \"{}\", \"price\": {}, \"quantity\": {}, \"cost\": {}, \"slippage\": {:.2}}}";
 
 Ledger::Ledger(double initial_cash, ostream& out)
 	: out_(out)
@@ -26,7 +26,7 @@ void Ledger::write(const Msg& msg) {
 						, msg.symbol
 						, msg.broker_price
 						, msg.broker_quantity
-						, 0 // TODO tax
-						, 0 // TODO commission
+						, msg.broker_cost
+						, msg.broker_price - msg.fetcher_price
 	) << endl;
 }

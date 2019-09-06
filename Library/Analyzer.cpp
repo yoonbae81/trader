@@ -1,19 +1,22 @@
 #include "pch.h"
 #include "Analyzer.h"
 
-atomic<int> Analyzer::count = 0; // initialize static member
+atomic<int> Analyzer::id = 0; // initialize static member
 
 Analyzer::Analyzer(const yaml& param, const Asset& asset, ISource<shared_ptr<Msg>>& source, ITarget<shared_ptr<Msg>>& target)
 	: param_(param)
 	, asset_(asset)
 	, source_(source)
 	, target_(target)
-	, logger(spdlog::stdout_color_mt("analyzer" + to_string(++count))) {
+	, logger(spdlog::stdout_color_mt("analyzer" + to_string(++id))) {
 
 	logger->trace("Initializing");
 }
 Analyzer::~Analyzer() {
-	logger->trace("Done");
+	if (total_processed_msg_) {
+		double average_ms = total_elapsed_ms_.count() / total_processed_msg_;
+		logger->debug("Done ({} ms/msg)", average_ms);
+	}
 }
 
 void Analyzer::run() {
@@ -21,6 +24,7 @@ void Analyzer::run() {
 
 	while (true) {
 		auto m = receive(source_);
+		auto begin = chrono::steady_clock::now();
 
 		if (*m == Msg::QUIT) {
 			asend(target_, m);
@@ -37,20 +41,32 @@ void Analyzer::run() {
 
 		m->analyzer_strength = calc_strength(*m);
 		m->analyzer_quantity = calc_quantity(*m);
-
-		logger->trace("Analyzed {} !{} x{}", m->symbol, m->analyzer_strength, m->analyzer_quantity);
+		logger->debug("Analyzed {} !{} x{}", m->symbol, m->analyzer_strength, m->analyzer_quantity);
 
 		if (m->analyzer_quantity) {
 			asend(target_, m);
-			logger->debug("Sent {} !{} x{}", m->symbol, m->analyzer_strength, m->analyzer_quantity);
 		}
 		if (asset_.has(m->symbol)) update_stoploss(*m);
+
+		auto end = chrono::steady_clock::now();
+		total_elapsed_ms_ += chrono::duration_cast<milliseconds> (end - begin);
+		total_processed_msg_++;	// for performance measures
 	}
 
 	done();
 }
 
 int Analyzer::calc_strength(const Msg& msg) {
+	// TODO
+	this_thread::sleep_for(chrono::milliseconds(rand() % 10));
+
+	return rand() % 10;
+}
+
+double Analyzer::calc_quantity(const Msg& msg) {
+	if (msg.analyzer_strength < param_["threshold"].as<size_t>()) return 0;
+	this_thread::sleep_for(chrono::milliseconds(rand() % 10));
+
 	// TODO
 	//if (asset_.has(m.symbol)
 	//	&& m.fetcher_price < asset_[m.symbol].stoploss_price) {
@@ -59,19 +75,12 @@ int Analyzer::calc_strength(const Msg& msg) {
 	//	return asset_[msg.symbol].quantity * -1;
 	//}
 
-	return rand() % 10;
-}
-
-double Analyzer::calc_quantity(const Msg& msg) {
-	if (msg.analyzer_strength < param_["threshold"].as<int>()) return 0.0;
-
-	// TODO
-
 	return rand() % 50;
 }
 
 void Analyzer::update_stoploss(const Msg& msg) {
 	// TODO
+	this_thread::sleep_for(chrono::milliseconds(rand() % 10));
 }
 
 

@@ -21,7 +21,7 @@ public:
 
 	~Analyzer();
 
-	static atomic<int> count;
+	static atomic<int> id;
 
 protected:
 	void run() override;
@@ -31,9 +31,15 @@ protected:
 
 	const yaml& param_;
 	const Asset& asset_;
+
 	ISource<shared_ptr<Msg>>& source_;
 	ITarget<shared_ptr<Msg>>& target_;
 	unordered_map<string, Ticks> ticks_map_;
+
+	// measure performance 
+	size_t total_processed_msg_ {};
+	chrono::milliseconds total_elapsed_ms_ {};
+
 	shared_ptr<spdlog::logger> logger;
 };
 

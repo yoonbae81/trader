@@ -1,16 +1,18 @@
 # yQuant
 
 ## Requirements
-<<<<<<< HEAD
-https://github.com/gabime/spdlog
-https://github.com/nlohmann/json
-=======
+- [fmt](https://github.com/fmtlib/fmt)
 - [spdlog](https://github.com/gabime/spdlog)
 - [json](https://github.com/nlohmann/json)
->>>>>>> update
+- [yaml-cpp](https://github.com/jbeder/yaml-cpp)
 
 ```
-vcpkg install spdlog:x64-windows
-vcpkg install nlohmann-json:x64-windows
+vcpkg install fmt:x86-windows-static
+vcpkg install spdlog:x86-windows-static
+vcpkg install spdlog:x86-windows-static
+vcpkg install nlohmann-json:x86-windows-static
+```
+
+```
 vcpkg integrate install
 ```

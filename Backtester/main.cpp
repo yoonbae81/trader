@@ -23,6 +23,7 @@ shared_ptr<spdlog::logger> get_logger() {
 	return logger;
 }
 
+
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
 		cout << "usage: "
@@ -44,18 +45,18 @@ int main(int argc, char* argv[]) {
 		auto config = YAML::LoadFile(argv[1]);
 
 		path input_dir(config["backtester"]["input_dir"].as<string>());
-		path output_file(config["backtester"]["output_file"].as<string>());
+		path output_dir(config["backtester"]["output_dir"].as<string>());
 		double initial_cash = config["cash"]["initial"].as<double>();
 
 		FileFetcher fetcher(input_dir);
 		Asset asset(initial_cash);
 
-		ofstream out(output_file);
+		filesystem::create_directories(output_dir);
+		ofstream out(output_dir.string() + "output.jsonl");
 		Ledger ledger(initial_cash, out);
 
 		unbounded_buffer<shared_ptr<Msg>> order_channel;
 		Broker broker(asset, ledger, order_channel);
-
 		vector<Analyzer> analyzers;
 		size_t num_analyzer = thread::hardware_concurrency() - 1;
 		vector<unbounded_buffer<shared_ptr<Msg>>> tick_channels(num_analyzer);
@@ -64,9 +65,9 @@ int main(int argc, char* argv[]) {
 			analyzers.emplace_back(config["analyzer"], asset, tick_channel, order_channel);
 		}
 
-		broker.start();
-		for (auto& analyzer : analyzers) analyzer.start();
 		fetcher.start();
+		for (auto& analyzer : analyzers) analyzer.start();
+		broker.start();
 
 		// Wait Agents
 		agent::wait(&fetcher);
