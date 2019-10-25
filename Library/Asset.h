@@ -12,8 +12,8 @@ public:
 
 	// TODO Load initial_cash and holdings from a file or something 
 
-	void bought(const Msg& m);
-	void sold(const Msg& m);
+	void bought(const Msg& msg);
+	void sold(const Msg& msg);
 
 	double cash() const;
 	double current_risk() const;

@@ -9,6 +9,7 @@
 #include <iterator>
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <memory>
 #include <sstream>
 #include <string>

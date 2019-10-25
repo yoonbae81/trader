@@ -16,6 +16,7 @@ void Fetcher::add_target(ITarget<shared_ptr<Msg>>& target) {
 
 ITarget<shared_ptr<Msg>>& Fetcher::get_target(const string& symbol) {
 	ITarget<shared_ptr<Msg>>* target;
+
 	try {
 		target = assigned_.at(symbol);
 	} catch (out_of_range) {
@@ -36,25 +37,26 @@ void Fetcher::run() {
 	size_t count = 0;
 	while (fetch(line)) {
 		try {
-			auto m = Msg::parse(line);
-			auto& target = get_target(m->symbol);
-			asend(target, m);
+			if (line == "") continue; 
+			auto msg = Msg::parse(line);
+			auto& target = get_target(msg->symbol);
+			asend(target, msg);
 			count++;
 
 			// TODO set msg.fetcher_timestamp 
 			logger->trace("Sent [{}]", line);
 
 		} catch (ParsingException& e) {
-			logger->warn("Error {}", e.what());
+			logger->warn("Wrong syntax: [{}]", e.what());
 			continue;
 		}
 	}
 	logger->info("Sent {} ticks", count);
 
 	this_thread::sleep_for(chrono::milliseconds(100));
-	auto m = make_shared<Msg>(Msg::QUIT);
+	auto msg = make_shared<Msg>(Msg::QUIT);
 	for (auto& item : targets_) {
-		asend(*item.first, m);
+		asend(*item.first, msg);
 	}
 
 	done();

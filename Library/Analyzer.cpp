@@ -58,7 +58,7 @@ void Analyzer::run() {
 
 int Analyzer::calc_strength(const Msg& msg) {
 	// TODO
-	this_thread::sleep_for(chrono::milliseconds(rand() % 10));
+	this_thread::sleep_for(chrono::milliseconds(rand() % 30));
 
 	return rand() % 10;
 }

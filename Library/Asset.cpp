@@ -9,35 +9,35 @@ Asset::Asset(double initial_cash)
 	logger->info("Cash {:.0f}", cash_);
 }
 
-void Asset::bought(const Msg& m) {
-	auto& h = holdings_[m.symbol];
+void Asset::bought(const Msg& msg) {
+	auto& h = holdings_[msg.symbol];
 
 	critical_section::scoped_lock(*h.mutex);
 	{
 		auto quantity_old = h.quantity;
 		auto price_old = h.bought_price;
 
-		h.quantity = quantity_old + m.broker_quantity;
-		h.bought_price = (quantity_old * price_old + m.broker_quantity * m.broker_price) / (quantity_old + m.broker_quantity);
+		h.quantity = quantity_old + msg.broker_quantity;
+		h.bought_price = (quantity_old * price_old + msg.broker_quantity * msg.broker_price) / (quantity_old + msg.broker_quantity);
 	}
 
 	auto current_cash = cash_.load();
-	while (!cash_.compare_exchange_weak(current_cash, current_cash - m.broker_quantity * m.broker_price));
+	while (!cash_.compare_exchange_weak(current_cash, current_cash - msg.broker_quantity * msg.broker_price));
 
 	// TODO Log 
 }
 
-void Asset::sold(const Msg& m) {
-	Holding& h = holdings_[m.symbol];
+void Asset::sold(const Msg& msg) {
+	Holding& h = holdings_[msg.symbol];
 
 	critical_section::scoped_lock(*h.mutex);
 	{
 		auto quantity_old = h.quantity;
-		h.quantity -= m.broker_quantity;
+		h.quantity -= msg.broker_quantity;
 	}
 
 	auto current_cash = cash_.load();
-	while (!cash_.compare_exchange_weak(current_cash, current_cash + m.broker_quantity * m.broker_price));
+	while (!cash_.compare_exchange_weak(current_cash, current_cash + msg.broker_quantity * msg.broker_price));
 
 	// TODO Log 
 }

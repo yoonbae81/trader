@@ -14,10 +14,13 @@ using namespace concurrency;
 
 shared_ptr<spdlog::logger> get_logger() {
 	auto logger = spdlog::stdout_color_mt("main");
-	//spdlog::set_level(spdlog::level::trace);
-	spdlog::set_level(spdlog::level::debug);
-	//spdlog::set_level(spdlog::level::info);
+
+	// choose one below
 	//spdlog::set_level(spdlog::level::critical);
+	//spdlog::set_level(spdlog::level::info);
+	spdlog::set_level(spdlog::level::debug);
+	//spdlog::set_level(spdlog::level::trace);
+
 	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-8l%$ %-9n | %v"); // add thread_id with %5t if necessary
 
 	return logger;

@@ -9,9 +9,9 @@ using namespace concurrency;
 shared_ptr<spdlog::logger> Fetcher::logger = spdlog::stdout_color_mt("fetcher");
 
 FileFetcher::FileFetcher(const path& dir) : dir_(dir) {
-	logger->debug("Finding files in {}/{}"
-				  , current_path().string(),
-				  dir_.string());
+	logger->debug("Finding *.txt files in {}/{}"
+				  , current_path().string()
+				  , dir_.string());
 	if (!exists(dir_)) throw runtime_error("Not exists " + dir_.string());
 
 	for (auto& f : directory_iterator(dir_)) {
