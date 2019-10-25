@@ -17,6 +17,7 @@ struct Msg {
 	const string symbol;
 
 	// TODO consider nested struct
+
 	double fetcher_price {};
 	double fetcher_quantity {};
 	time_t fetcher_timestamp {};

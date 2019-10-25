@@ -15,24 +15,68 @@ Broker::~Broker() {
 void Broker::run() {
 	logger->debug("Running");
 	while (true) {
-		auto m = receive(source_);
-		if (*m == Msg::QUIT) break;
-		logger->debug("Ordered {} x{}", m->symbol, m->analyzer_quantity);
+		auto msg = receive(source_);
+		if (*msg == Msg::QUIT) break;
 
-		callback(*m);
+		//async(launch::async, &Broker::request, this, *msg);
+		request(*msg);
 	}
 
 	done();
 }
 
+void Broker::request(Msg& msg) {
+	auto start = chrono::steady_clock::now();
+	logger->debug("Requested {} x{}", msg.symbol, msg.analyzer_quantity);
 
-void Broker::callback(Msg& m) {
-	m.broker_quantity = m.analyzer_quantity;
-	m.broker_price = slippage.simulate_market_price(SlippageGenerator::Market::KOSPI, m.fetcher_price);
-	m.broker_cost = calc_transaction_cost(m.broker_quantity, m.broker_price);
-	ledger_.write(m);
+	// simulate communication time with brokerage
+	this_thread::sleep_for(chrono::milliseconds(rand() % 1000));
 
-	logger->info("Order Filled {} x{}", m.symbol, m.broker_quantity);
+	msg.broker_quantity = msg.analyzer_quantity;
+	msg.broker_price = simulate_market_price(msg.symbol, msg.fetcher_price);
+	msg.broker_cost = calc_transaction_cost(msg.broker_quantity, msg.broker_price);
+
+	logger->info("Filled {} x{}", msg.symbol, msg.broker_quantity);
+
+	ledger_.write(msg);
+}
+
+
+double Broker::simulate_market_price(const string& symbol, double fetcher_price) {
+	using fn_unit_price = double(*)(double);
+
+	// TODO check which market does the symbol belong for
+	string market = "KOSPI";
+
+	fn_unit_price fn;
+	if (market == "KOSPI") fn = get_unit_price_kospi;
+	else fn = get_unit_price_kosdaq;
+
+	double result = fetcher_price;
+	int gap = round(d(gen));
+	result += gap * fn(fetcher_price);
+	return result;
+}
+
+double Broker::get_unit_price_kospi(double current_price) {
+	// As of Sep. 2019
+	if (current_price < 1'000) return 1;
+	else if (current_price < 5'000) return 5;
+	else if (current_price < 10'000) return 10;
+	else if (current_price < 50'000) return 50;
+	else if (current_price < 100'000) return 100;
+	else if (current_price < 500'000) return 500;
+	else return 1'000;
+}
+
+
+double Broker::get_unit_price_kosdaq(double current_price) {
+	// As of Sep. 2019
+	if (current_price < 1'000) return 1;
+	else if (current_price < 5'000) return 5;
+	else if (current_price < 10'000) return 10;
+	else if (current_price < 50'000) return 50;
+	else return 100;
 }
 
 
@@ -43,7 +87,7 @@ double Broker::calc_transaction_cost(double filled_quantity, double filled_price
 
 	if (filled_quantity < 0)	// only when sell
 		tax = total * kTaxRate;
-	
+
 	return commission + tax;
 }
 
