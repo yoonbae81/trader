@@ -2,8 +2,8 @@
 
 #include "FileFetcher.h"
 #include "../Library/Analyzer.h"
-#include "Broker.h"
 #include "../Library/Asset.h"
+#include "Broker.h"
 #include "../Library/Ledger.h"
 #include "../Library/Msg.h"
 #include "../Library/Exceptions.h"
@@ -21,7 +21,7 @@ shared_ptr<spdlog::logger> get_logger() {
 	spdlog::set_level(spdlog::level::debug);
 	//spdlog::set_level(spdlog::level::trace);
 
-	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-8l%$ %-9n | %v"); // add thread_id with %5t if necessary
+	spdlog::set_pattern("%Y-%m-%d %H:%M:%S.%e %^%-8l%$ %-9n %5t | %v"); // add thread_id with %5t if necessary
 
 	return logger;
 }
@@ -77,10 +77,11 @@ int main(int argc, char* argv[]) {
 		for (auto& analyzer : analyzers) agent::wait(&analyzer);
 		agent::wait(&broker);
 
+		this_thread::sleep_for(chrono::seconds(3));
 		logger->info("Done");
 		return EXIT_SUCCESS;
 
-	} catch (exception& e) {
+	} catch (exception & e) {
 		logger->error(e.what());
 		return EXIT_FAILURE;
 	}

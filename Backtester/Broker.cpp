@@ -14,12 +14,13 @@ Broker::~Broker() {
 
 void Broker::run() {
 	logger->debug("Running");
+
 	while (true) {
 		auto msg = receive(source_);
 		if (*msg == Msg::QUIT) break;
-
-		//async(launch::async, &Broker::request, this, *msg);
-		request(*msg);
+		
+		thread([this, msg]() {request(*msg); }).detach();
+		// request(*msg); // for testing with single thread
 	}
 
 	done();
@@ -30,16 +31,14 @@ void Broker::request(Msg& msg) {
 	logger->debug("Requested {} x{}", msg.symbol, msg.analyzer_quantity);
 
 	// simulate communication time with brokerage
-	this_thread::sleep_for(chrono::milliseconds(rand() % 1000));
+	this_thread::sleep_for(chrono::milliseconds(rand() % 1000 + 500));
 
 	msg.broker_quantity = msg.analyzer_quantity;
 	msg.broker_price = simulate_market_price(msg.symbol, msg.fetcher_price);
 	msg.broker_cost = calc_transaction_cost(msg.broker_quantity, msg.broker_price);
 
 	// TODO update holdings
-
 	ledger_.write(msg);
-
 
 	auto end = chrono::steady_clock::now();
 	msg.broker_elapsed = duration_cast<chrono::milliseconds> (end - start).count();
