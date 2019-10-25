@@ -14,7 +14,7 @@ Analyzer::Analyzer(const yaml& param, const Asset& asset, ISource<shared_ptr<Msg
 }
 Analyzer::~Analyzer() {
 	if (total_processed_msg_) {
-		double average_ms = total_elapsed_ms_.count() / total_processed_msg_;
+		time_t average_ms = total_elapsed_ms_.count() / total_processed_msg_;
 		logger->debug("Done ({} ms/msg)", average_ms);
 	}
 }

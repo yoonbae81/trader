@@ -36,16 +36,22 @@ void Broker::request(Msg& msg) {
 	msg.broker_price = simulate_market_price(msg.symbol, msg.fetcher_price);
 	msg.broker_cost = calc_transaction_cost(msg.broker_quantity, msg.broker_price);
 
-	logger->info("Filled {} x{}", msg.symbol, msg.broker_quantity);
+	// TODO update holdings
 
 	ledger_.write(msg);
+
+
+	auto end = chrono::steady_clock::now();
+	msg.broker_elapsed = duration_cast<chrono::milliseconds> (end - start).count();
+
+	logger->info("Filled {} x{} ({} ms)", msg.symbol, msg.broker_quantity, msg.broker_elapsed);
 }
 
 
 double Broker::simulate_market_price(const string& symbol, double fetcher_price) {
 	using fn_unit_price = double(*)(double);
 
-	// TODO check which market does the symbol belong for
+	// TODO determine market that the symbol belongs for
 	string market = "KOSPI";
 
 	fn_unit_price fn;
