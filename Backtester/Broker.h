@@ -24,6 +24,7 @@ protected:
 
 	double calc_transaction_cost(double filled_quanitty, double filled_price);
 	void request(Msg& m);
+	void filled(Msg& m);
 
 	Asset& asset_;
 	Ledger& ledger_;

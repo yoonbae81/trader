@@ -60,6 +60,7 @@ int main(int argc, char* argv[]) {
 
 		unbounded_buffer<shared_ptr<Msg>> order_channel;
 		Broker broker(asset, ledger, order_channel);
+
 		vector<Analyzer> analyzers;
 		size_t num_analyzer = thread::hardware_concurrency() - 1;
 		vector<unbounded_buffer<shared_ptr<Msg>>> tick_channels(num_analyzer);

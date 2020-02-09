@@ -3,6 +3,27 @@
 
 atomic<int> Analyzer::id = 0; // initialize static member
 
+/* 
+Analyzer
+
+Paradigm
+- Single Threaded Process x # of core
+
+Procedures
+- loop until the end of lines
+- Fetch a new message from ZeroMQ
+- Compare the price to stoploss and exit
+- Compare the lastest record
+- If the lastest is longer than a second,
+	- make a new record
+	- fill empty records
+- if not, sum the price and quantity
+- analyze
+	- strength
+	- update stoploss and exit
+- order if strength is strong enough
+*/
+
 Analyzer::Analyzer(const yaml& param, const Asset& asset, ISource<shared_ptr<Msg>>& source, ITarget<shared_ptr<Msg>>& target)
 	: param_(param)
 	, asset_(asset)
